@@ -1,4 +1,9 @@
-.section { background: var(--cream); }
+.section {
+  background: var(--cream);
+  /* The doors reveal with translateX(±48px); clipping keeps that off the
+     mobile layout viewport so the fixed header and rail stay in frame. */
+  overflow-x: clip;
+}
 
 .head {
   display: grid;
@@ -59,7 +64,8 @@
   font-size: var(--f-small);
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.62);
+  /* Light white, still clearly softer than the pure-white title. */
+  color: rgba(255, 255, 255, 0.8);
 }
 .doorTitle {
   margin-top: 0.3rem;
@@ -71,7 +77,7 @@
   max-width: 40ch;
   margin-top: 0.7rem;
   font-size: var(--f-small);
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
   opacity: 0;
   max-height: 0;
   overflow: hidden;

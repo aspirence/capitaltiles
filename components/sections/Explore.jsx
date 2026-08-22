@@ -14,12 +14,12 @@ const TABS = [
     items: [
       { label: 'Living Room', href: '/tiles/living-room', img: '/img/spaces/livingroom.jpg' },
       { label: 'Bathroom', href: '/tiles/bathroom', img: '/img/spaces/bathroom.jpg' },
-      { label: 'Bedroom', href: '/tiles/bedroom', img: '/img/spaces/bedroom.jpg' },
+      { label: 'Triexta Tiles', href: '/tiles/triexta', img: '/img/spaces/bedroom.jpg' },
       { label: 'Kitchen', href: '/tiles/kitchen', img: '/img/spaces/kitchen.jpg' },
-      { label: 'Balcony', href: '/tiles/balcony', img: '/img/spaces/balcony.jpg' },
+      { label: 'Pool Tiles', href: '/tiles/pool', img: '/img/spaces/balcony.jpg' },
       { label: 'Outdoor', href: '/tiles/outdoor', img: '/img/spaces/outdoor.jpg' },
-      { label: 'Staircase', href: '/tiles/staircase', img: '/img/spaces/staircase.jpg' },
-      { label: 'Commercial', href: '/tiles/commercial', img: '/img/spaces/commercial.jpg' },
+      { label: 'Wall Tiles', href: '/tiles/wall', img: '/img/spaces/staircase.jpg' },
+      { label: 'Patio Tiles', href: '/tiles/patio', img: '/img/spaces/commercial.jpg' },
     ],
   },
   {

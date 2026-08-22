@@ -63,26 +63,22 @@
 /* ---- wordmark ----------------------------------------------------------- */
 .logo { display: block; }
 
-.mark {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1;
+.mark { display: block; line-height: 0; }
+
+.mark img {
+  height: clamp(30px, 2.6vw, 42px);
+  width: auto;
+  /* The supplied mark is black on transparent, so it is inverted to white
+     while the bar is still transparent over the hero. */
+  filter: brightness(0) invert(1);
+  transition: filter 0.5s var(--ease), height 0.4s var(--ease);
 }
-.markTop {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(1.35rem, 1.85vw, 1.9rem);
-  letter-spacing: 0.02em;
-}
-.markSub {
-  margin-top: 0.28em;
-  font-size: clamp(0.56rem, 0.72vw, 0.72rem);
-  letter-spacing: 0.62em;
-  text-indent: 0.62em;
-  text-transform: uppercase;
-  opacity: 0.85;
-}
-.markLight { color: var(--white); }
+.solid .mark img,
+.panelOpen .mark img { filter: none; }
+.solid .mark img { height: clamp(26px, 2.2vw, 34px); }
+
+/* Drawer sits on black, so the mark stays inverted there. */
+.markLight img { filter: brightness(0) invert(1); }
 
 /* ---- corporate dropdown ------------------------------------------------- */
 .corporate { position: relative; }
@@ -233,7 +229,10 @@
   border-bottom-color: var(--grey-line);
 }
 
-.navInner { position: relative; }
+/* Deliberately NOT positioned: the mega panels below must resolve their
+   containing block against .nav (full viewport width), not against this
+   max-width container or their own <li>. */
+.navInner { position: static; }
 
 .navList {
   display: flex;
@@ -241,7 +240,9 @@
   gap: clamp(0.5rem, 2vw, 2.5rem);
 }
 
-.navItem { position: relative; }
+/* Also static — a positioned <li> would anchor its mega panel to itself, and
+   every item sits at a different x, which is what threw each panel off. */
+.navItem { position: static; }
 
 .navLink {
   position: relative;
@@ -272,11 +273,13 @@
 
 /* ---- mega panel --------------------------------------------------------- */
 .mega {
+  /* Anchored to .nav, so left/right pin it to the viewport edges for every
+     item. The old `margin-left: calc(50% - 50vw)` measured 50% of the <li>,
+     which shifted each panel by a different amount and clipped its content. */
   position: absolute;
   top: 100%;
   left: 0;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  right: 0;
   background: var(--black);
   color: var(--white);
   opacity: 0;
@@ -288,6 +291,37 @@
   overscroll-behavior: contain;
 }
 .navItemOpen .mega { opacity: 1; visibility: visible; transform: translateY(0); }
+
+/* ---- compact panel (plain link menus) ----------------------------------- */
+/* These sit directly beneath their own item instead of spanning the bar, so
+   the item is positioned again and the panel is centred on it. */
+.navItemCompact { position: relative; }
+
+.navItemCompact .mega {
+  left: 50%;
+  right: auto;
+  width: max-content;
+  min-width: 14rem;
+  max-width: 24rem;
+  transform: translateX(-50%) translateY(-10px);
+}
+.navItemCompact.navItemOpen .mega { transform: translateX(-50%) translateY(0); }
+
+/* The last item hugs the container edge — centring it would push the panel
+   past the viewport, so it right-aligns instead. */
+.navItemCompact:last-child .mega {
+  left: auto;
+  right: 0;
+  transform: translateY(-10px);
+}
+.navItemCompact:last-child.navItemOpen .mega { transform: translateY(0); }
+
+.navItemCompact .megaInner { min-height: 0; max-width: none; display: block; }
+.navItemCompact .megaList {
+  flex: none;
+  width: 100%;
+  background: transparent;
+}
 
 .megaInner {
   display: flex;

@@ -12,31 +12,31 @@ const SPACES = [
   {
     label: 'Bathroom',
     copy: 'Sanitaryware, surfaces and fittings that hold up to daily use — specified as one coordinated set.',
-    href: '/spaces/bathroom',
+    href: '/tiles/bathroom',
     img: '/img/spaces/bathroom-wide.jpg',
   },
   {
     label: 'Kitchen',
     copy: 'Slip-resistant floors, stain-proof walls and countertop-grade slabs for the hardest-working room.',
-    href: '/spaces/kitchen',
+    href: '/tiles/kitchen',
     img: '/img/spaces/kitchen-wide.jpg',
   },
   {
     label: 'Living Room',
     copy: 'Large-format surfaces with minimal grout lines, so the floor reads as one continuous plane.',
-    href: '/spaces/living-room',
+    href: '/tiles/triexta',
     img: '/img/spaces/livingroom.jpg',
   },
   {
     label: 'Outdoor',
     copy: 'R11-rated grip, frost resistance and a 20mm body built for decks, drives and patios.',
-    href: '/spaces/outdoor',
+    href: '/tiles/outdoor',
     img: '/img/spaces/outdoor.jpg',
   },
   {
     label: 'Facade',
     copy: 'Elevation tiles and ventilated cladding that keep a building looking new through every monsoon.',
-    href: '/spaces/facade',
+    href: '/tiles/wall',
     img: '/img/spaces/elevation.jpg',
   },
 ]

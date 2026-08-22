@@ -25,7 +25,7 @@ export default function FloatingActions() {
       </Link>
 
       <a
-        href="https://wa.me/919000000000?text=Hi%20Capital%20Tiles"
+        href="https://wa.me/61262538158?text=Hi%20Capital%20Tiles"
         className={s.btn + ' ' + s.wa}
         target="_blank"
         rel="noopener noreferrer"

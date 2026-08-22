@@ -1,0 +1,126 @@
+/* ---- long-form copy ----------------------------------------------------- */
+.copySection { background: var(--grey-bg); }
+
+.h2 { margin-bottom: clamp(1.25rem, 2vw, 1.75rem); }
+
+.copy {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  max-width: 86ch;
+  max-height: 10.5rem;
+  overflow: hidden;
+  color: var(--grey-text);
+  line-height: 1.95;
+  transition: max-height 0.6s var(--ease);
+}
+.copyOpen { max-height: 70rem; }
+
+/* fade the clipped tail so the cut never reads as a rendering fault */
+.copy::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4.5rem;
+  background: linear-gradient(to top, var(--grey-bg), transparent);
+  transition: opacity 0.4s var(--ease);
+  pointer-events: none;
+}
+.copyOpen::after { opacity: 0; }
+
+.inline { color: var(--ink); border-bottom: 1px solid var(--gold); }
+
+.toggle {
+  margin-top: 1.4rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+/* ---- faqs --------------------------------------------------------------- */
+.faqSection { background: var(--white); }
+.faqTitle { margin-bottom: clamp(1.5rem, 2.6vw, 2.25rem); }
+
+.faqList { max-width: 60rem; }
+
+.faq { border-bottom: 1px solid var(--grey-line); }
+.faq h3 { margin: 0; }
+
+.faq button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  width: 100%;
+  padding: clamp(1rem, 1.7vw, 1.35rem) 0;
+  border: 0;
+  background: none;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-body);
+  line-height: 1.5;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.faqChev {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: var(--grey-bg);
+  color: var(--ink);
+  transition: transform 0.4s var(--ease), background 0.4s var(--ease), color 0.4s var(--ease);
+}
+.faqOn .faqChev { transform: rotate(180deg); background: var(--black); color: var(--white); }
+
+/* single-child grid: 0fr→1fr only sizes the first row */
+.faqPanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease);
+}
+.faqOn .faqPanel { grid-template-rows: 1fr; }
+.faqPanel > p {
+  min-height: 0;
+  overflow: hidden;
+  max-width: 82ch;
+  font-size: var(--f-small);
+  line-height: 1.95;
+  color: var(--grey-text);
+}
+.faqOn .faqPanel > p { padding-bottom: clamp(1rem, 1.8vw, 1.5rem); }
+
+/* ---- related ------------------------------------------------------------ */
+.relSection { background: var(--grey-bg); }
+
+.relGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+.relFrame {
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: var(--grey-line);
+}
+
+.relLabel {
+  display: block;
+  margin-top: 0.9rem;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-sub);
+  text-align: center;
+  color: var(--ink);
+  transition: color 0.35s var(--ease);
+}
+.relGrid a:hover .relLabel { color: var(--gold); }
+
+@media (max-width: 900px) {
+  .relGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

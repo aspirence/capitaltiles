@@ -10,6 +10,7 @@ import Commercials from '@/components/sections/Commercials'
 import Journey from '@/components/sections/Journey'
 import Blogs from '@/components/sections/Blogs'
 import Social from '@/components/sections/Social'
+import Press from '@/components/sections/Press'
 import WhyChoose from '@/components/sections/WhyChoose'
 
 /* Homepage running order. Light and dark sections alternate on purpose so the
@@ -19,6 +20,7 @@ export default function Home() {
     <>
       <Hero />
       <About />
+      <WhyChoose />
       <Explore />
       <Collections />
       <Spaces />
@@ -29,7 +31,7 @@ export default function Home() {
       <Journey />
       <Blogs />
       <Social />
-      <WhyChoose />
+      <Press />
     </>
   )
 }

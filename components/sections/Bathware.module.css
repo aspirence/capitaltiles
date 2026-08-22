@@ -1,6 +1,10 @@
 .section {
   background: var(--black);
   color: var(--white);
+  /* The showcase reveals with translateX(48px), which would otherwise widen
+     the mobile layout viewport and drag the fixed header/rail off-screen.
+     `clip` contains it without creating a scroll container. */
+  overflow-x: clip;
 }
 
 .grid {

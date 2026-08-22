@@ -7,70 +7,12 @@ import s from './WhyChoose.module.css'
 /* Closes the page the way both references do: a row of proof points over the
    long-form brand copy, with the tail collapsed behind a read-more. */
 
-const USPS = [
-  {
-    title: 'NSF certified',
-    copy: 'Every body meets NSF health and safety standards, batch after batch.',
-    icon: (
-      <>
-        <path d="M12 3 4.5 6.2v5.1c0 4.5 3.1 8.7 7.5 9.7 4.4-1 7.5-5.2 7.5-9.7V6.2L12 3Z" />
-        <path d="m8.8 12.1 2.2 2.2 4.2-4.4" />
-      </>
-    ),
-  },
-  {
-    title: 'BIS licensed',
-    copy: 'A live BIS licence and patented body composition back the whole range.',
-    icon: (
-      <>
-        <circle cx="12" cy="9.5" r="5" />
-        <path d="M8.4 13.6 7 21l5-2.4L17 21l-1.4-7.4" />
-      </>
-    ),
-  },
-  {
-    title: "World's whitest tile",
-    copy: 'First to nano-technology production, and to Alaska — the whitest body made.',
-    icon: (
-      <>
-        <path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9" />
-      </>
-    ),
-  },
-  {
-    title: 'Strongest outdoors',
-    copy: 'R11 grip and a 20mm body rated for decks, drives and full sun.',
-    icon: (
-      <>
-        <path d="M3 20h18" />
-        <path d="M6 20V9.5L12 5l6 4.5V20" />
-        <path d="M10 20v-5h4v5" />
-      </>
-    ),
-  },
-]
-
 export default function WhyChoose() {
   const [more, setMore] = useState(false)
 
   return (
     <section className={'sectionPad ' + s.section}>
-      <div className="container">
-        <ul className={s.usps}>
-          {USPS.map((u, i) => (
-            <li key={u.title} data-reveal style={{ '--reveal-delay': i * 90 + 'ms' }}>
-              <span className={s.icon} aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor"
-                  strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-                  {u.icon}
-                </svg>
-              </span>
-              <h3>{u.title}</h3>
-              <p>{u.copy}</p>
-            </li>
-          ))}
-        </ul>
-
+      <div className={'container ' + s.inner}>
         <div className={s.prose}>
           <h2 className={'title ' + s.title} data-reveal>
             Why choose Capital Tiles: a trusted tiles manufacturer in India
@@ -104,6 +46,16 @@ export default function WhyChoose() {
           <button type="button" className={'linkUnder ' + s.toggle} onClick={() => setMore((m) => !m)}>
             {more ? 'Read less' : 'Read more'}
           </button>
+        </div>
+
+        <div className={s.media} data-reveal="right" style={{ '--reveal-delay': '120ms' }}>
+          <div className="zoomFrame">
+            <img
+              src="/img/about/why-choose.jpg"
+              alt="A Capital Tiles surface in a finished living space"
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
     </section>

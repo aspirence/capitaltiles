@@ -100,6 +100,7 @@ export default function Hero() {
   return (
     <section
       className={s.hero}
+      data-hero=""
       aria-roledescription="carousel"
       aria-label="Featured collections"
       onKeyDown={onKeyDown}
@@ -171,12 +172,6 @@ export default function Hero() {
       <div className={s.controls}>
         <div className="container">
           <div className={s.controlsInner}>
-            <span className={s.count}>
-              <em>{String(index + 1).padStart(2, '0')}</em>
-              <i />
-              {String(SLIDES.length).padStart(2, '0')}
-            </span>
-
             <ul className={s.dots}>
               {SLIDES.map((slide, i) => (
                 <li key={slide.title}>

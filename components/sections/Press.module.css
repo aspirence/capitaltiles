@@ -1,0 +1,39 @@
+.section {
+  background: var(--white);
+  text-align: center;
+  /* Tighter top padding pulls the heading up off the social rails above. */
+  padding-top: clamp(1.75rem, 3vw, 3.25rem);
+}
+
+.lead {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1.35rem, 2.2vw, 2.25rem);
+  line-height: 1.25;
+  margin-bottom: clamp(3rem, 5.5vw, 5.5rem);
+}
+
+.logos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+.logos li { display: grid; place-items: center; }
+
+/* Mastheads were knocked out to transparent black at build time, so they sit
+   on the cream panel directly — no blend mode, which the reveal wrapper's
+   stacking context would have cancelled anyway. */
+.logos img {
+  width: auto;
+  max-width: 100%;
+  height: clamp(2rem, 2.8vw, 2.75rem);
+  object-fit: contain;
+  opacity: 0.55;
+  transition: opacity 0.4s var(--ease);
+}
+.logos li:hover img { opacity: 1; }
+
+@media (max-width: 640px) {
+  .logos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1.5rem; }
+}

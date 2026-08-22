@@ -175,7 +175,10 @@ ul { margin: 0; padding: 0; list-style: none; }
   transform: scaleX(0);
   transform-origin: right center;
   transition: transform 0.5s var(--ease);
-  z-index: -1;
+  /* Must sit ABOVE the button's own background (z-index -1 hid the wipe
+     behind it, so the flipped text ended up same-on-same and vanished) and
+     below the label, which is raised to 1. */
+  z-index: 0;
 }
 .cta > * { position: relative; z-index: 1; }
 .cta:hover { color: var(--cta-bg); }

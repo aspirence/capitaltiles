@@ -1,0 +1,83 @@
+.band {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: clamp(20rem, 30vw, 27rem);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* The plate is a separate layer so `fixed` attachment gives the sticky
+   parallax without dragging the section's own content along. */
+.plate {
+  position: absolute;
+  inset: 0;
+  background-image: url('/img/about/cta-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/* Neutral wash built from the site's black, not a warm brown. */
+.wash {
+  position: absolute;
+  inset: 0;
+  background: rgba(33, 33, 33, 0.84);
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  /* Slightly top-weighted so the headline sits higher in the band. */
+  padding-block: clamp(2.5rem, 4vw, 3.5rem) clamp(3rem, 5vw, 4.5rem);
+}
+
+/* ---- left: headline + cta ------------------------------------------------ */
+.left { display: grid; gap: clamp(1.5rem, 2.6vw, 2.25rem); justify-items: start; }
+
+.title {
+  display: grid;
+  gap: 0.1em;
+  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 3.6vw, 3.4rem);
+  line-height: 1.1;
+  color: var(--white);
+}
+
+.btn { align-self: start; }
+
+/* ---- right: ticked list -------------------------------------------------- */
+.points { display: grid; gap: 0.35rem; }
+
+.points li {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 1.1rem;
+  font-weight: 500;
+  font-size: var(--f-body);
+  color: var(--white);
+  background: transparent;
+  transition: background 0.4s var(--ease);
+}
+.points li svg { flex: none; color: var(--white); opacity: 0.85; }
+
+/* the picked-out row */
+.points .on { background: rgba(255, 255, 255, 0.12); }
+.points li:hover { background: rgba(255, 255, 255, 0.12); }
+
+@media (max-width: 900px) {
+  .inner { grid-template-columns: 1fr; }
+}
+
+/* iOS ignores fixed attachment and renders it badly, so touch falls back to
+   a normal scrolling plate. */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .plate { background-attachment: scroll; }
+}

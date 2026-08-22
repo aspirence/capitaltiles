@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { CORPORATE, NAV } from './navData'
 import s from './Header.module.css'
 
@@ -39,8 +40,7 @@ function IconPin() {
 function Wordmark({ className }) {
   return (
     <span className={className ? s.mark + ' ' + className : s.mark}>
-      <span className={s.markTop}>Capital</span>
-      <span className={s.markSub}>Tiles</span>
+      <img src="/logo.webp" alt="Capital Tiles &amp; Flooring" width="480" height="150" />
     </span>
   )
 }
@@ -48,17 +48,25 @@ function Wordmark({ className }) {
 export default function Header() {
   /* `solid` flips the transparent-over-hero treatment to the white bar. */
   const [solid, setSolid] = useState(false)
+  /* Pages without a full-bleed dark hero need the solid bar from the top,
+     otherwise white nav text lands on a light section. */
+  const [hasHero, setHasHero] = useState(true)
   const [hidden, setHidden] = useState(false)
   const [openNav, setOpenNav] = useState(null) // desktop mega panel
   const [tabIndex, setTabIndex] = useState({}) // active tab per mega panel
   const [drawer, setDrawer] = useState(false) // mobile drawer
   const [mobileOpen, setMobileOpen] = useState(null)
 
+  const pathname = usePathname()
   const lastY = useRef(0)
   const closeTimer = useRef(null)
 
   /* Scroll state: go solid past the fold, and tuck the bar away while
      scrolling down so it reappears the moment the user heads back up. */
+  useEffect(() => {
+    setHasHero(!!document.querySelector('[data-hero]'))
+  }, [pathname])
+
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY
@@ -102,7 +110,7 @@ export default function Header() {
 
   const headerClass = [
     s.header,
-    solid ? s.solid : '',
+    solid || !hasHero ? s.solid : '',
     hidden && !openNav ? s.hidden : '',
     openNav ? s.panelOpen : '',
   ]
@@ -172,10 +180,16 @@ export default function Header() {
               {NAV.map((item) => {
                 const active = openNav === item.label
                 const tab = tabIndex[item.label] ?? 0
+                /* Plain link menus drop a compact panel under their own item;
+                   the card menus stay full-bleed across the bar. */
+                const compact = item.type === 'list'
+                const cls = [s.navItem, compact ? s.navItemCompact : '', active ? s.navItemOpen : '']
+                  .filter(Boolean)
+                  .join(' ')
                 return (
                   <li
                     key={item.label}
-                    className={active ? s.navItem + ' ' + s.navItemOpen : s.navItem}
+                    className={cls}
                     onMouseEnter={() => openPanel(item.label)}
                     onMouseLeave={scheduleClose}
                   >

@@ -1,0 +1,179 @@
+.section {
+  position: relative;
+  min-height: clamp(34rem, 62vw, 56rem);
+  background: var(--black-deep);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ---- stacked plates ----------------------------------------------------- */
+.plate {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.8s var(--ease), transform 1.4s var(--ease);
+}
+.plateOn { opacity: 1; transform: none; }
+
+.wash {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0.1) 45%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* ---- title notch -------------------------------------------------------- */
+.tab {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 3;
+  transform: translateX(-50%);
+  min-width: clamp(13rem, 24vw, 22rem);
+  padding: 1rem 2.5rem 1.9rem;
+  background: var(--white);
+  text-align: center;
+  /* angled shoulders, as on the reference plate */
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 12% 100%);
+}
+.tab h2 {
+  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+  color: var(--ink);
+}
+
+/* ---- columns ------------------------------------------------------------ */
+.cols {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  min-height: inherit;
+  height: clamp(34rem, 62vw, 56rem);
+}
+
+.col { position: relative; }
+
+/* compact label pinned to the foot of the column */
+.compact {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: clamp(1.25rem, 2.2vw, 2.25rem);
+  color: var(--white);
+  transition: opacity 0.45s var(--ease), transform 0.5s var(--ease);
+}
+.colOn .compact { opacity: 0; transform: translateY(10px); pointer-events: none; }
+
+.sub {
+  font-size: var(--f-small);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 0.3rem;
+}
+
+.title {
+  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.6vw, 1.6rem);
+  line-height: 1.15;
+}
+
+/* expanded dark card */
+.card {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  padding: clamp(1.5rem, 2.4vw, 2.5rem);
+  background: #3b3330;
+  color: var(--white);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  transition: opacity 0.5s var(--ease), transform 0.55s var(--ease), visibility 0.5s;
+}
+.colOn .card { opacity: 1; visibility: visible; transform: none; }
+
+.cardTitle {
+  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1.75vw, 1.7rem);
+  line-height: 1.15;
+  margin-bottom: 0.9rem;
+}
+
+.copy {
+  font-size: var(--f-small);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: clamp(1.1rem, 1.8vw, 1.6rem);
+}
+
+/* small ring marker that straddles the card's top edge */
+.dot {
+  position: absolute;
+  top: -0.7rem;
+  left: clamp(1.5rem, 2.4vw, 2.5rem);
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  background: #3b3330;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.85rem 1.9rem;
+  background: var(--white);
+  color: var(--ink);
+  font-size: var(--f-small);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+}
+.btn:hover { background: var(--gold); color: var(--white); }
+
+/* ---- breakpoints -------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); height: auto; }
+  .col { min-height: clamp(23rem, 52vw, 30rem); }
+  .divider:nth-of-type(1), .divider:nth-of-type(3) { display: none; }
+}
+
+@media (max-width: 640px) {
+  .section { min-height: 0; }
+  .cols { grid-template-columns: 1fr; }
+  .col { min-height: 24rem; }
+  .divider { display: none; }
+
+  /* On touch there is no hover, so every card reads open — which means the
+     shared plate can no longer represent all four. Each column paints its
+     own image instead. */
+  .plate, .wash { display: none; }
+  .col {
+    background-image: var(--img);
+    background-size: cover;
+    background-position: center;
+  }
+  .col::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.22);
+  }
+
+  .compact { opacity: 0; pointer-events: none; }
+  .card { opacity: 1; visibility: visible; transform: none; }
+  .tab { padding-bottom: 1.5rem; }
+}

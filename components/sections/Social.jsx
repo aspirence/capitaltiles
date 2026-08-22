@@ -5,7 +5,7 @@ import s from './Social.module.css'
 
 const FEED = [1, 2, 3, 4, 5, 6, 7, 8].map((n) => ({
   img: '/img/social/social-' + n + '.jpg',
-  href: 'https://www.instagram.com/',
+  href: 'https://www.instagram.com/capitaltilesandflooring/',
 }))
 
 const ROW_A = FEED.slice(0, 4)
@@ -51,14 +51,14 @@ export default function Social() {
     <section className={'sectionPad ' + s.section}>
       <div className={'container ' + s.head}>
         <div>
-          <p className="eyebrow" data-reveal>@capitaltiles</p>
+          <p className="eyebrow" data-reveal>@capitaltilesandflooring</p>
           <h2 className={'title ' + s.title} data-reveal style={{ '--reveal-delay': '80ms' }}>
             Follow the surface
           </h2>
         </div>
         <a
           className={'cta ' + s.cta}
-          href="https://www.instagram.com/"
+          href="https://www.instagram.com/capitaltilesandflooring/"
           target="_blank"
           rel="noopener noreferrer"
           data-reveal

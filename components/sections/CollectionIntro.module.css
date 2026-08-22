@@ -1,0 +1,35 @@
+.section {
+  background: var(--grey-bg);
+  /* clears the fixed header */
+  padding-top: calc(var(--header-h) + clamp(3rem, 5vw, 5rem));
+  padding-bottom: clamp(2.5rem, 4vw, 4rem);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: clamp(1rem, 1.8vw, 1.5rem);
+  font-size: var(--f-small);
+  color: var(--grey-text);
+}
+.crumbs i { font-style: normal; opacity: 0.5; }
+.crumbs a { transition: color 0.3s var(--ease); }
+.crumbs a:hover { color: var(--ink); }
+
+.title {
+  max-width: 24ch;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-display);
+  font-weight: 400;
+  line-height: 1.12;
+  color: var(--ink);
+}
+
+.lede {
+  max-width: 78ch;
+  margin-top: clamp(1rem, 1.8vw, 1.5rem);
+  color: var(--grey-text);
+  line-height: 1.9;
+}

@@ -93,27 +93,20 @@ const COLUMNS = [
 
 const OFFICES = [
   {
-    title: 'Customer Care',
-    phone: '1800 200 7577',
-    tollFree: 'Toll free · Mon–Sat, 9am–7pm',
-    email: 'care@capitaltiles.com',
+    title: 'Visit Our Showroom',
+    address: '3 Pelle Street, Mitchell ACT 2911, Canberra',
   },
   {
-    title: 'Registered Office',
-    address: '2, Red Cross Place, Kolkata — 700 001',
-    email: 'investors@capitaltiles.com',
-    phone: '+91 33 2248 7406',
+    title: 'Call Us',
+    phone: '02 6253 8158',
+    tollFree: 'Mon–Fri 9:00am–5:00pm · Sat 10:00am–3:00pm',
   },
   {
-    title: 'Corporate Office',
-    address: '301–302, Park Centra, Sector 30, NH 8, Gurugram, Haryana',
-    email: 'hello@capitaltiles.com',
-    phone: '+91 124 477 9200',
+    title: 'Email Us',
+    email: 'cbr@capitaltiles.com.au',
   },
   {
-    title: 'International Sales',
-    address: 'Survey 210, Lakhdhirpur Road, Morbi, Gujarat — 363 642',
-    email: 'exports@capitaltiles.com',
+    title: 'Follow Us',
     social: true,
   },
 ]
@@ -155,31 +148,17 @@ function IconChevron({ className }) {
   )
 }
 
+/* Only the two profiles the business actually runs. */
 const SOCIALS = [
   {
     label: 'Facebook',
-    href: 'https://www.facebook.com/',
+    href: 'https://www.facebook.com/capitaltilesandflooring/',
     path: 'M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.89h-2.33v6.99A10 10 0 0 0 22 12Z',
   },
   {
     label: 'Instagram',
-    href: 'https://www.instagram.com/',
+    href: 'https://www.instagram.com/capitaltilesandflooring/',
     path: 'M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2Zm0 3.05A6.75 6.75 0 1 0 18.75 12 6.75 6.75 0 0 0 12 5.25Zm0 11.13A4.38 4.38 0 1 1 16.38 12 4.38 4.38 0 0 1 12 16.38Zm6.99-11.4a1.58 1.58 0 1 1-1.57-1.58 1.58 1.58 0 0 1 1.57 1.58Z',
-  },
-  {
-    label: 'X',
-    href: 'https://x.com/',
-    path: 'M18.24 2h3.3l-7.2 8.23L22.8 22h-6.62l-5.19-6.78L5.06 22H1.75l7.7-8.8L1.5 2h6.79l4.69 6.2L18.24 2Zm-1.16 18h1.83L7.01 3.9H5.05L17.08 20Z',
-  },
-  {
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/',
-    path: 'M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5.001ZM3.02 9.25h3.92V21H3.02V9.25Zm6.44 0h3.76v1.6h.05c.52-.99 1.8-2.03 3.71-2.03 3.97 0 4.7 2.6 4.7 5.99V21h-3.92v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21H9.46V9.25Z',
-  },
-  {
-    label: 'YouTube',
-    href: 'https://www.youtube.com/',
-    path: 'M22.6 7.3a3 3 0 0 0-2.11-2.12C18.62 4.67 12 4.67 12 4.67s-6.62 0-8.49.51A3 3 0 0 0 1.4 7.3C.9 9.18.9 12 .9 12s0 2.82.5 4.7a3 3 0 0 0 2.11 2.12c1.87.51 8.49.51 8.49.51s6.62 0 8.49-.51a3 3 0 0 0 2.11-2.12c.5-1.88.5-4.7.5-4.7s0-2.82-.5-4.7ZM9.86 15.6V8.4L15.9 12l-6.04 3.6Z',
   },
 ]
 
@@ -262,9 +241,8 @@ export default function Footer() {
       {/* ---------- address band ---------- */}
       <div className={s.address}>
         <div className="container">
-          <Link href="/" className={s.footLogo} aria-label="Capital Tiles — home">
-            <span className={s.footMarkTop}>Capital</span>
-            <span className={s.footMarkSub}>Tiles</span>
+          <Link href="/" className={s.footLogo} aria-label="Capital Tiles &amp; Flooring — home">
+            <img src="/logo.webp" alt="Capital Tiles &amp; Flooring" width="480" height="150" />
           </Link>
 
           <div className={s.offices}>
@@ -318,7 +296,7 @@ export default function Footer() {
           </div>
 
           <div className={s.copyright}>
-            Copyright &copy; {new Date().getFullYear()} Capital Tiles Limited. All Rights Reserved.
+            Copyright &copy; {new Date().getFullYear()} Capital Tiles &amp; Flooring. All Rights Reserved.
           </div>
         </div>
       </div>
