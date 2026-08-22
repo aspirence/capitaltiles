@@ -1,0 +1,90 @@
+.section {
+  background: var(--black);
+  color: var(--white);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 4.5vw, 5rem);
+  align-items: center;
+}
+
+.title { margin-top: 0.7rem; color: var(--white); }
+.body { margin: 1.1rem 0 1.8rem; color: var(--white-70); }
+
+.points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2.2rem;
+}
+.points li {
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  font-size: var(--f-small);
+  color: var(--white-70);
+  transition: border-color 0.35s var(--ease), color 0.35s var(--ease);
+}
+.points li:hover { border-color: var(--gold); color: var(--white); }
+
+/* ---- showcase ----------------------------------------------------------- */
+.showcase { display: grid; gap: clamp(1rem, 1.8vw, 1.75rem); }
+
+.hero { position: relative; aspect-ratio: 16 / 9; background: var(--black-soft); }
+.hero > div { width: 100%; height: 100%; }
+
+.heroTag {
+  position: absolute;
+  left: clamp(0.9rem, 1.6vw, 1.5rem);
+  top: clamp(0.9rem, 1.6vw, 1.5rem);
+  padding: 0.45rem 0.95rem;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white-70);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+}
+.tiles a { display: block; }
+
+.tileFrame {
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: var(--black-soft);
+  transition: transform 0.5s var(--ease);
+}
+.tiles a:hover .tileFrame { transform: translateY(-6px); }
+
+.tileLabel {
+  display: block;
+  margin-top: 0.85rem;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.05rem;
+  transition: color 0.35s var(--ease);
+}
+.tiles a:hover .tileLabel { color: var(--gold); }
+
+.tileSub {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: var(--f-small);
+  color: var(--white-45);
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+  .tileLabel { font-size: 0.9rem; }
+  .tileSub { display: none; }
+}

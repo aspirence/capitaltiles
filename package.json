@@ -1,0 +1,17 @@
+{
+  "name": "capitaltiles-new",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Capital Tiles — new homepage. Simpolo-style header/nav/hero, Hindware-style footer, blended animated body sections. 100% local assets.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "15.5.23",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "engines": { "node": ">=18.18.0" }
+}

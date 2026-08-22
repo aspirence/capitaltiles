@@ -1,0 +1,199 @@
+/* =========================================================================
+   Footer — Hindware layout: black five-column link deck over a white address
+   band, closed by a centred copyright rule.
+   ========================================================================= */
+
+.deck {
+  background: var(--black);
+  color: var(--white);
+  padding-block: clamp(2.5rem, 4vw, 3.5rem) clamp(2rem, 3.5vw, 3rem);
+}
+
+.deckInner {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(1.5rem, 2.6vw, 3rem);
+}
+
+.col { display: flex; flex-direction: column; gap: 1.75rem; }
+
+.groupTitle { margin: 0; }
+.groupTitle button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: var(--white);
+  cursor: default;
+}
+
+.chev { display: none; flex: none; transition: transform 0.35s var(--ease); }
+
+.links { margin-top: 0.65rem; }
+.links li a {
+  display: block;
+  padding: 0.3rem 0;
+  font-size: 0.78rem;
+  color: var(--white-70);
+  transition: color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.links li a:hover {
+  color: var(--white);
+  transform: translateX(4px);
+}
+
+/* Static entries have no heading — they read as top-level links. */
+.groupStatic .links { margin-top: 0; }
+.groupStatic .links li a {
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--white);
+}
+.groupStatic .links li a:hover { color: var(--gold); }
+
+/* ---- address band ------------------------------------------------------- */
+.address {
+  background: var(--white);
+  color: var(--ink);
+  padding-block: clamp(2rem, 3.2vw, 3rem) 0;
+}
+
+.footLogo {
+  display: inline-flex;
+  flex-direction: column;
+  margin-bottom: clamp(1.5rem, 2.4vw, 2.25rem);
+  line-height: 1;
+}
+.footMarkTop {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.6rem;
+}
+.footMarkSub {
+  margin-top: 0.3em;
+  font-size: 0.6rem;
+  letter-spacing: 0.6em;
+  text-indent: 0.6em;
+  text-transform: uppercase;
+  color: var(--grey-text);
+}
+
+.offices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2.4rem 3%;
+  padding-bottom: 1.75rem;
+}
+
+.office { flex: 0 0 clamp(13rem, 21%, 17rem); }
+.office h3 {
+  margin-bottom: 0.9rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.office p {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--grey-text);
+  line-height: 1.55;
+}
+.office p svg { flex: none; margin-top: 2px; color: var(--ink); opacity: 0.75; }
+.office p a {
+  color: var(--ink);
+  transition: color 0.3s var(--ease);
+}
+.office p a:hover { color: var(--gold); }
+
+.tollFree {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.72rem;
+  color: var(--grey-text);
+}
+
+.socials { display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; }
+.socials a {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(35, 31, 32, 0.25);
+  border-radius: 50%;
+  color: var(--ink);
+  transition:
+    border-color 0.35s var(--ease),
+    background 0.35s var(--ease),
+    color 0.35s var(--ease),
+    transform 0.35s var(--ease);
+}
+.socials a:hover {
+  border-color: var(--black);
+  background: var(--black);
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+.copyright {
+  padding-block: 1.1rem;
+  border-top: 1px solid rgba(35, 31, 32, 0.22);
+  font-size: 0.75rem;
+  color: var(--grey-text);
+  text-align: center;
+}
+
+/* ---- breakpoints -------------------------------------------------------- */
+@media (max-width: 1180px) {
+  .deckInner { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 767px) {
+  .deck { padding-block: 1.25rem; }
+  .deckInner { grid-template-columns: 1fr; gap: 0; }
+  .col { gap: 0; }
+
+  .group { border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+  .groupTitle button {
+    padding: 1rem 0;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .chev { display: block; }
+  .groupOpen .chev { transform: rotate(180deg); }
+
+  /* grid-template-rows animates cleanly from nothing to content height.
+     It sizes only the FIRST row, so the panel wraps a single <ul> child —
+     putting the multi-item list here directly would leave it expanded. */
+  .panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s var(--ease);
+  }
+  .panel > .links { min-height: 0; overflow: hidden; margin-top: 0; }
+  .groupOpen .panel { grid-template-rows: 1fr; }
+  .groupOpen .links > li:first-child a { padding-top: 0; }
+  .groupOpen .links > li:last-child a { padding-bottom: 1rem; }
+
+  .links li a { font-size: 0.85rem; }
+
+  .groupStatic { border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+  .groupStatic .panel { grid-template-rows: 1fr; }
+  .groupStatic .links li a { padding: 1rem 0; font-size: 0.95rem; }
+
+  .offices { flex-direction: column; gap: 2rem; }
+  .office { flex: 0 0 100%; max-width: 100%; }
+}

@@ -1,0 +1,512 @@
+/* =========================================================================
+   Header — modelled on the Simpolo reference: a slim corporate strip with a
+   centred wordmark, a bordered main bar beneath it, and full-width dark mega
+   panels. Transparent over the hero, solid white once the page scrolls.
+   ========================================================================= */
+
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 90;
+  color: var(--white);
+  background: transparent;
+  transition:
+    background 0.5s var(--ease),
+    color 0.5s var(--ease),
+    transform 0.45s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+
+/* A soft scrim keeps the transparent state legible over bright banners. */
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent);
+  opacity: 1;
+  transition: opacity 0.5s var(--ease);
+  pointer-events: none;
+}
+
+.solid {
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 1px 0 var(--grey-line), 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+.solid::before { opacity: 0; }
+
+.hidden { transform: translateY(-100%); }
+.panelOpen { background: var(--white); color: var(--ink); }
+.panelOpen::before { opacity: 0; }
+
+/* ---- utility strip ------------------------------------------------------ */
+.utility { position: relative; }
+
+.utilityInner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  min-height: 76px;
+  transition: min-height 0.4s var(--ease);
+}
+.solid .utilityInner { min-height: 64px; }
+
+.utilityLeft { justify-self: start; }
+.utilityRight {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.6rem, 1.1vw, 1.25rem);
+}
+
+/* ---- wordmark ----------------------------------------------------------- */
+.logo { display: block; }
+
+.mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+.markTop {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1.35rem, 1.85vw, 1.9rem);
+  letter-spacing: 0.02em;
+}
+.markSub {
+  margin-top: 0.28em;
+  font-size: clamp(0.56rem, 0.72vw, 0.72rem);
+  letter-spacing: 0.62em;
+  text-indent: 0.62em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.markLight { color: var(--white); }
+
+/* ---- corporate dropdown ------------------------------------------------- */
+.corporate { position: relative; }
+
+.corporateBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0;
+  border: 0;
+  background: none;
+  font-size: var(--f-small);
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.corporateCaret { transition: transform 0.35s var(--ease); }
+.corporate:hover .corporateCaret { transform: rotate(180deg); }
+
+.corporateMenu {
+  position: absolute;
+  top: 100%;
+  left: -1rem;
+  min-width: 15rem;
+  padding: 0.5rem 0;
+  background: var(--black);
+  color: var(--white);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0.35s;
+}
+.corporate:hover .corporateMenu,
+.corporate:focus-within .corporateMenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.corporateMenu a {
+  display: block;
+  padding: 0.6rem 1.2rem;
+  font-size: var(--f-small);
+  color: var(--white-70);
+  transition: background 0.3s var(--ease), color 0.3s var(--ease), padding-left 0.3s var(--ease);
+}
+.corporateMenu a:hover {
+  background: var(--black-soft);
+  color: var(--white);
+  padding-left: 1.5rem;
+}
+
+/* ---- search + utility links --------------------------------------------- */
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search input {
+  width: clamp(7rem, 11vw, 12rem);
+  padding: 0.45rem 1.9rem 0.45rem 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--f-small);
+  outline: none;
+  transition: width 0.45s var(--ease), border-color 0.3s var(--ease);
+}
+.search input::placeholder { color: currentColor; opacity: 0.6; }
+.search input:focus { width: clamp(10rem, 16vw, 17rem); }
+.search button {
+  position: absolute;
+  right: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.search button:hover { opacity: 1; transform: scale(1.1); }
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+.whereToBuy,
+.enquire {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  transition: opacity 0.3s var(--ease);
+}
+.whereToBuy:hover,
+.enquire:hover { opacity: 0.65; }
+
+.enquire {
+  padding: 0.5rem 1.1rem;
+  border: 1px solid currentColor;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: var(--f-small);
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+}
+.enquire:hover {
+  opacity: 1;
+  background: currentColor;
+  color: var(--white);
+}
+.solid .enquire:hover { color: var(--white); background: var(--black); border-color: var(--black); }
+
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.burger span {
+  display: block;
+  height: 1.5px;
+  width: 100%;
+  background: currentColor;
+  transition: transform 0.35s var(--ease);
+}
+.burger span:nth-child(2) { width: 70%; align-self: flex-end; }
+
+/* ---- main nav bar ------------------------------------------------------- */
+.nav {
+  position: relative;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  transition: border-color 0.5s var(--ease);
+}
+.solid .nav,
+.panelOpen .nav {
+  border-top-color: var(--grey-line);
+  border-bottom-color: var(--grey-line);
+}
+
+.navInner { position: relative; }
+
+.navList {
+  display: flex;
+  justify-content: space-between;
+  gap: clamp(0.5rem, 2vw, 2.5rem);
+}
+
+.navItem { position: relative; }
+
+.navLink {
+  position: relative;
+  display: block;
+  padding: 1.15rem 0;
+  font-size: clamp(0.72rem, 0.86vw, 0.9rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: opacity 0.3s var(--ease);
+}
+.navItem:hover .navLink { opacity: 0.62; }
+
+/* The little caret that points at the open panel, as on the reference. */
+.navPointer {
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: 22px;
+  height: 9px;
+  transform: translate(-50%, 6px);
+  opacity: 0;
+  background: var(--black);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.navItemOpen .navPointer { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---- mega panel --------------------------------------------------------- */
+.mega {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background: var(--black);
+  color: var(--white);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), visibility 0.4s;
+  max-height: min(74vh, 640px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.navItemOpen .mega { opacity: 1; visibility: visible; transform: translateY(0); }
+
+.megaInner {
+  display: flex;
+  min-height: 15rem;
+  max-width: 1600px;
+  margin-inline: auto;
+}
+
+/* left rail of a tabbed panel */
+.megaRail {
+  flex: 0 0 clamp(9rem, 15%, 15rem);
+  background: var(--black-soft);
+  padding-block: 1.4rem;
+}
+.megaRail button {
+  display: block;
+  width: 100%;
+  padding: 0.95rem clamp(1rem, 1.6vw, 1.8rem);
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: var(--f-small);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--white-70);
+  cursor: pointer;
+  transition: background 0.35s var(--ease), color 0.35s var(--ease);
+}
+.megaRail button:hover,
+.megaRail .railOn {
+  background: var(--black);
+  color: var(--white);
+}
+
+/* card grid */
+.megaGrid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(1rem, 1.8vw, 2.2rem);
+  padding: clamp(1.5rem, 2.4vw, 2.6rem);
+}
+.megaGridFull { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+
+.megaGrid li {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: megaIn 0.5s var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * 45ms + 80ms);
+}
+.navItem:not(.navItemOpen) .megaGrid li { animation: none; }
+
+@keyframes megaIn {
+  to { opacity: 1; transform: none; }
+}
+
+.megaThumb {
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: var(--black-soft);
+}
+.megaLabel {
+  display: block;
+  margin-top: 0.7rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.04em;
+  color: var(--white-70);
+  transition: color 0.3s var(--ease);
+}
+.megaGrid a:hover .megaLabel { color: var(--white); }
+
+/* plain list panel */
+.megaList {
+  flex: 0 0 clamp(14rem, 22%, 22rem);
+  background: var(--black-soft);
+  padding-block: 1.2rem;
+}
+.megaList li {
+  opacity: 0;
+  transform: translateX(-12px);
+  animation: megaListIn 0.45s var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * 55ms + 60ms);
+}
+.navItem:not(.navItemOpen) .megaList li { animation: none; }
+
+@keyframes megaListIn {
+  to { opacity: 1; transform: none; }
+}
+
+.megaList a {
+  display: block;
+  padding: 0.85rem clamp(1rem, 1.6vw, 1.8rem);
+  font-size: var(--f-small);
+  letter-spacing: 0.08em;
+  text-transform: capitalize;
+  color: var(--white-70);
+  transition: background 0.3s var(--ease), color 0.3s var(--ease), padding-left 0.3s var(--ease);
+}
+.megaList a:hover {
+  background: var(--black);
+  color: var(--white);
+  padding-left: calc(clamp(1rem, 1.6vw, 1.8rem) + 0.4rem);
+}
+
+/* ---- mobile drawer ------------------------------------------------------ */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s var(--ease), visibility 0.4s;
+}
+.scrimOn { opacity: 1; visibility: visible; }
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 96;
+  width: min(88vw, 26rem);
+  height: 100dvh;
+  padding: 1.25rem 0 3rem;
+  background: var(--black);
+  color: var(--white);
+  overflow-y: auto;
+  transform: translateX(100%);
+  /* visibility keeps the closed drawer out of the tab order — aria-hidden
+     alone would still let a keyboard land on links nobody can see. */
+  visibility: hidden;
+  transition: transform 0.5s var(--ease), visibility 0.5s;
+}
+.drawerOn { transform: none; visibility: visible; }
+
+.drawerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.4rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.drawerTop button {
+  border: 0;
+  background: none;
+  color: var(--white);
+  cursor: pointer;
+}
+
+.drawerNav { padding: 0.5rem 1.4rem 0; }
+
+.acc { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+.acc > button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.05rem 0;
+  border: 0;
+  background: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: left;
+  cursor: pointer;
+}
+.accCaret { transition: transform 0.35s var(--ease); flex: none; }
+.accOpen .accCaret { transform: rotate(180deg); }
+
+/* One grid row, one child: `grid-template-rows: 0fr` sizes only the first
+   row, so a multi-item <ul> placed here directly would stay expanded. */
+.accPanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease);
+}
+.accOpen .accPanel { grid-template-rows: 1fr; }
+.accPanel > ul { min-height: 0; overflow: hidden; }
+
+.accPanel a {
+  display: block;
+  padding: 0.55rem 0 0.55rem 0.9rem;
+  font-size: 0.85rem;
+  color: var(--white-70);
+}
+.accPanel li:last-child a { padding-bottom: 1.1rem; }
+
+.drawerCorporate { padding: 1.5rem 0 0.5rem; }
+.drawerCorporate p {
+  font-size: var(--f-small);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+.drawerCorporate a {
+  display: block;
+  padding: 0.4rem 0;
+  font-size: 0.85rem;
+  color: var(--white-70);
+}
+
+.drawerCta { width: 100%; margin-top: 1.5rem; }
+
+/* ---- breakpoints -------------------------------------------------------- */
+@media (max-width: 1180px) {
+  .navLink { letter-spacing: 0.08em; }
+  .megaGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .megaGridFull { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1023px) {
+  .nav { display: none; }
+  .burger { display: flex; }
+  .search,
+  .divider,
+  .whereToBuy,
+  .enquire,
+  .corporate { display: none; }
+  .utilityInner { grid-template-columns: 1fr auto 1fr; min-height: 64px; }
+  .utilityLeft { justify-self: start; }
+}

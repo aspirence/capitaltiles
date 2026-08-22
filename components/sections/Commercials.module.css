@@ -1,0 +1,144 @@
+.section { background: var(--grey-bg); }
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+}
+.title { margin-top: 0.7rem; }
+.lede { margin-top: 0.75rem; }
+.viewAll { white-space: nowrap; }
+
+/* ---- cards -------------------------------------------------------------- */
+.card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: var(--grey-line);
+}
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.18);
+  transition: background 0.5s var(--ease);
+}
+.card:hover .frame::after { background: rgba(0, 0, 0, 0.34); }
+
+.play {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  margin: auto;
+  width: clamp(3rem, 4.5vw, 4rem);
+  height: clamp(3rem, 4.5vw, 4rem);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--black);
+  transition: transform 0.5s var(--ease), background 0.4s var(--ease);
+}
+.card:hover .play { transform: scale(1.12); background: var(--white); }
+
+/* Pulsing ring around the play button. */
+.play::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  animation: ring 2.6s var(--ease) infinite;
+}
+
+@keyframes ring {
+  0% { transform: scale(0.9); opacity: 0.9; }
+  70% { transform: scale(1.35); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.len {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 2;
+  padding: 0.25rem 0.6rem;
+  background: rgba(0, 0, 0, 0.6);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+
+.cardTitle {
+  display: block;
+  margin-top: 1rem;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-sub);
+  transition: color 0.35s var(--ease);
+}
+.card:hover .cardTitle { color: var(--gold); }
+
+/* ---- lightbox ----------------------------------------------------------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgba(0, 0, 0, 0.86);
+  animation: fade 0.35s var(--ease);
+}
+@keyframes fade { from { opacity: 0; } }
+
+.lightbox figure {
+  margin: 0;
+  max-width: min(64rem, 100%);
+  animation: pop 0.45s var(--ease);
+}
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.96) translateY(12px); }
+}
+
+.lightbox img { width: 100%; height: auto; }
+.lightbox figcaption {
+  margin-top: 1rem;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-sub);
+  color: var(--white);
+}
+.lightbox figcaption span {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: inherit;
+  font-size: var(--f-small);
+  color: var(--white-45);
+}
+
+.close {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+  border: 0;
+  background: none;
+  color: var(--white);
+  cursor: pointer;
+  transition: transform 0.35s var(--ease);
+}
+.close:hover { transform: rotate(90deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .play::before { animation: none; }
+}

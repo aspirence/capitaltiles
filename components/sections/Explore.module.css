@@ -1,0 +1,94 @@
+.section { background: var(--grey-bg); }
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem 2.5rem;
+}
+.title { margin-top: 0.7rem; }
+
+/* ---- tab rail ----------------------------------------------------------- */
+.tabs { display: flex; gap: clamp(1rem, 2.2vw, 2.5rem); }
+.tabs button {
+  position: relative;
+  padding: 0 0 0.7rem;
+  border: 0;
+  background: none;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-small);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--grey-text);
+  cursor: pointer;
+  transition: color 0.35s var(--ease);
+}
+.tabs button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--black);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s var(--ease);
+}
+.tabs button:hover { color: var(--ink); }
+.tabs .tabOn { color: var(--ink); }
+.tabs .tabOn::after,
+.tabs button:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* ---- cards -------------------------------------------------------------- */
+.card { display: block; }
+
+.frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  background: var(--grey-line);
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+.card:hover .veil { opacity: 1; }
+
+.plus {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(10px) rotate(-45deg);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+}
+.card:hover .plus { opacity: 1; transform: none; }
+
+.label {
+  display: block;
+  margin-top: 1rem;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-sub);
+  text-align: center;
+  transition: color 0.35s var(--ease);
+}
+.card:hover .label { color: var(--gold); }
+
+@media (max-width: 640px) {
+  .tabs { width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tabs button { white-space: nowrap; }
+}

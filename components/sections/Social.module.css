@@ -1,0 +1,66 @@
+.section { background: var(--grey-bg); overflow: hidden; }
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  margin-bottom: clamp(2rem, 3.2vw, 3rem);
+}
+.title { margin-top: 0.7rem; }
+.cta { flex: none; }
+
+.rails { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+
+.rail { overflow: hidden; }
+.railTrack {
+  display: flex;
+  width: max-content;
+  gap: clamp(0.75rem, 1.4vw, 1.25rem);
+  animation: drift 42s linear infinite;
+}
+.reverse .railTrack { animation-direction: reverse; }
+.rails:hover .railTrack { animation-play-state: paused; }
+
+.railGroup {
+  display: flex;
+  gap: clamp(0.75rem, 1.4vw, 1.25rem);
+}
+
+.tile {
+  position: relative;
+  display: block;
+  width: clamp(11rem, 20vw, 19rem);
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--grey-line);
+}
+.tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s var(--ease), filter 0.5s var(--ease);
+}
+.tile:hover img { transform: scale(1.07); filter: brightness(0.62); }
+
+.tileIcon {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+.tile:hover .tileIcon { opacity: 1; transform: none; }
+
+@keyframes drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% / 3)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .railTrack { animation: none; }
+}

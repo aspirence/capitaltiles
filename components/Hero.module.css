@@ -1,0 +1,239 @@
+/* =========================================================================
+   Hero banner. Slides are stacked and cross-faded; only the active one runs
+   its Ken Burns push, so the page never animates five images at once.
+   ========================================================================= */
+
+.hero {
+  position: relative;
+  height: 100svh;
+  min-height: 34rem;
+  background: var(--black);
+  overflow: hidden;
+}
+
+.viewport { position: absolute; inset: 0; }
+
+/* The page's real h1: announced, indexed, never painted. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.1s var(--ease), visibility 1.1s;
+}
+.slideOn { opacity: 1; visibility: visible; }
+
+.media { position: absolute; inset: 0; display: block; }
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.12);
+  transition: transform 7.5s linear;
+}
+.slideOn .media img { transform: scale(1); }
+
+/* Gradient reads top-down so the header stays legible over any banner. */
+.media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.15) 42%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+/* ---- copy --------------------------------------------------------------- */
+.copy {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--white);
+  padding-top: 4rem;
+}
+
+.copy > .container > * {
+  opacity: 0;
+  filter: blur(18px);
+  transform: translateY(48px);
+}
+.slideOn .copy > .container > * {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+  transition:
+    opacity 1s var(--ease),
+    filter 1s var(--ease),
+    transform 1s var(--ease);
+}
+.slideOn .copy .eyebrow { transition-delay: 0.35s; }
+.slideOn .copy .title { transition-delay: 0.5s; }
+.slideOn .copy .subtitle { transition-delay: 0.65s; }
+.slideOn .copy :global(.cta) { transition-delay: 0.8s; }
+
+.eyebrow {
+  font-size: var(--f-small);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 1.1rem;
+}
+
+.title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-display);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: capitalize;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+.subtitle {
+  margin: 0.9rem 0 2.1rem;
+  font-size: var(--f-sub);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---- arrows ------------------------------------------------------------- */
+.arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: clamp(2.5rem, 3.4vw, 3.4rem);
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+  color: var(--white);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: background 0.45s var(--ease), color 0.45s var(--ease), transform 0.45s var(--ease);
+}
+.arrow:hover {
+  background: var(--white);
+  color: var(--black);
+  transform: translateY(-50%) scale(1.08);
+}
+.prev { left: clamp(0.75rem, 3vw, 3.5rem); }
+.next { right: clamp(0.75rem, 3vw, 3.5rem); }
+
+/* ---- bottom controls ---------------------------------------------------- */
+.controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(1.5rem, 3vw, 2.75rem);
+  z-index: 5;
+  color: var(--white);
+}
+.controlsInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.6);
+}
+.count em { font-style: normal; color: var(--white); font-size: 1.05rem; }
+.count i { width: 2.2rem; height: 1px; background: rgba(255, 255, 255, 0.45); }
+
+.dots { display: flex; gap: 0.65rem; }
+.dots button {
+  position: relative;
+  width: clamp(1.9rem, 3.6vw, 3.2rem);
+  height: 2px;
+  padding: 0;
+  border: 0;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  overflow: hidden;
+}
+.dots button::after {
+  /* enlarges the tap target without changing the visual rule */
+  content: '';
+  position: absolute;
+  inset: -12px 0;
+}
+.dotFill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--white);
+}
+.dotOn .dotFill { animation: fill linear forwards; }
+
+@keyframes fill {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.scrollCue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  transition: color 0.3s var(--ease);
+}
+.scrollCue:hover { color: var(--white); }
+.scrollCue span {
+  display: block;
+  width: 1px;
+  height: 2.4rem;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), transparent);
+  animation: cue 2.2s var(--ease) infinite;
+  transform-origin: top;
+}
+
+@keyframes cue {
+  0% { transform: scaleY(0); opacity: 0; }
+  40% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1) translateY(100%); opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .controlsInner { justify-content: center; }
+  .count, .scrollCue { display: none; }
+
+  /* Swipe and the dots drive the carousel here: the arrows would either sit
+     on the headline or collide with the floating action rail. */
+  .arrow { display: none; }
+
+  .copy { padding-top: 2rem; }
+  .subtitle { margin-bottom: 1.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media img { transform: none; transition: none; }
+  .dotOn .dotFill { animation: none; width: 100%; }
+  .scrollCue span { animation: none; }
+  .slideOn .copy > .container > * { transition: none; }
+}

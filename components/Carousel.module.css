@@ -1,0 +1,88 @@
+.wrap { position: relative; }
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: clamp(1.5rem, 2.4vw, 2.5rem);
+}
+.headSlot { flex: 1; min-width: 0; }
+
+.viewport { position: relative; }
+
+.track {
+  display: flex;
+  gap: var(--gap, 1.5rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+  outline-offset: 6px;
+}
+.track::-webkit-scrollbar { display: none; }
+
+.track > li {
+  flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap, 1.5rem)) / var(--cols));
+  scroll-snap-align: start;
+}
+
+.btns { display: flex; gap: 0.5rem; }
+.btns button {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--grey-line);
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background 0.4s var(--ease),
+    color 0.4s var(--ease),
+    border-color 0.4s var(--ease),
+    opacity 0.3s var(--ease);
+}
+.btns button:hover:not(:disabled) {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+}
+.btns button:disabled { opacity: 0.32; cursor: default; }
+
+/* Arrows floating over the left/right edges of the track. */
+.edgeBtns {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.edgeBtns .btns {
+  position: absolute;
+  top: 38%;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+.edgeBtns .btns button {
+  pointer-events: auto;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.14);
+  transform: translateX(-45%);
+}
+.edgeBtns .btns button:last-child { transform: translateX(45%); }
+
+@media (max-width: 1024px) {
+  .track > li {
+    flex-basis: calc((100% - (var(--cols-tablet) - 1) * var(--gap, 1.5rem)) / var(--cols-tablet));
+  }
+  .edgeBtns { display: none; }
+}
+
+@media (max-width: 640px) {
+  .track > li {
+    flex-basis: calc((100% - (var(--cols-mobile) - 1) * var(--gap, 1.5rem)) / var(--cols-mobile));
+  }
+  .head { flex-direction: column; align-items: flex-start; }
+}
