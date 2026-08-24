@@ -16,7 +16,15 @@ function Chevron() {
   )
 }
 
-export default function CollectionCopy({ heading, paragraphs, faqs = [], related = [] }) {
+export default function CollectionCopy({
+  heading,
+  paragraphs,
+  faqs = [],
+  related = [],
+  faqEyebrow = 'Everything you need to know',
+  faqTitle = 'Frequently Asked Questions',
+  faqLede,
+}) {
   const [more, setMore] = useState(false)
   const [open, setOpen] = useState(0)
 
@@ -42,20 +50,32 @@ export default function CollectionCopy({ heading, paragraphs, faqs = [], related
       {/* ---------- faqs ---------- */}
       {faqs.length > 0 && (
       <section className={'sectionPad ' + s.faqSection}>
-        <div className="container">
-          <h2 className={'title ' + s.h2 + ' ' + s.faqTitle}>FAQ&rsquo;s</h2>
+        <div className={s.faqInner}>
+          <header className={s.faqHead}>
+            <p className={s.faqEyebrow} data-reveal>{faqEyebrow}</p>
+            <h2 className={s.faqTitle} data-reveal style={{ '--reveal-delay': '80ms' }}>
+              {faqTitle}
+            </h2>
+            {faqLede && (
+              <p className={s.faqLede} data-reveal style={{ '--reveal-delay': '150ms' }}>
+                {faqLede}
+              </p>
+            )}
+          </header>
 
           <ul className={s.faqList}>
             {faqs.map((item, i) => {
               const on = open === i
               return (
-                <li key={item.q} className={on ? s.faq + ' ' + s.faqOn : s.faq}>
+                <li key={item.q} className={on ? s.faq + ' ' + s.faqOn : s.faq}
+                  data-reveal style={{ '--reveal-delay': Math.min(i, 5) * 60 + 'ms' }}>
                   <h3>
                     <button type="button" aria-expanded={on} onClick={() => setOpen(on ? -1 : i)}>
                       <span>{item.q}</span>
                       <span className={s.faqChev}><Chevron /></span>
                     </button>
                   </h3>
+                  {/* single-child grid: 0fr→1fr only sizes the first row */}
                   <div className={s.faqPanel}>
                     <p>{item.a}</p>
                   </div>
@@ -63,6 +83,11 @@ export default function CollectionCopy({ heading, paragraphs, faqs = [], related
               )
             })}
           </ul>
+
+          <p className={s.faqMore} data-reveal>
+            Still have a question?{' '}
+            <Link href="/contact-us" className="linkUnder">Talk to our team</Link>
+          </p>
         </div>
       </section>
       )}

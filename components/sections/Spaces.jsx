@@ -4,38 +4,38 @@ import { useState } from 'react'
 import Link from 'next/link'
 import s from './Spaces.module.css'
 
-/* Hindware's "Explore by Space", rebuilt as an expanding panel rack: the
-   hovered panel takes the extra width and reveals its copy. On narrow screens
-   the same panels stack and all copy stays visible. */
+/* "Explore by Space" as an expanding panel rack: the hovered panel takes the
+   extra width and reveals its copy. On narrow screens the same panels stack
+   and all copy stays visible. */
 
 const SPACES = [
   {
     label: 'Bathroom',
-    copy: 'Sanitaryware, surfaces and fittings that hold up to daily use — specified as one coordinated set.',
+    copy: 'Wall and floor tiles made for wet areas — subway, mosaic or large-format, laid, grouted and sealed by our team.',
     href: '/tiles/bathroom',
-    img: '/img/spaces/bathroom-wide.jpg',
+    img: '/img/spaces/bathroom.jpg',
   },
   {
     label: 'Kitchen',
-    copy: 'Slip-resistant floors, stain-proof walls and countertop-grade slabs for the hardest-working room.',
+    copy: 'Slip-resistant floor tiles and easy-clean splashbacks, or hybrid and vinyl boards that shrug off spills.',
     href: '/tiles/kitchen',
     img: '/img/spaces/kitchen-wide.jpg',
   },
   {
     label: 'Living Room',
-    copy: 'Large-format surfaces with minimal grout lines, so the floor reads as one continuous plane.',
-    href: '/tiles/triexta',
+    copy: 'Large-format tiles and warm timber-look hybrid boards for open living, plus wool and Triexta carpet when you want it softer.',
+    href: '/flooring/hybrid-flooring',
     img: '/img/spaces/livingroom.jpg',
   },
   {
     label: 'Outdoor',
-    copy: 'R11-rated grip, frost resistance and a 20mm body built for decks, drives and patios.',
+    copy: 'Slip-rated outdoor tiles and pavers for patios, alfresco areas and pool surrounds, chosen to handle a Canberra winter.',
     href: '/tiles/outdoor',
     img: '/img/spaces/outdoor.jpg',
   },
   {
-    label: 'Facade',
-    copy: 'Elevation tiles and ventilated cladding that keep a building looking new through every monsoon.',
+    label: 'Hallway & Entry',
+    copy: 'Hard-wearing wall and floor tiles where the traffic lands, or laminate and vinyl that takes wet boots in its stride.',
     href: '/tiles/wall',
     img: '/img/spaces/elevation.jpg',
   },
@@ -55,8 +55,8 @@ export default function Spaces() {
             </h2>
           </div>
           <p className={'lede ' + s.lede} data-reveal style={{ '--reveal-delay': '150ms' }}>
-            Every space asks something different of a surface. Start with the room and we will narrow
-            the range down to what actually belongs there.
+            Every room asks something different underfoot. Start with the space and we will narrow it
+            down to the tiles, flooring or carpet that belong there — then measure and quote it free.
           </p>
         </div>
 

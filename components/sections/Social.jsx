@@ -1,7 +1,8 @@
 import s from './Social.module.css'
 
-/* Hindware's social feed, as an edge-to-edge marquee of two rails drifting in
-   opposite directions. Purely decorative motion, so it pauses on hover. */
+/* The Capital Tiles & Flooring Instagram feed, as an edge-to-edge marquee of two
+   rails drifting in opposite directions. Purely decorative motion, so it pauses
+   on hover. Every tile opens @capitaltilesandflooring in a new tab. */
 
 const FEED = [1, 2, 3, 4, 5, 6, 7, 8].map((n) => ({
   img: '/img/social/social-' + n + '.jpg',
@@ -53,7 +54,7 @@ export default function Social() {
         <div>
           <p className="eyebrow" data-reveal>@capitaltilesandflooring</p>
           <h2 className={'title ' + s.title} data-reveal style={{ '--reveal-delay': '80ms' }}>
-            Follow the surface
+            Ideas for your next room
           </h2>
         </div>
         <a

@@ -5,15 +5,51 @@ import Link from 'next/link'
 import Carousel from '../Carousel'
 import s from './Commercials.module.css'
 
-/* Simpolo's TV-commercial rail. Thumbnails are local stills; the play button
-   swaps in a lightweight lightbox rather than embedding five players. */
+/* Film rail. One entry per branch of the main nav — Tiles (indoor, outdoor),
+   Flooring, Carpet and Installation — so the section answers the questions
+   customers arrive with rather than running brand advertising.
+
+   Covers are frames pulled straight out of each film, so the still on the card
+   is the first thing you see when the player opens. Only the clicked film is
+   mounted — the rail never loads six videos at once. */
 
 const FILMS = [
-  { title: 'Built for the way India lives', len: '0:45', img: '/img/hero/hero-1.jpg' },
-  { title: 'Alchimia — the film', len: '1:02', img: '/img/collections/alchimia.jpg' },
-  { title: 'Inside a Capital experience centre', len: '2:18', img: '/img/about/showroom.jpg' },
-  { title: 'Bathware, reconsidered', len: '0:38', img: '/img/spaces/bathroom-wide.jpg' },
-  { title: 'Surfaces that outlive trends', len: '1:24', img: '/img/hero/hero-3.jpg' },
+  {
+    title: 'Wall or floor: choosing your bathroom tile',
+    len: '0:10',
+    img: '/img/films/bathroom.jpg',
+    src: '/bathroom.mp4',
+  },
+  {
+    title: 'Why hybrid flooring is 100% waterproof',
+    len: '0:10',
+    img: '/img/films/hybrid-flooring.jpg',
+    src: '/hybrid-flooring.mp4',
+  },
+  {
+    title: 'Inside a Capital Tiles installation',
+    len: '0:10',
+    img: '/img/films/capital-tiles.jpg',
+    src: '/capital-tiles.mp4',
+  },
+  {
+    title: 'Pool tiles and pavers through a Canberra winter',
+    len: '0:10',
+    img: '/img/films/pool-tiles.jpg',
+    src: '/pool-tiles.mp4',
+  },
+  {
+    title: 'Laminate, engineered or natural timber?',
+    len: '0:10',
+    img: '/img/films/laminate-engineered.jpg',
+    src: '/laminate-engineered.mp4',
+  },
+  {
+    title: 'Carpet or hard floor in the bedroom?',
+    len: '0:08',
+    img: '/img/films/bedroom.jpg',
+    src: '/bedroom.mp4',
+  },
 ]
 
 export default function Commercials() {
@@ -27,16 +63,17 @@ export default function Commercials() {
           colsTablet={1.8}
           colsMobile={1.1}
           arrows="head"
-          label="Brand films"
+          label="Product films"
           headSlot={
             <div className={s.head}>
               <div>
-                <p className="eyebrow" data-reveal>On screen</p>
+                <p className="eyebrow" data-reveal>Watch &amp; learn</p>
                 <h2 className={'title ' + s.title} data-reveal style={{ '--reveal-delay': '80ms' }}>
-                  Brand Films &amp; Commercials
+                  Product Films &amp; How-To Guides
                 </h2>
                 <p className={'lede ' + s.lede} data-reveal style={{ '--reveal-delay': '150ms' }}>
-                  The art of captivating storytelling, through the lens of television advertising.
+                  Short films on choosing tiles, flooring and carpet — and what our installers do
+                  once the boxes land on site.
                 </p>
               </div>
               <Link href="/gallery" className={'linkUnder ' + s.viewAll}>View all</Link>
@@ -77,10 +114,20 @@ export default function Commercials() {
             </svg>
           </button>
           <figure onClick={(e) => e.stopPropagation()}>
-            <img src={FILMS[open].img} alt={FILMS[open].title} />
+            {/* keyed so switching films remounts the player instead of
+                keeping the previous file's playback position */}
+            <video
+              key={FILMS[open].src}
+              src={FILMS[open].src}
+              poster={FILMS[open].img}
+              controls
+              autoPlay
+              playsInline
+              preload="metadata"
+            />
             <figcaption>
               {FILMS[open].title}
-              <span>The full film plays on the campaign page.</span>
+              <span>Want to see it in person? Drop into the Mitchell showroom.</span>
             </figcaption>
           </figure>
         </div>

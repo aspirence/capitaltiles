@@ -1,0 +1,237 @@
+/* ---- banner ------------------------------------------------------------- */
+.banner {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: clamp(16rem, 30vw, 26rem);
+  overflow: hidden;
+  background: var(--black);
+}
+.banner > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.bannerShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.6) 55%, rgba(0, 0, 0, 0.52));
+}
+.bannerInner {
+  position: relative;
+  z-index: 1;
+  padding-top: calc(var(--header-h) + clamp(2.5rem, 5vw, 5rem));
+  padding-bottom: clamp(2rem, 3.5vw, 3rem);
+  color: var(--white);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: clamp(0.9rem, 1.6vw, 1.4rem);
+  font-size: var(--f-small);
+  color: rgba(255, 255, 255, 0.75);
+}
+.crumbs i { font-style: normal; opacity: 0.5; }
+.crumbs a { transition: color 0.3s var(--ease); }
+.crumbs a:hover { color: var(--white); }
+
+.bannerEyebrow {
+  margin-bottom: 0.75rem;
+  font-size: var(--f-small);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.bannerTitle {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1.8rem, 4.6vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.12;
+  color: var(--white);
+}
+
+/* ---- intro + jump rail --------------------------------------------------- */
+.intro { background: var(--grey-bg); }
+.introInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: start;
+}
+.lede {
+  max-width: 46ch;
+  font-size: var(--f-sub);
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.jump a {
+  display: inline-block;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--grey-line);
+  background: var(--white);
+  font-size: var(--f-small);
+  color: var(--ink);
+  transition: border-color 0.35s var(--ease), background 0.35s var(--ease), color 0.35s var(--ease);
+}
+.jump a:hover {
+  border-color: var(--black);
+  background: var(--black);
+  color: var(--white);
+}
+
+/* ---- groups -------------------------------------------------------------- */
+.body { background: var(--white); }
+.bodyInner { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); }
+
+/* clears the fixed header when a jump link lands here */
+.group { scroll-margin-top: calc(var(--header-h) + 2rem); }
+
+.groupHead { margin-bottom: clamp(1.25rem, 2.2vw, 1.75rem); }
+.groupTitle {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-title);
+  font-weight: 400;
+  color: var(--ink);
+}
+.groupIntro {
+  max-width: 68ch;
+  margin-top: 0.6rem;
+  font-size: var(--f-small);
+  line-height: 1.85;
+  color: var(--grey-text);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.7rem, 1.3vw, 1.15rem) clamp(1.25rem, 2.6vw, 2.5rem);
+  align-items: start;
+}
+
+.item {
+  background: var(--white);
+  border: 1px solid var(--grey-line);
+  transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.itemOn {
+  border-color: var(--black);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06);
+}
+.item h3 { margin: 0; }
+
+.item button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.1rem;
+  width: 100%;
+  padding: clamp(0.95rem, 1.6vw, 1.35rem) clamp(1rem, 1.9vw, 1.6rem);
+  border: 0;
+  background: none;
+  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--f-body);
+  line-height: 1.45;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.chev {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--grey-bg);
+  color: var(--ink);
+  transition: transform 0.4s var(--ease), background 0.4s var(--ease), color 0.4s var(--ease);
+}
+.itemOn .chev { transform: rotate(180deg); background: var(--black); color: var(--white); }
+
+/* single-child grid: 0fr→1fr only sizes the first row */
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease);
+}
+.itemOn .panel { grid-template-rows: 1fr; }
+.panel > p {
+  min-height: 0;
+  overflow: hidden;
+  font-size: var(--f-small);
+  line-height: 1.95;
+  color: var(--grey-text);
+  padding-inline: clamp(1rem, 1.9vw, 1.6rem);
+}
+.itemOn .panel > p { padding-bottom: clamp(1rem, 1.7vw, 1.5rem); }
+
+/* ---- closing cta --------------------------------------------------------- */
+.cta { background: var(--grey-bg); }
+.ctaInner { text-align: center; }
+.ctaTitle { max-width: 20ch; margin-inline: auto; }
+.ctaLede {
+  max-width: 58ch;
+  margin: 1.1rem auto 0;
+  line-height: 1.9;
+  color: var(--grey-text);
+}
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-top: clamp(1.6rem, 2.8vw, 2.25rem);
+}
+.phone {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-sub);
+  color: var(--ink);
+  border-bottom: 1px solid var(--gold-deep);
+  transition: color 0.3s var(--ease);
+}
+.phone:hover { color: var(--gold-deep); }
+
+/* ---- responsive ---------------------------------------------------------- */
+@media (max-width: 900px) {
+  .introInner { grid-template-columns: 1fr; }
+  .list { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .bannerTitle { font-size: clamp(1.5rem, 7vw, 2.1rem); }
+  .lede { font-size: var(--f-body); }
+
+  /* Free-flowing chips wrapped into ragged rows of one and two. A two-column
+     grid gives every chip the same width, and grid rows equalise the heights,
+     so a label that needs two lines no longer knocks the row out of line. */
+  .jump {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+  .jump a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0.6rem 0.55rem;
+    font-size: 0.74rem;
+    line-height: 1.35;
+    text-align: center;
+  }
+}

@@ -1,7 +1,8 @@
 import s from './Press.module.css'
 
-/* Credibility band: the mastheads the ranges have appeared in. Lifted out of
-   WhyChoose so it can sit on its own after the social rails. */
+/* Inspiration band: the Australian home and design mastheads we keep an eye on
+   for colour, format and finish trends. Not a coverage or awards claim. Lifted
+   out of WhyChoose so it can sit on its own after the social rails. */
 
 const PRESS = [
   { name: 'Grand Designs Australia', img: '/img/press/grand-designs.png' },
@@ -14,7 +15,7 @@ export default function Press() {
   return (
     <section className={'sectionPad ' + s.section}>
       <div className="container">
-        <p className={s.lead} data-reveal>Our product ranges have been featured in:</p>
+        <p className={s.lead} data-reveal>The Australian design magazines we look to for inspiration:</p>
         <ul className={s.logos}>
           {PRESS.map((p, i) => (
             <li key={p.name} data-reveal style={{ '--reveal-delay': i * 90 + 'ms' }}>

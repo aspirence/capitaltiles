@@ -40,7 +40,9 @@
 .panelOpen::before { opacity: 0; }
 
 /* ---- utility strip ------------------------------------------------------ */
-.utility { position: relative; }
+/* Above .nav, which follows it in the DOM and would otherwise paint over the
+   Corporate dropdown where the two overlap. */
+.utility { position: relative; z-index: 2; }
 
 .utilityInner {
   display: grid;
@@ -127,6 +129,36 @@
   background: var(--black-soft);
   color: var(--white);
   padding-left: 1.5rem;
+}
+
+/* Store Policies carries a second level, flying out to the right. Declared
+   after `.corporateMenu a` so the flex row wins on equal specificity. */
+.corporateHasSub { position: relative; }
+.corporateHasSub > a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.corporateSubCaret { flex: none; transform: rotate(-90deg); }
+
+.corporateSub {
+  position: absolute;
+  top: -0.5rem;
+  left: 100%;
+  min-width: 13rem;
+  padding: 0.5rem 0;
+  background: var(--black);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(8px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0.35s;
+}
+.corporateHasSub:hover .corporateSub,
+.corporateHasSub:focus-within .corporateSub {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
 }
 
 /* ---- search + utility links --------------------------------------------- */
@@ -219,6 +251,7 @@
 /* ---- main nav bar ------------------------------------------------------- */
 .nav {
   position: relative;
+  z-index: 1;
   border-top: 1px solid rgba(255, 255, 255, 0.22);
   border-bottom: 1px solid rgba(255, 255, 255, 0.22);
   transition: border-color 0.5s var(--ease);
@@ -285,12 +318,22 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
-  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), visibility 0.4s;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0.3s;
   max-height: min(74vh, 640px);
   overflow-y: auto;
   overscroll-behavior: contain;
 }
-.navItemOpen .mega { opacity: 1; visibility: visible; transform: translateY(0); }
+.navItemOpen .mega {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.24s var(--ease), transform 0.24s var(--ease);
+}
+
+/* Only while swapping straight from one nav item to another. Cross-fading two
+   part-transparent black panels over the page renders as a grey ghost, so the
+   swap is instant; leaving the bar entirely still fades out via the rule above. */
+.switching .mega { transition: none; }
 
 /* ---- compact panel (plain link menus) ----------------------------------- */
 /* These sit directly beneath their own item instead of spanning the bar, so
@@ -474,7 +517,9 @@
 .drawerNav { padding: 0.5rem 1.4rem 0; }
 
 .acc { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-.acc > button {
+/* `> a` is the no-submenu row (Installation, FAQ's) — same row, no caret. */
+.acc > button,
+.acc > a {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -523,6 +568,13 @@
   font-size: 0.85rem;
   color: var(--white-70);
 }
+/* Store Policies' second level, indented under its parent. */
+.drawerSubList {
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  margin: 0.1rem 0 0.4rem;
+}
+.drawerSubList a { color: var(--white-45); }
 
 .drawerCta { width: 100%; margin-top: 1.5rem; }
 

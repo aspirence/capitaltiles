@@ -209,3 +209,6 @@
 @media (prefers-reduced-motion: reduce) {
   .marqueeTrack { animation: none; }
 }
+
+/* Dark section: the global .eyebrow default is tuned for light surfaces. */
+.section :global(.eyebrow) { color: var(--gold); }

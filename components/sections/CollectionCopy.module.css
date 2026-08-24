@@ -40,12 +40,60 @@
 }
 
 /* ---- faqs --------------------------------------------------------------- */
-.faqSection { background: var(--white); }
-.faqTitle { margin-bottom: clamp(1.5rem, 2.6vw, 2.25rem); }
+/* Same treatment as the About page FAQ (AboutFaq.module.css): a centred
+   header over a two-column grid of white cards, held to a 1440px frame rather
+   than the site's wider container so the questions do not stretch thin. */
+.faqSection { background: var(--grey-bg); }
 
-.faqList { max-width: 60rem; }
+.faqInner {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 4rem);
+}
 
-.faq { border-bottom: 1px solid var(--grey-line); }
+.faqHead { text-align: center; margin-bottom: clamp(2.5rem, 4.5vw, 4rem); }
+
+.faqEyebrow {
+  font-size: var(--f-small);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin-bottom: 0.7rem;
+}
+
+.faqTitle {
+  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3.3vw, 3rem);
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.faqLede {
+  max-width: 62ch;
+  margin: 1rem auto 0;
+  color: var(--grey-text);
+}
+
+.faqList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.4vw, 1.25rem) clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+
+.faq {
+  background: var(--white);
+  border: 1px solid var(--grey-line);
+  transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.faqOn {
+  border-color: var(--black);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06);
+}
+
 .faq h3 { margin: 0; }
 
 .faq button {
@@ -54,12 +102,13 @@
   justify-content: space-between;
   gap: 1.25rem;
   width: 100%;
-  padding: clamp(1rem, 1.7vw, 1.35rem) 0;
+  padding: clamp(1rem, 1.7vw, 1.4rem) clamp(1.1rem, 2vw, 1.75rem);
   border: 0;
   background: none;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-weight: 500;
   font-size: var(--f-body);
-  line-height: 1.5;
+  line-height: 1.45;
   text-align: left;
   color: var(--ink);
   cursor: pointer;
@@ -69,8 +118,8 @@
   display: grid;
   place-items: center;
   flex: none;
-  width: 1.9rem;
-  height: 1.9rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   background: var(--grey-bg);
   color: var(--ink);
@@ -88,15 +137,23 @@
 .faqPanel > p {
   min-height: 0;
   overflow: hidden;
-  max-width: 82ch;
   font-size: var(--f-small);
   line-height: 1.95;
   color: var(--grey-text);
+  padding-inline: clamp(1.1rem, 2vw, 1.75rem);
 }
-.faqOn .faqPanel > p { padding-bottom: clamp(1rem, 1.8vw, 1.5rem); }
+.faqOn .faqPanel > p { padding-bottom: clamp(1.1rem, 1.8vw, 1.6rem); }
+
+.faqMore {
+  margin-top: clamp(2rem, 3.2vw, 3rem);
+  text-align: center;
+  color: var(--grey-text);
+  font-size: var(--f-small);
+}
 
 /* ---- related ------------------------------------------------------------ */
-.relSection { background: var(--grey-bg); }
+/* White, so the grey FAQ band above it still reads as its own section. */
+.relSection { background: var(--white); }
 
 .relGrid {
   display: grid;
@@ -123,4 +180,8 @@
 
 @media (max-width: 900px) {
   .relGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 860px) {
+  .faqList { grid-template-columns: 1fr; }
 }

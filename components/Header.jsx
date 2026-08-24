@@ -57,9 +57,12 @@ export default function Header() {
   const [drawer, setDrawer] = useState(false) // mobile drawer
   const [mobileOpen, setMobileOpen] = useState(null)
 
+  const [switching, setSwitching] = useState(false)
+
   const pathname = usePathname()
   const lastY = useRef(0)
   const closeTimer = useRef(null)
+  const switchTimer = useRef(null)
 
   /* Scroll state: go solid past the fold, and tuck the bar away while
      scrolling down so it reappears the moment the user heads back up. */
@@ -98,9 +101,20 @@ export default function Header() {
   }, [])
 
   /* A short grace period on mouseleave lets the pointer cross the gap between
-     a trigger and its panel without the panel snapping shut. */
+     a trigger and its panel without the panel snapping shut.
+
+     `switching` separates the two ways a panel can close. Moving straight to
+     another nav item swaps them with no transition, because cross-fading two
+     part-transparent black panels over the page shows as a grey ghost. Leaving
+     the bar altogether fades out normally — closing everything instantly is
+     what made the menu look like it vanished. */
   const openPanel = (label) => {
     clearTimeout(closeTimer.current)
+    if (openNav && openNav !== label) {
+      setSwitching(true)
+      clearTimeout(switchTimer.current)
+      switchTimer.current = setTimeout(() => setSwitching(false), 260)
+    }
     setOpenNav(label)
   }
   const scheduleClose = () => {
@@ -113,6 +127,7 @@ export default function Header() {
     solid || !hasHero ? s.solid : '',
     hidden && !openNav ? s.hidden : '',
     openNav ? s.panelOpen : '',
+    switching ? s.switching : '',
   ]
     .filter(Boolean)
     .join(' ')
@@ -130,8 +145,20 @@ export default function Header() {
                 </button>
                 <ul className={s.corporateMenu}>
                   {CORPORATE.map((c) => (
-                    <li key={c.label}>
-                      <Link href={c.href}>{c.label}</Link>
+                    <li key={c.label} className={c.children ? s.corporateHasSub : undefined}>
+                      <Link href={c.href}>
+                        {c.label}
+                        {c.children && <IconCaret className={s.corporateSubCaret} />}
+                      </Link>
+                      {c.children && (
+                        <ul className={s.corporateSub}>
+                          {c.children.map((sub) => (
+                            <li key={sub.label}>
+                              <Link href={sub.href}>{sub.label}</Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -183,6 +210,9 @@ export default function Header() {
                 /* Plain link menus drop a compact panel under their own item;
                    the card menus stay full-bleed across the bar. */
                 const compact = item.type === 'list'
+                /* Installation and FAQ's have no submenu — they must not open
+                   an empty panel, and hovering them closes whatever is open. */
+                const hasPanel = !!item.type
                 const cls = [s.navItem, compact ? s.navItemCompact : '', active ? s.navItemOpen : '']
                   .filter(Boolean)
                   .join(' ')
@@ -190,7 +220,7 @@ export default function Header() {
                   <li
                     key={item.label}
                     className={cls}
-                    onMouseEnter={() => openPanel(item.label)}
+                    onMouseEnter={() => (hasPanel ? openPanel(item.label) : scheduleClose())}
                     onMouseLeave={scheduleClose}
                   >
                     <Link href={item.href} className={s.navLink}>
@@ -198,6 +228,7 @@ export default function Header() {
                       <span className={s.navPointer} aria-hidden="true" />
                     </Link>
 
+                    {hasPanel && (
                     <div
                       className={s.mega}
                       onMouseEnter={() => openPanel(item.label)}
@@ -263,6 +294,7 @@ export default function Header() {
                         )}
                       </div>
                     </div>
+                    )}
                   </li>
                 )
               })}
@@ -292,6 +324,18 @@ export default function Header() {
           {NAV.map((item) => {
             const open = mobileOpen === item.label
             const links = item.type === 'tabbed' ? item.tabs.flatMap((t) => t.items) : item.items
+
+            /* No submenu — a plain row rather than an accordion. */
+            if (!links || links.length === 0) {
+              return (
+                <div key={item.label} className={s.acc}>
+                  <Link href={item.href} onClick={() => setDrawer(false)}>
+                    {item.label}
+                  </Link>
+                </div>
+              )
+            }
+
             return (
               <div key={item.label} className={open ? s.acc + ' ' + s.accOpen : s.acc}>
                 <button
@@ -327,6 +371,17 @@ export default function Header() {
                   <Link href={c.href} onClick={() => setDrawer(false)}>
                     {c.label}
                   </Link>
+                  {c.children && (
+                    <ul className={s.drawerSubList}>
+                      {c.children.map((sub) => (
+                        <li key={sub.label}>
+                          <Link href={sub.href} onClick={() => setDrawer(false)}>
+                            {sub.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>

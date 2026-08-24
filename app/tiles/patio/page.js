@@ -68,6 +68,8 @@ export default function PatioTilesPage() {
         heading="Courtyard, terrace &amp; entertaining floors"
         paragraphs={PARAGRAPHS}
         faqs={FAQS}
+        faqEyebrow="Planning your courtyard floor"
+        faqLede="Plan a courtyard and the same questions come up every time: what goes under the pavers, how they behave underfoot when wet, whether a dark colour gets too hot, and how closely they match the floor inside."
         related={RELATED}
       />
     </>

@@ -1,32 +1,33 @@
 import Link from 'next/link'
 import s from './Ranges.module.css'
 
-/* Hindware's "Explore by Brands" rack, restated as Capital's four ranges. */
+/* The four-card rack: the four things we supply and lay — tiles, flooring,
+   carpet, and the installation that ties them together. */
 
 const RANGES = [
   {
-    name: 'Capital Tiles',
-    line: 'Vitrified · Wall · Slabs',
-    href: '/tiles',
+    name: 'Tiles',
+    line: 'Floor · Wall · Outdoor',
+    href: '/tiles/wall',
     img: '/img/brands/range-tiles.jpg',
   },
   {
-    name: 'Capital Bathware',
-    line: 'Sanitaryware · Basins',
-    href: '/bathware',
-    img: '/img/brands/range-bathware.jpg',
+    name: 'Flooring',
+    line: 'Hybrid · Laminate · Timber',
+    href: '/flooring/hybrid-flooring',
+    img: '/img/flooring/engineered-timber.jpg',
   },
   {
-    name: 'Capital Surfaces',
-    line: 'Quartz · Countertops',
-    href: '/tiles/surfaces',
-    img: '/img/brands/range-surfaces.jpg',
+    name: 'Carpet',
+    line: 'Triexta · Wool · Nylon',
+    href: '/tiles/triexta',
+    img: '/img/spaces/staircase.jpg',
   },
   {
-    name: 'Capital Projects',
-    line: 'Institutional · Export',
-    href: '/professional/institutional',
-    img: '/img/brands/range-projects.jpg',
+    name: 'Installation',
+    line: 'Free measure · Lay · Seal',
+    href: '/contact-us/enquiry',
+    img: '/img/about/craft.jpg',
   },
 ]
 
@@ -35,9 +36,9 @@ export default function Ranges() {
     <section className={'sectionPad ' + s.section}>
       <div className="container">
         <div className={s.head}>
-          <p className="eyebrow" data-reveal>One house, four ranges</p>
+          <p className="eyebrow" data-reveal>Supplied and installed in Canberra</p>
           <h2 className={'title ' + s.title} data-reveal style={{ '--reveal-delay': '80ms' }}>
-            Explore by Range
+            Explore what we do
           </h2>
         </div>
 

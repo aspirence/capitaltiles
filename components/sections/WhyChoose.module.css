@@ -54,4 +54,11 @@
   .inner { grid-template-columns: 1fr; }
   .prose { max-width: none; }
   .media > div { min-height: 0; aspect-ratio: 16 / 10; }
+
+  /* This section was laying out 32px wider than the viewport, which on a phone
+     widens the whole layout viewport — the header burger and the floating
+     buttons then sit outside the visible screen and read as cut off. Clipping
+     here contains it; `clip` rather than `hidden` so no scroll container is
+     created. Nothing visible changes: the media box stays the same size. */
+  .section { overflow-x: clip; }
 }

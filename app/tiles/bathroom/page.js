@@ -68,6 +68,8 @@ export default function BathroomTilesPage() {
         heading="High-performance bathroom &amp; ensuite tiles"
         paragraphs={PARAGRAPHS}
         faqs={FAQS}
+        faqEyebrow="Sizing, slip and grout"
+        faqLede="Bathrooms ask more of a tile than any other room, so these are the questions we field most often — sizing, safe footing in the shower, the difference between matt, honed and polished, and keeping grout looking fresh."
         related={RELATED}
       />
     </>

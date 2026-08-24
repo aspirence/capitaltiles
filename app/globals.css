@@ -64,7 +64,11 @@
   --grey-line: #e2ddd6;
   --grey-text: #6f6a65;
   --cream: #f7f3ec;
+  /* --gold is the accent for DARK backgrounds. On white/cream/grey it only
+     reaches 2.8:1, which is why eyebrow text read as washed out — light
+     surfaces use --gold-deep, which clears WCAG AA at 4.8:1. */
   --gold: #b08d57;
+  --gold-deep: #856633;
 
   --white-70: rgba(255, 255, 255, 0.7);
   --white-45: rgba(255, 255, 255, 0.45);
@@ -72,7 +76,7 @@
   /* Fluid type scale. */
   /* The vw term has to stay steep enough that long collection names still fit
      a 360px screen without clipping. */
-  --f-display: clamp(1.7rem, 5.6vw, 4.1rem);
+  --f-display: clamp(1.55rem, 4.6vw, 3.45rem);
   --f-title: clamp(1.5rem, 2.5vw, 2.6rem);
   --f-sub: clamp(1.05rem, 1.35vw, 1.4rem);
   --f-body: clamp(0.9rem, 1.02vw, 1.02rem);
@@ -126,11 +130,13 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 .sectionPad { padding-block: clamp(3rem, 5.5vw, 6.5rem); }
 
+/* Defaults to the light-surface gold; the two dark sections that use this
+   class override it back to --gold locally. */
 .eyebrow {
   font-size: var(--f-small);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-deep);
 }
 
 .title {

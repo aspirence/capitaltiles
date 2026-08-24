@@ -5,7 +5,7 @@ import Link from 'next/link'
 import s from './Footer.module.css'
 
 /* ---------------------------------------------------------------------------
-   Footer, rebuilt to the Hindware pattern:
+   Footer:
 
      1. a black link deck of five widget columns (each column may stack several
         titled groups, and some groups are single "static" links with no head),
@@ -21,11 +21,11 @@ const COLUMNS = [
     {
       title: 'Explore by Range',
       links: [
-        { label: 'Capital Tiles', href: '/tiles' },
-        { label: 'Capital Bathware', href: '/bathware' },
-        { label: 'Capital Surfaces', href: '/tiles/surfaces' },
-        { label: 'Capital Slabs', href: '/tiles/slabs' },
-        { label: 'Adhesives & Grouts', href: '/tiles/adhesives' },
+        { label: 'Tiles', href: '/tiles' },
+        { label: 'Flooring', href: '/flooring' },
+        { label: 'Carpet', href: '/carpet' },
+        { label: 'Installation', href: '/installation' },
+        { label: 'Pavers', href: '/tiles/pavers' },
       ],
     },
     {
@@ -43,33 +43,33 @@ const COLUMNS = [
     {
       title: 'Explore by Category',
       links: [
-        { label: 'Glazed Vitrified Tiles', href: '/tiles/gvt' },
-        { label: 'Double Charge Tiles', href: '/tiles/double-charge' },
-        { label: 'Full Body Tiles', href: '/tiles/full-body' },
+        { label: 'Floor Tiles', href: '/tiles/floor-tiles' },
         { label: 'Wall Tiles', href: '/tiles/wall' },
-        { label: 'Large Format Slabs', href: '/tiles/slabs' },
-        { label: 'Wash Basins', href: '/bathware/basins' },
-        { label: 'EWC & Pans', href: '/bathware/ewc' },
-        { label: 'Cisterns', href: '/bathware/cisterns' },
+        { label: 'Pool Tiles', href: '/tiles/pool' },
+        { label: 'Patio Tiles', href: '/tiles/patio' },
+        { label: 'Mosaic', href: '/tiles/mosaic' },
+        { label: 'Mega Slab', href: '/tiles/mega-slab' },
+        { label: 'Subway', href: '/tiles/subway' },
+        { label: 'Hybrid Flooring', href: '/flooring/hybrid-flooring' },
       ],
     },
   ],
   [
-    { static: true, links: [{ label: 'Institutional Business', href: '/professional/institutional' }] },
-    { static: true, links: [{ label: 'International Business', href: '/professional/international' }] },
-    { static: true, links: [{ label: 'Capital Experience Centre', href: '/experience-centre' }] },
+    { static: true, links: [{ label: 'Free Measure & Quote', href: '/contact-us/enquiry' }] },
+    { static: true, links: [{ label: 'Installation Service', href: '/installation' }] },
+    { static: true, links: [{ label: 'Mitchell Showroom', href: '/contact-us' }] },
     { static: true, links: [{ label: 'Store Locator', href: '/where-to-buy' }] },
-    { static: true, links: [{ label: 'Explore Catalogue', href: '/downloads/catalogues' }] },
-    { static: true, links: [{ label: 'Digital Visualizer', href: '/visualizer' }] },
+    { static: true, links: [{ label: 'Laminate Flooring', href: '/flooring/laminate-flooring' }] },
+    { static: true, links: [{ label: 'Engineered Timber', href: '/flooring/engineered-timber' }] },
   ],
   [
     {
       title: 'Customer Support',
       links: [
-        { label: 'Service & Support', href: '/support' },
         { label: 'Contact Us', href: '/contact-us' },
-        { label: 'Warranty & Return Policy', href: '/warranty' },
-        { label: 'Installation Service', href: '/solutions/installation' },
+        { label: 'FAQ’s', href: '/faqs' },
+        { label: 'Free Measure & Quote', href: '/contact-us/enquiry' },
+        { label: 'Care & Aftercare', href: '/faqs' },
         { label: 'Raise a Complaint', href: '/contact-us/complaints' },
       ],
     },
@@ -80,12 +80,12 @@ const COLUMNS = [
       title: 'Other Links',
       links: [
         { label: 'Blogs', href: '/blogs' },
-        { label: 'Certifications', href: '/solutions/certifications' },
-        { label: 'Investors', href: '/investors' },
-        { label: 'Privacy Policy', href: '/privacy-policy' },
-        { label: 'Terms & Conditions', href: '/terms' },
+        { label: 'Carpet Ranges', href: '/carpet' },
+        { label: 'Refund Policy', href: '/policies/refund-policy' },
+        { label: 'Privacy Policy', href: '/policies/privacy-policy' },
+        { label: 'Shipping Policy', href: '/policies/shipping-policy' },
+        { label: 'Terms of Service', href: '/policies/terms-of-service' },
         { label: 'Site Map', href: '/site-map' },
-        { label: 'Authorised Resellers', href: '/authorised-resellers' },
       ],
     },
   ],

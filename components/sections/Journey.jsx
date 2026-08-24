@@ -1,14 +1,15 @@
 import Link from 'next/link'
 import s from './Journey.module.css'
 
-/* Simpolo's four-up "start your journey" band. Each card is a full-bleed
-   plate whose label slides up and reveals a rule on hover. */
+/* Four-up closing band: the next step for a Canberra project — quote, showroom,
+   tiles, flooring. Each card is a full-bleed plate whose label slides up and
+   reveals a rule on hover. */
 
 const CARDS = [
-  { label: 'Catalogues', copy: 'Download the full range', href: '/downloads/catalogues', img: '/img/collections/basaltino.jpg' },
-  { label: 'About Us', copy: 'Five decades of surface', href: '/about', img: '/img/about/showroom.jpg' },
-  { label: 'Locate a Dealer', copy: '200+ stores across India', href: '/where-to-buy', img: '/img/cta/dealer.jpg' },
-  { label: 'Visit a Showroom', copy: 'See it at real scale', href: '/experience-centre', img: '/img/collections/alchimia.jpg' },
+  { label: 'Free Measure & Quote', copy: 'Book a time that suits you', href: '/contact-us', img: '/img/collections/basaltino.jpg' },
+  { label: 'Visit the Showroom', copy: '3 Pelle Street, Mitchell', href: '/about', img: '/img/about/showroom.jpg' },
+  { label: 'Browse the Tiles', copy: 'Indoor, outdoor and pavers', href: '/tiles', img: '/img/collections/alchimia.jpg' },
+  { label: 'Explore Flooring', copy: 'Talk to us about hybrid and timber', href: '/flooring/hybrid-flooring', img: '/img/flooring/hybrid-flooring.jpg' },
 ]
 
 export default function Journey() {
@@ -16,7 +17,7 @@ export default function Journey() {
     <section className={s.section}>
       <div className="container">
         <h2 className={'title ' + s.title} data-reveal>
-          Start your premium tiles &amp; bathware journey with Capital
+          Start your tile &amp; flooring project with Capital Tiles
         </h2>
       </div>
 

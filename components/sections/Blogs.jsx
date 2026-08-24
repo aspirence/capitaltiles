@@ -2,49 +2,49 @@ import Link from 'next/link'
 import Carousel from '../Carousel'
 import s from './Blogs.module.css'
 
-/* Titles track the artwork: several of these hero images carry the article
-   headline baked in, so the card copy has to match what the image says. */
+/* Titles track the artwork: each card is matched to the room or surface its
+   photo actually shows, so the copy never argues with the image. */
 const POSTS = [
   {
-    title: 'Grip tiles for outdoor: durable non-slip floors that last',
+    title: 'Slip ratings explained: choosing tiles for wet areas',
     date: '12 Aug 2026',
     cat: 'Technical',
-    href: '/blogs/grip-tiles-outdoor',
+    href: '/blogs/slip-ratings-wet-areas',
     img: '/img/blogs/blog-1.jpg',
   },
   {
-    title: 'Bedroom tile ideas that make a small room feel larger',
+    title: 'Wool, triexta or nylon: which carpet fibre suits you',
     date: '04 Aug 2026',
-    cat: 'Bedroom',
-    href: '/blogs/bedroom-tile-ideas',
+    cat: 'Carpet',
+    href: '/blogs/carpet-fibres-compared',
     img: '/img/blogs/blog-2.jpg',
   },
   {
-    title: 'Easy living room decor ideas to transform your home fast',
+    title: 'Tiling over an existing floor: what we check first',
     date: '28 Jul 2026',
-    cat: 'Living',
-    href: '/blogs/living-room-decor-ideas',
+    cat: 'Renovation',
+    href: '/blogs/tiling-over-an-existing-floor',
     img: '/img/blogs/blog-3.jpg',
   },
   {
-    title: 'Top 10 kitchen sink designs for modern Indian homes',
+    title: 'Hybrid or laminate: choosing the right floor for your home',
     date: '19 Jul 2026',
-    cat: 'Kitchen',
-    href: '/blogs/kitchen-sink-designs',
+    cat: 'Flooring',
+    href: '/blogs/hybrid-or-laminate',
     img: '/img/blogs/blog-4.jpg',
   },
   {
-    title: 'Modern basin design ideas worth specifying this year',
+    title: 'Getting your floors ready for a Canberra winter',
     date: '09 Jul 2026',
-    cat: 'Bathware',
-    href: '/blogs/modern-basin-designs',
+    cat: 'Seasonal',
+    href: '/blogs/floors-ready-for-canberra-winter',
     img: '/img/blogs/blog-5.jpg',
   },
   {
-    title: 'Creative tile patterns for every room in your house',
+    title: 'Caring for grout: sealing, cleaning and regrouting',
     date: '02 Jul 2026',
-    cat: 'Inspiration',
-    href: '/blogs/creative-tile-patterns',
+    cat: 'Care',
+    href: '/blogs/caring-for-grout',
     img: '/img/blogs/blog-6.jpg',
   },
 ]

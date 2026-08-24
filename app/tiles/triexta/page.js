@@ -68,6 +68,8 @@ export default function TriextaTilesPage() {
         heading="Floor tiles for living, bedrooms &amp; hallways"
         paragraphs={PARAGRAPHS}
         faqs={FAQS}
+        faqEyebrow="From sizing to sealing"
+        faqLede="Choosing a floor comes down to format, finish and what is already underneath it. Below are the answers we give most often — on sizing, matt versus polished, sealing, tiling over an existing floor and how long a job takes."
         related={RELATED}
       />
     </>

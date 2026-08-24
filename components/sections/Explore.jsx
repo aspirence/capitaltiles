@@ -5,43 +5,43 @@ import Link from 'next/link'
 import Carousel from '../Carousel'
 import s from './Explore.module.css'
 
-/* The Simpolo "Explore Premium Tiles Collection" block: one tab rail over a
-   carousel of space / finish / colour cards. */
+/* The range browser: one tab rail over a carousel of cards, mirroring the top
+   menu — Tiles (indoor, outdoor, by type), Flooring and Carpet. */
 
 const TABS = [
   {
-    label: 'Locations',
+    label: 'Tiles',
     items: [
-      { label: 'Living Room', href: '/tiles/living-room', img: '/img/spaces/livingroom.jpg' },
-      { label: 'Bathroom', href: '/tiles/bathroom', img: '/img/spaces/bathroom.jpg' },
-      { label: 'Triexta Tiles', href: '/tiles/triexta', img: '/img/spaces/bedroom.jpg' },
-      { label: 'Kitchen', href: '/tiles/kitchen', img: '/img/spaces/kitchen.jpg' },
-      { label: 'Pool Tiles', href: '/tiles/pool', img: '/img/spaces/balcony.jpg' },
-      { label: 'Outdoor', href: '/tiles/outdoor', img: '/img/spaces/outdoor.jpg' },
-      { label: 'Wall Tiles', href: '/tiles/wall', img: '/img/spaces/staircase.jpg' },
-      { label: 'Patio Tiles', href: '/tiles/patio', img: '/img/spaces/commercial.jpg' },
+      { label: 'Floor Tiles', href: '/tiles/floor-tiles', img: '/img/spaces/livingroom.jpg' },
+      { label: 'Wall Tiles', href: '/tiles/wall', img: '/img/spaces/bathroom.jpg' },
+      { label: 'Pool Tiles', href: '/tiles/pool', img: '/img/pool/altto-glass-pool-mosaics.jpg' },
+      { label: 'Patio Tiles', href: '/tiles/patio', img: '/img/spaces/outdoor.jpg' },
+      { label: 'Pavers', href: '/tiles/outdoor', img: '/img/outdoor/chiswick-paver-collection.jpg' },
+      { label: 'Mosaic Tiles', href: '/tiles/mosaic', img: '/img/wall/kit-kat-mosaic.jpg' },
+      { label: 'Mega Slab', href: '/tiles/mega-slab', img: '/img/spaces/commercial.jpg' },
+      { label: 'Subway Tiles', href: '/tiles/subway', img: '/img/wall/aroma-collection.jpg' },
     ],
   },
   {
-    label: 'Effects',
+    label: 'Flooring',
     items: [
-      { label: 'Marble', href: '/tiles/marble', img: '/img/collections/venitto.jpg' },
-      { label: 'Stone', href: '/tiles/stone', img: '/img/collections/glyphstone.jpg' },
-      { label: 'Concrete', href: '/tiles/concrete', img: '/img/collections/basaltino.jpg' },
-      { label: 'Metallic', href: '/tiles/metallic', img: '/img/collections/alchimia.jpg' },
-      { label: 'Rustic', href: '/tiles/rustic', img: '/img/collections/sparko.jpg' },
-      { label: 'Decor', href: '/tiles/decor', img: '/img/spaces/elevation.jpg' },
+      { label: 'Hybrid Flooring', href: '/flooring/hybrid-flooring', img: '/img/flooring/hybrid-flooring.jpg' },
+      { label: 'Laminate Flooring', href: '/flooring/laminate-flooring', img: '/img/flooring/laminate-flooring.jpg' },
+      { label: 'Engineered Timber', href: '/flooring/engineered-timber', img: '/img/flooring/engineered-timber.jpg' },
+      { label: 'Natural Timber', href: '/flooring/natural-timber', img: '/img/hybrid/spotted-gum.jpg' },
+      { label: 'Vinyl Flooring', href: '/flooring/vinyl', img: '/img/flooring/vinyl.jpg' },
+      { label: 'Flooring Installation', href: '/installation', img: '/img/hybrid/blackbutt.jpg' },
     ],
   },
   {
-    label: 'Colours',
+    label: 'Carpet',
     items: [
-      { label: 'White', href: '/tiles/white', img: '/img/collections/basaltino.jpg' },
-      { label: 'Black', href: '/tiles/black', img: '/img/collections/alchimia.jpg' },
-      { label: 'Grey', href: '/tiles/grey', img: '/img/collections/glyphstone.jpg' },
-      { label: 'Cream', href: '/tiles/cream', img: '/img/collections/sparko.jpg' },
-      { label: 'Brown', href: '/tiles/brown', img: '/img/collections/venitto.jpg' },
-      { label: 'Beige', href: '/tiles/beige', img: '/img/spaces/bedroom.jpg' },
+      { label: 'Bedrooms', href: '/carpet/wool', img: '/img/blogs/blog-2.jpg' },
+      { label: 'Living Rooms', href: '/tiles/triexta', img: '/img/social/social-5.jpg' },
+      { label: 'Family & Media Rooms', href: '/carpet/duratuft', img: '/img/social/social-4.jpg' },
+      { label: "Guest & Kids' Rooms", href: '/carpet/polyester', img: '/img/spaces/bedroom.jpg' },
+      { label: 'Offices & Shops', href: '/carpet/commercial', img: '/img/social/social-8.jpg' },
+      { label: 'Cafes & Hospitality', href: '/carpet/polypropylene', img: '/img/featured/feat-4.jpg' },
     ],
   },
 ]
@@ -58,17 +58,17 @@ export default function Explore() {
           colsTablet={2.4}
           colsMobile={1.3}
           arrows="head"
-          label="Tile categories"
+          label="Product ranges"
           headSlot={
             <div className={s.head}>
               <div>
                 <p className="eyebrow" data-reveal>Browse the range</p>
                 <h2 className={'title ' + s.title} data-reveal style={{ '--reveal-delay': '80ms' }}>
-                  Explore Premium Tiles Collection
+                  Explore Tiles, Flooring and Carpet
                 </h2>
               </div>
 
-              <div className={s.tabs} role="tablist" aria-label="Browse tiles by">
+              <div className={s.tabs} role="tablist" aria-label="Browse by category">
                 {TABS.map((t, i) => (
                   <button
                     key={t.label}
@@ -89,7 +89,7 @@ export default function Explore() {
             <li key={item.label} data-reveal style={{ '--reveal-delay': i * 70 + 'ms' }}>
               <Link href={item.href} className={s.card}>
                 <span className={'zoomFrame ' + s.frame}>
-                  <img src={item.img} alt={item.label + ' tiles'} loading="lazy" />
+                  <img src={item.img} alt={item.label} loading="lazy" />
                   <span className={s.veil} aria-hidden="true" />
                   <span className={s.plus} aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"

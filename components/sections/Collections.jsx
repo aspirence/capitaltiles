@@ -4,23 +4,23 @@ import { useState } from 'react'
 import Link from 'next/link'
 import s from './Collections.module.css'
 
-/* "Latest Collection" as an editorial index: hovering a name cross-fades the
+/* The flooring range as an editorial index: hovering a name cross-fades the
    plate on the right, so the whole section reads as one moving object rather
    than a row of cards. Touch users get the same result on tap-through. */
 
 const ITEMS = [
   {
     name: 'Hybrid Flooring',
-    tag: '100% Waterproof · Rigid Core',
-    copy: 'Rigid-core planks that are completely waterproof — the safest choice for open-plan living and kitchens.',
+    tag: 'Waterproof · Rigid Core',
+    copy: 'Rigid-core planks that shrug off spills, so one floor can run from the kitchen through to the living room.',
     href: '/flooring/hybrid-flooring',
     img: '/img/flooring/hybrid-flooring.jpg',
     swatch: '/img/flooring/hybrid-flooring.jpg',
   },
   {
     name: 'Engineered Timber',
-    tag: 'Real Oak · 12–15mm',
-    copy: 'A genuine hardwood wear layer over a stable core, so you get real timber that copes with Canberra swings.',
+    tag: 'Real Timber · Stable Core',
+    copy: 'A genuine timber wear layer over a stable core, so you get real grain that copes with Canberra winters.',
     href: '/flooring/engineered-timber',
     img: '/img/flooring/engineered-timber.jpg',
     swatch: '/img/flooring/engineered-timber.jpg',
@@ -28,15 +28,15 @@ const ITEMS = [
   {
     name: 'Laminate Flooring',
     tag: 'Hard Wearing · Value',
-    copy: 'The timber look at a lower price point, with a tough wear layer built for busy households.',
+    copy: 'The timber look at a friendlier price, with a tough wear layer built for kids, pets and hallway traffic.',
     href: '/flooring/laminate-flooring',
     img: '/img/flooring/laminate-flooring.jpg',
     swatch: '/img/flooring/laminate-flooring.jpg',
   },
   {
     name: 'Vinyl Flooring',
-    tag: 'Luxury Planks · Quiet',
-    copy: 'Softer and quieter underfoot than a hard surface, and forgiving on a subfloor that is not perfectly flat.',
+    tag: 'Quiet · Warm Underfoot',
+    copy: 'Softer and quieter than a hard surface, and forgiving over a subfloor that is not perfectly level.',
     href: '/flooring/vinyl',
     img: '/img/flooring/vinyl.jpg',
     swatch: '/img/flooring/vinyl.jpg',
@@ -51,13 +51,13 @@ export default function Collections() {
       <div className="container">
         <div className={s.head}>
           <div>
-            <p className="eyebrow" data-reveal>New this season</p>
+            <p className="eyebrow" data-reveal>The flooring range</p>
             <h2 className={'title ' + s.title} data-reveal style={{ '--reveal-delay': '80ms' }}>
-              Latest Vitrified Tiles Collection
+              Hybrid, Laminate, Timber and Vinyl
             </h2>
           </div>
-          <Link href="/tiles" className={'linkUnder ' + s.viewAll} data-reveal>
-            View all collections
+          <Link href="/flooring" className={'linkUnder ' + s.viewAll} data-reveal>
+            View all flooring
           </Link>
         </div>
 
@@ -70,7 +70,7 @@ export default function Collections() {
                 className={i === active ? s.plate + ' ' + s.plateOn : s.plate}
                 aria-hidden={i !== active}
               >
-                <img src={item.img} alt={item.name + ' collection'} loading="lazy" />
+                <img src={item.img} alt={item.name} loading="lazy" />
                 <figcaption>
                   <span className={s.plateName}>{item.name}</span>
                   <span className={s.plateTag}>{item.tag}</span>

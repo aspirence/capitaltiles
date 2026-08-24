@@ -1,0 +1,306 @@
+/* ---- banner ------------------------------------------------------------- */
+.banner {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: clamp(20rem, 38vw, 32rem);
+  overflow: hidden;
+  background: var(--black);
+}
+.banner > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* The photo behind the copy is a mid-brown concrete, close in hue to the gold
+   eyebrow, so a light scrim left the kicker washed out. Darkened through the
+   band where the text sits rather than tinting the gold, which has to stay
+   bright to read on a dark surface. */
+.bannerShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.62) 55%, rgba(0, 0, 0, 0.55));
+}
+.bannerInner {
+  position: relative;
+  z-index: 1;
+  padding-top: calc(var(--header-h) + clamp(3rem, 6vw, 6rem));
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
+  color: var(--white);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: clamp(1rem, 1.8vw, 1.5rem);
+  font-size: var(--f-small);
+  color: rgba(255, 255, 255, 0.75);
+}
+.crumbs i { font-style: normal; opacity: 0.5; }
+.crumbs a { transition: color 0.3s var(--ease); }
+.crumbs a:hover { color: var(--white); }
+
+.bannerEyebrow {
+  margin-bottom: 0.8rem;
+  font-size: var(--f-small);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.bannerTitle {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-display);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--white);
+}
+
+/* ---- shared ------------------------------------------------------------- */
+.h2 { color: var(--ink); }
+.head { margin-bottom: clamp(2rem, 3.5vw, 3.25rem); }
+
+/* ---- intro -------------------------------------------------------------- */
+.intro { background: var(--grey-bg); }
+.introGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(1.75rem, 5vw, 5.5rem);
+  align-items: start;
+}
+
+/* No max-width here — the grid column is the constraint. A ch cap on this
+   wrapper resolves against the BODY font, not the heading, which squeezed the
+   column to ~240px and broke the title over four lines. */
+.introHead { min-width: 0; }
+/* `balance` stops the heading dropping a two-word orphan onto its own line. */
+.introTitle {
+  margin-top: 0.7rem;
+  font-size: clamp(1.55rem, 2.5vw, 2.35rem);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+/* Thin rule + service marks: gives the heading column weight so it no longer
+   ends in a void beside the taller copy column. */
+.introMarks {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: clamp(1.5rem, 2.6vw, 2.25rem);
+  padding-top: clamp(1.25rem, 2.2vw, 1.75rem);
+  border-top: 1px solid var(--grey-line);
+}
+.introMarks li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+.introMarks li::before {
+  content: '';
+  flex: none;
+  width: 0.42rem;
+  height: 0.42rem;
+  border: 1px solid var(--gold-deep);
+  transform: rotate(45deg);
+}
+
+/* 62ch keeps the measure in the comfortable reading band — it was running to
+   ~99 characters a line, which is what made this read as a wall of text. */
+.introCopy {
+  display: grid;
+  gap: 1.15rem;
+  max-width: 62ch;
+  color: var(--grey-text);
+  line-height: 1.95;
+}
+.introCopy p:first-child { color: var(--ink); font-size: var(--f-sub); line-height: 1.7; }
+
+/* ---- what we install ---------------------------------------------------- */
+.work { background: var(--white); }
+.workGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.4vw, 2.5rem);
+}
+.workCard { display: block; }
+.workFrame {
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: var(--grey-line);
+}
+.workFrame img { width: 100%; height: 100%; object-fit: cover; }
+
+.workBody { display: block; padding-top: 1.1rem; }
+.workTitle {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-sub);
+  color: var(--ink);
+  transition: color 0.35s var(--ease);
+}
+.workCard:hover .workTitle { color: var(--gold); }
+.workCopy {
+  display: block;
+  font-size: var(--f-small);
+  line-height: 1.9;
+  color: var(--grey-text);
+}
+
+/* ---- why choose us ------------------------------------------------------ */
+.why { background: var(--grey-bg); }
+.whyGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1.5rem, 2.6vw, 2.75rem);
+}
+.whyIcon {
+  display: grid;
+  place-items: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  margin-bottom: 1.1rem;
+  padding: 0.7rem;
+  border: 1px solid var(--grey-line);
+  border-radius: 50%;
+  background: var(--white);
+}
+.whyIcon img { width: 100%; height: 100%; object-fit: contain; }
+
+.whyTitle {
+  margin-bottom: 0.6rem;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-sub);
+  font-weight: 400;
+  color: var(--ink);
+}
+.whyCopy { font-size: var(--f-small); line-height: 1.9; color: var(--grey-text); }
+
+/* ---- feature band ------------------------------------------------------- */
+.band { background: var(--white); }
+.bandGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.75rem, 4vw, 4.5rem);
+  align-items: center;
+  padding-block: clamp(3rem, 5.5vw, 6.5rem);
+}
+.bandMedia { aspect-ratio: 4 / 3; overflow: hidden; background: var(--grey-line); }
+.bandMedia img { width: 100%; height: 100%; object-fit: cover; }
+
+.bandCopy .h2 { margin-bottom: 1.4rem; }
+
+.points { display: grid; gap: 0.85rem; margin-bottom: 2rem; }
+.points li {
+  position: relative;
+  padding-left: 1.6rem;
+  font-size: var(--f-small);
+  line-height: 1.85;
+  color: var(--grey-text);
+}
+.points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid var(--gold);
+  transform: rotate(45deg);
+}
+
+.areasLabel {
+  font-size: var(--f-small);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin-bottom: 0.5rem;
+}
+.areas { font-size: var(--f-small); line-height: 1.9; color: var(--grey-text); }
+
+/* ---- closing cta -------------------------------------------------------- */
+.cta { background: var(--grey-bg); }
+.ctaInner { text-align: center; }
+.ctaTitle { max-width: 22ch; margin-inline: auto; }
+.ctaLede {
+  max-width: 60ch;
+  margin: 1.1rem auto 0;
+  line-height: 1.9;
+  color: var(--grey-text);
+}
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+}
+.phone {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: var(--f-sub);
+  color: var(--ink);
+  border-bottom: 1px solid var(--gold);
+  transition: color 0.3s var(--ease);
+}
+.phone:hover { color: var(--gold); }
+
+/* ---- responsive --------------------------------------------------------- */
+@media (max-width: 1000px) {
+  .whyGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 880px) {
+  .introGrid { grid-template-columns: 1fr; }
+  .workGrid { grid-template-columns: 1fr; }
+  .bandGrid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .whyGrid { grid-template-columns: 1fr; }
+}
+
+/* ---- mobile only -------------------------------------------------------- */
+@media (max-width: 700px) {
+  /* Banner kicker: white so it reads against the photo, and tightened enough
+     that it holds one line at 360px instead of breaking after "MEASURE &". */
+  .bannerEyebrow {
+    color: var(--white);
+    font-size: clamp(0.58rem, 2.75vw, 0.72rem);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  /* The four marks become a one-at-a-time slider. Grid columns are dropped in
+     favour of a flex track so each card can take the full width. */
+  .whyGrid {
+    display: flex;
+    grid-template-columns: none;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* let the cards run to the container edge rather than sitting in a box */
+    margin-inline: calc(clamp(1rem, 4vw, 4rem) * -1);
+    padding-inline: clamp(1rem, 4vw, 4rem);
+  }
+  .whyGrid::-webkit-scrollbar { display: none; }
+
+  .whyGrid > li {
+    flex: 0 0 100%;
+    min-width: 0;
+    scroll-snap-align: center;
+    text-align: center;
+  }
+
+  /* centred under the card rather than hard left */
+  .whyIcon { margin-inline: auto; }
+
+  .whyCopy { max-width: 34ch; margin-inline: auto; }
+}

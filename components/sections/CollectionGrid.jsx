@@ -98,6 +98,11 @@ export default function CollectionGrid({ items: all, heading, basePath, imgPath 
             </button>
             <div className={s.groupPanel}>
               <ul>
+                {/* Not every range publishes every facet. Say so rather than
+                    opening onto nothing, which reads as a filter that is broken. */}
+                {g.values.length === 0 && (
+                  <li className={s.optNone}>Not listed for this range</li>
+                )}
                 {g.values.map(([value, count]) => {
                   const checked = picked[g.key]?.has(value) || false
                   return (
@@ -119,17 +124,22 @@ export default function CollectionGrid({ items: all, heading, basePath, imgPath 
     </div>
   )
 
+  /* A collection with nothing in it yet: there is nothing to filter or sort,
+     so the rail and the controls are dropped and only the notice remains. */
+  const bare = all.length === 0
+
   return (
     <section className={s.section}>
-      <div className={'container ' + s.layout}>
+      <div className={'container ' + (bare ? s.layoutBare : s.layout)}>
         {/* ---- filter rail ---- */}
-        <aside className={s.railWrap}>{rail}</aside>
+        {!bare && <aside className={s.railWrap}>{rail}</aside>}
 
         {/* ---- results ---- */}
         <div className={s.results}>
           <div className={s.head}>
             <h2 className={s.title}>{heading}</h2>
 
+            {!bare && (
             <div className={s.meta}>
               <button type="button" className={s.filterBtn} onClick={() => setDrawer(true)}>
                 Filters{activeCount > 0 ? ` (${activeCount})` : ''}
@@ -146,9 +156,16 @@ export default function CollectionGrid({ items: all, heading, basePath, imgPath 
                 </select>
               </label>
             </div>
+            )}
           </div>
 
-          {items.length === 0 ? (
+          {bare ? (
+            <p className={s.empty}>
+              Sorry, there are no products in this collection yet.{' '}
+              <Link href="/contact-us">Talk to our team</Link> — we can order this range in,
+              or show you what is on the floor at Mitchell.
+            </p>
+          ) : items.length === 0 ? (
             <p className={s.empty}>
               Nothing matches those filters.{' '}
               <button type="button" onClick={clearAll}>Clear them</button> to see the full range.
@@ -194,17 +211,21 @@ export default function CollectionGrid({ items: all, heading, basePath, imgPath 
       </div>
 
       {/* ---- filter drawer (small screens) ---- */}
-      <div className={drawer ? s.scrim + ' ' + s.scrimOn : s.scrim}
-        onClick={() => setDrawer(false)} aria-hidden="true" />
-      <aside className={drawer ? s.drawer + ' ' + s.drawerOn : s.drawer} aria-hidden={!drawer}>
-        {rail}
-        <div className={s.drawerFoot}>
-          <button type="button" onClick={clearAll}>Clear</button>
-          <button type="button" className={s.apply} onClick={() => setDrawer(false)}>
-            Show {items.length}
-          </button>
-        </div>
-      </aside>
+      {!bare && (
+        <>
+          <div className={drawer ? s.scrim + ' ' + s.scrimOn : s.scrim}
+            onClick={() => setDrawer(false)} aria-hidden="true" />
+          <aside className={drawer ? s.drawer + ' ' + s.drawerOn : s.drawer} aria-hidden={!drawer}>
+            {rail}
+            <div className={s.drawerFoot}>
+              <button type="button" onClick={clearAll}>Clear</button>
+              <button type="button" className={s.apply} onClick={() => setDrawer(false)}>
+                Show {items.length}
+              </button>
+            </div>
+          </aside>
+        </>
+      )}
     </section>
   )
 }

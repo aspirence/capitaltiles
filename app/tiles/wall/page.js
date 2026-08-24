@@ -68,6 +68,8 @@ export default function WallTilesPage() {
         heading="Splashbacks, shower walls &amp; feature surfaces"
         paragraphs={PARAGRAPHS}
         faqs={FAQS}
+        faqEyebrow="Your splashback and feature wall"
+        faqLede="Gloss or matt, whether a floor tile can go on a wall, how fluted profiles hold up in a shower, keeping grout from discolouring — these are the questions Canberra customers ask before committing to a splashback or feature wall."
         related={RELATED}
       />
     </>

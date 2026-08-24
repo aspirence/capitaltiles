@@ -5,9 +5,9 @@ import Reveal from '@/components/Reveal'
 import FloatingActions from '@/components/FloatingActions'
 
 export const metadata = {
-  title: 'Capital Tiles — Premium Tiles, Bathware & Surfaces',
+  title: 'Capital Tiles & Flooring — Canberra Tiles, Flooring & Carpet',
   description:
-    'Capital Tiles crafts premium vitrified tiles, bathware and surfaces for modern Indian homes. Explore collections, visualise your space and find a showroom near you.',
+    'Capital Tiles & Flooring supplies and installs tiles, flooring and carpet across Canberra. Visit our Mitchell showroom or book a free measure and quote.',
 }
 
 export const viewport = {

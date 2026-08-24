@@ -84,13 +84,17 @@
 .slideOn .copy .eyebrow { transition-delay: 0.35s; }
 .slideOn .copy .title { transition-delay: 0.5s; }
 .slideOn .copy .subtitle { transition-delay: 0.65s; }
-.slideOn .copy :global(.cta) { transition-delay: 0.8s; }
+/* The .cta carries its own colour/border-color transition from globals.css, and
+   a blanket transition-delay here lands on THAT, not on an entrance animation —
+   it held the label at its resting colour for 0.8s while the hover wipe covered
+   the button in 0.4s, so the text sat same-on-same and read as disappearing. */
+.slideOn .copy :global(.cta) { transition-delay: 0s; }
 
 .eyebrow {
   font-size: var(--f-small);
   letter-spacing: 0.34em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.92);
   margin-bottom: 1.1rem;
 }
 
@@ -107,7 +111,7 @@
 .subtitle {
   margin: 0.9rem 0 2.1rem;
   font-size: var(--f-sub);
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.97);
 }
 
 /* ---- arrows ------------------------------------------------------------- */
@@ -145,8 +149,7 @@
   z-index: 5;
   color: var(--white);
 }
-/* Dots sit centred in the flow; the scroll cue is pulled out to the right so
-   removing the old slide counter does not knock them off centre. */
+/* Holds the scroll cue at the foot of the hero. */
 .controlsInner {
   position: relative;
   display: flex;
@@ -154,36 +157,6 @@
   justify-content: center;
   gap: 1.5rem;
   min-height: 2.6rem;
-}
-
-.dots { display: flex; gap: 0.65rem; }
-.dots button {
-  position: relative;
-  width: clamp(1.9rem, 3.6vw, 3.2rem);
-  height: 2px;
-  padding: 0;
-  border: 0;
-  background: rgba(255, 255, 255, 0.35);
-  cursor: pointer;
-  overflow: hidden;
-}
-.dots button::after {
-  /* enlarges the tap target without changing the visual rule */
-  content: '';
-  position: absolute;
-  inset: -12px 0;
-}
-.dotFill {
-  display: block;
-  height: 100%;
-  width: 0;
-  background: var(--white);
-}
-.dotOn .dotFill { animation: fill linear forwards; }
-
-@keyframes fill {
-  from { width: 0; }
-  to { width: 100%; }
 }
 
 .scrollCue {
@@ -217,8 +190,8 @@
 @media (max-width: 900px) {
   .scrollCue { display: none; }
 
-  /* Swipe and the dots drive the carousel here: the arrows would either sit
-     on the headline or collide with the floating action rail. */
+  /* Swipe drives the carousel here: the arrows would either sit on the
+     headline or collide with the floating action rail. */
   .arrow { display: none; }
 
   .copy { padding-top: 2rem; }
@@ -227,7 +200,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .media img { transform: none; transition: none; }
-  .dotOn .dotFill { animation: none; width: 100%; }
   .scrollCue span { animation: none; }
   .slideOn .copy > .container > * { transition: none; }
 }

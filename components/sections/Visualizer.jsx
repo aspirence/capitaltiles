@@ -1,23 +1,23 @@
 import Link from 'next/link'
 import s from './Visualizer.module.css'
 
-/* Simpolo's digital-showroom block: a statement, then two full-height doors
-   that lift their label and brighten their plate on hover. */
+/* Two ways to get started: a statement, then two full-height doors that lift
+   their label and brighten their plate on hover. */
 
 const DOORS = [
   {
-    kicker: 'Digital',
-    title: 'Showroom',
-    copy: 'Walk the full range in 3D and see every tile at real scale before you commit.',
-    href: '/visualizer/showroom',
+    kicker: 'Free',
+    title: 'Measure & Quote',
+    copy: 'We come to you, measure up and check the subfloor, then put the numbers in writing.',
+    href: '/contact-us/enquiry',
     img: '/img/visualizer/showroom.webp',
   },
   {
-    kicker: 'Virtual',
-    title: 'Space Creator',
-    copy: 'Lay your own floor plan, drop in furniture and light it — then export the spec.',
-    href: '/visualizer/space-creator',
-    img: '/img/visualizer/space-creator.webp',
+    kicker: 'Mitchell',
+    title: 'Showroom',
+    copy: 'Full sheets under proper light, boards you can walk on, samples to take home.',
+    href: '/contact-us',
+    img: '/img/spaces/commercial.jpg',
   },
 ]
 
@@ -27,16 +27,16 @@ export default function Visualizer() {
       <div className="container">
         <div className={s.head}>
           <div>
-            <p className="eyebrow" data-reveal>Design tools</p>
+            <p className="eyebrow" data-reveal>Two ways to start</p>
             <h2 className={'title ' + s.title} data-reveal style={{ '--reveal-delay': '80ms' }}>
-              Transform your spaces effortlessly
+              Get the measure of your project
             </h2>
           </div>
           <p className={'lede ' + s.lede} data-reveal style={{ '--reveal-delay': '160ms' }}>
-            Capital&rsquo;s Digital Showroom and Virtual Space Creator let you select tiles online and
-            design your home from anywhere. Browse the complete range, preview surfaces in 3D and
-            check how floor and wall tiles read together — furniture, fixtures and budget included,
-            in ultra-realistic detail.
+            Book a free measure and quote and we&rsquo;ll come to you, check the subfloor and price
+            the job in writing — supply only, or supply and install. Or call into the Mitchell
+            showroom, see full sheets and boards at proper size and take samples home to sit them
+            against your own light and colours.
           </p>
         </div>
 
@@ -57,7 +57,7 @@ export default function Visualizer() {
                 <span className={s.doorTitle}>{d.title}</span>
                 <span className={s.doorCopy}>{d.copy}</span>
                 <span className={s.doorCta}>
-                  Discover
+                  Find out more
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
                     strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M5 12h14M13 6l6 6-6 6" />
@@ -69,8 +69,8 @@ export default function Visualizer() {
         </div>
 
         <div className={s.strip} data-reveal style={{ '--reveal-delay': '200ms' }}>
-          <span>Capital tiles design, at your fingertips</span>
-          <Link href="/visualizer/calculator" className="linkUnder">Try the tiles calculator</Link>
+          <span>Free measure and quote across Canberra and Queanbeyan</span>
+          <Link href="/contact-us" className="linkUnder">Showroom hours and directions</Link>
         </div>
       </div>
     </section>

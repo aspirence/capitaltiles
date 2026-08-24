@@ -11,8 +11,8 @@
 .btn {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   border: 0;
   border-radius: 50%;
   background: var(--black);
@@ -39,5 +39,5 @@
 .topOn:hover { transform: translateY(-3px) scale(1.05); }
 
 @media (max-width: 640px) {
-  .btn { width: 40px; height: 40px; }
+  .btn { width: 46px; height: 46px; }
 }

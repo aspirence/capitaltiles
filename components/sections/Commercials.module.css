@@ -112,7 +112,14 @@
   from { opacity: 0; transform: scale(0.96) translateY(12px); }
 }
 
-.lightbox img { width: 100%; height: auto; }
+.lightbox img,
+.lightbox video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 78vh;
+  background: #000;
+}
 .lightbox figcaption {
   margin-top: 1rem;
   font-family: 'Fraunces', Georgia, serif;

@@ -92,3 +92,6 @@
   .tileLabel { font-size: 0.9rem; }
   .tileSub { display: none; }
 }
+
+/* Dark section: the global .eyebrow default is tuned for light surfaces. */
+.section :global(.eyebrow) { color: var(--gold); }

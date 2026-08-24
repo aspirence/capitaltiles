@@ -9,8 +9,8 @@ export const HYBRID = [
     blurb: "Engineered with the latest hybrid technology, Oakridge combines superior strength and long-lasting performance, making it the ideal choice for every m",
     brand: "National Flooring Distributors",
     colours: ["Antique Walnut", "Coraki Blackbutt", "Hillside Oak", "Limed Oak", "Northern Spotted Gum", "Oyster Driftwood", "Sandy Oak", "Tassie Oak"],
-    finishes: [],
-    sizes: [],
+    finishes: ["Limed"],
+    sizes: ["6.5mm"],
   },
   {
     name: "Daybreak 7mm",
@@ -18,8 +18,8 @@ export const HYBRID = [
     blurb: "Daybreak is designed for living and made to impress, bringing effortless style to your floors. Whether you’re building a new space or refreshing an ol",
     brand: "National Flooring Distributors",
     colours: ["Brushed Honey Oak 7002", "Country Oak 7001", "Mountain Misty Oak 7003", "Natural Spotted Gum 7009", "Refined Blackbutt 7010", "Riverstone Oak 7006", "Snowy Oak 7004", "Tasmanian Oak 7008", "Wild Valley Oak 7007", "Winter Fawn Oak 7005"],
-    finishes: [],
-    sizes: [],
+    finishes: ["Brushed", "Matt"],
+    sizes: ["7mm"],
   },
   {
     name: "Bespoke 9mm",
@@ -27,8 +27,8 @@ export const HYBRID = [
     blurb: "Bespoke Hybrid Flooring delivers the perfect balance of luxury, durability and acoustic comfort for modern Australian homes and commercial spaces. Ins",
     brand: "National Flooring Distributors",
     colours: ["Ashen Mist", "Classic Teak", "Coastline Oak", "Ernest Spotted Gum", "Field Oak", "Hazel Oak", "Stanley Oak", "Sterline Oak", "Village Blackbutt", "Weathered Blackbutt"],
-    finishes: [],
-    sizes: [],
+    finishes: ["Matt"],
+    sizes: ["9mm"],
   },
   {
     name: "Tawny Brown",
@@ -45,7 +45,7 @@ export const HYBRID = [
     blurb: "Modern Durability with Everyday Style Grey Ironbark hybrid flooring strikes the perfect balance of durability, comfort and contemporary design. With i",
     brand: "Capital Tiles",
     colours: [],
-    finishes: [],
+    finishes: ["Textured"],
     sizes: [],
   },
   {
@@ -72,7 +72,7 @@ export const HYBRID = [
     blurb: "Durable, Waterproof, Acoustic Timber Floors for Canberra Homes The Spotted Gum collection brings the rich, earthy character of native Australian hardw",
     brand: "Capital Tiles",
     colours: [],
-    finishes: [],
+    finishes: ["Brushed"],
     sizes: [],
   },
   {
@@ -144,7 +144,7 @@ export const HYBRID = [
     blurb: "Charcoal Grey brings modern depth and texture to any interior while delivering premium performance. With a water-resistant core, natural oak veneer, a",
     brand: "Capital Tiles",
     colours: [],
-    finishes: [],
+    finishes: ["Brushed", "Matt"],
     sizes: [],
   },
   {
@@ -153,7 +153,7 @@ export const HYBRID = [
     blurb: "Natural Timber Appeal with Next-Gen Performance Bring timeless Australian character into your space with Pacific Spotted Gum 6.5 mm Hybrid Flooring — ",
     brand: "Capital Tiles",
     colours: [],
-    finishes: [],
-    sizes: [],
+    finishes: ["Matt"],
+    sizes: ["6.5mm"],
   },
 ]

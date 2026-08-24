@@ -5,45 +5,45 @@ import Link from 'next/link'
 import s from './Hero.module.css'
 
 /* ---------------------------------------------------------------------------
-   Full-bleed banner, after the Simpolo reference: a slow cross-fade between
-   slides, a Ken Burns push on whichever slide is active, copy that rises out
-   of a blur, circular arrows, a numbered counter and a progress bar that
-   tracks the autoplay timer.
+   Full-bleed banner introducing what we do — tiles, flooring, carpet and
+   installation: a slow cross-fade between slides, a Ken Burns push on
+   whichever slide is active, copy that rises out of a blur, circular arrows
+   and a progress bar that tracks the autoplay timer.
    ------------------------------------------------------------------------- */
 
 const SLIDES = [
   {
-    title: 'Glyphstone Collection',
-    subtitle: 'Inspired by petroglyphs',
-    href: '/tiles/collection/glyphstone',
+    title: 'Tiles For Every Room',
+    subtitle: 'Floor, wall and outdoor ranges, on display in Mitchell',
+    href: '/tiles/wall',
     img: '/img/hero/hero-0.jpg',
     mob: '/img/hero/hero-m-0.jpg',
   },
   {
-    title: 'Venitto Collection',
-    subtitle: 'Unique terrazzo designs',
-    href: '/tiles/collection/venitto',
+    title: 'Flooring That Wears Well',
+    subtitle: 'Hybrid, laminate, engineered and natural timber, and vinyl',
+    href: '/flooring/hybrid-flooring',
     img: '/img/hero/hero-1.jpg',
     mob: '/img/hero/hero-m-1.jpg',
   },
   {
-    title: 'Alchimia Collection',
-    subtitle: 'A blend of raw potential & artistry',
-    href: '/tiles/collection/alchimia',
+    title: 'Supplied And Installed',
+    subtitle: 'Old floor removal, subfloor prep, laying, grouting, sealing',
+    href: '/installation',
     img: '/img/hero/hero-2.jpg',
     mob: '/img/hero/hero-m-2.jpg',
   },
   {
-    title: 'Sparko Collection',
-    subtitle: 'Make your home look expensive',
-    href: '/tiles/collection/sparko',
+    title: 'Bedrooms And Living Rooms',
+    subtitle: 'Carpet in wool, triexta, polyester and solution dyed nylon',
+    href: '/tiles/triexta',
     img: '/img/hero/hero-3.jpg',
     mob: '/img/hero/hero-m-3.jpg',
   },
   {
-    title: 'Basaltino Collection',
-    subtitle: 'Exclusive stone-inspired surfaces',
-    href: '/tiles/collection/basaltino',
+    title: 'Free Measure & Quote',
+    subtitle: 'Indoors or out, anywhere in Canberra and Queanbeyan',
+    href: '/contact-us/enquiry',
     img: '/img/hero/hero-4.jpg',
     mob: '/img/hero/hero-m-4.jpg',
   },
@@ -102,7 +102,7 @@ export default function Hero() {
       className={s.hero}
       data-hero=""
       aria-roledescription="carousel"
-      aria-label="Featured collections"
+      aria-label="Tiles, flooring, carpet and installation"
       onKeyDown={onKeyDown}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -113,7 +113,7 @@ export default function Hero() {
       {/* Every slide carries a heading, so the page's single h1 lives here and
           the slide titles are h2s — five h1s would be five page titles. */}
       <h1 className={s.srOnly}>
-        Capital Tiles — premium tiles, bathware and surfaces
+        Capital Tiles &amp; Flooring — tiles, flooring, carpet and installation in Canberra
       </h1>
 
       <div className={s.viewport}>
@@ -138,11 +138,11 @@ export default function Hero() {
 
               <div className={s.copy}>
                 <div className="container">
-                  <p className={s.eyebrow}>Capital Tiles presents</p>
+                  <p className={s.eyebrow}>Capital Tiles &amp; Flooring</p>
                   <h2 className={s.title}>{slide.title}</h2>
                   <p className={s.subtitle}>{slide.subtitle}</p>
                   <Link className="cta ctaLight" href={slide.href} tabIndex={on ? 0 : -1}>
-                    <span>Discover More</span>
+                    <span>Find Out More</span>
                   </Link>
                 </div>
               </div>
@@ -168,30 +168,11 @@ export default function Hero() {
         <Arrow dir="next" />
       </button>
 
-      {/* counter + progress + dots */}
+      {/* scroll cue — the slide indicator rule was removed by request; autoplay
+          runs off its own timer, so the carousel is unaffected */}
       <div className={s.controls}>
         <div className="container">
           <div className={s.controlsInner}>
-            <ul className={s.dots}>
-              {SLIDES.map((slide, i) => (
-                <li key={slide.title}>
-                  <button
-                    type="button"
-                    className={i === index ? s.dotOn : undefined}
-                    aria-label={'Go to ' + slide.title}
-                    aria-current={i === index}
-                    onClick={() => setIndex(i)}
-                  >
-                    <span
-                      className={s.dotFill}
-                      style={{ animationDuration: DURATION + 'ms' }}
-                      key={i === index ? 'on-' + index : 'off'}
-                    />
-                  </button>
-                </li>
-              ))}
-            </ul>
-
             <a className={s.scrollCue} href="#about">
               Scroll
               <span aria-hidden="true" />

@@ -4,8 +4,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import s from './WhyChoose.module.css'
 
-/* Closes the page the way both references do: a row of proof points over the
-   long-form brand copy, with the tail collapsed behind a read-more. */
+/* Closes the page with the long-form showroom and installation copy, the tail
+   collapsed behind a read-more. */
 
 export default function WhyChoose() {
   const [more, setMore] = useState(false)
@@ -15,31 +15,34 @@ export default function WhyChoose() {
       <div className={'container ' + s.inner}>
         <div className={s.prose}>
           <h2 className={'title ' + s.title} data-reveal>
-            Why choose Capital Tiles: a trusted tiles manufacturer in India
+            Why choose Capital Tiles: your local Canberra supplier and installer
           </h2>
 
           <div className={more ? s.copy + ' ' + s.copyOpen : s.copy} data-reveal
             style={{ '--reveal-delay': '90ms' }}>
             <p>
-              Capital Tiles has been an exclusive tiles brand in India since 1977, with eight
-              production lines across Morbi and Andhra Pradesh and more than 200 exclusive showrooms
-              spread across India and Nepal. Our manufacturing units run cutting-edge technology —
-              first to nano-technology production, and first to the world&rsquo;s whitest tile.
+              Capital Tiles &amp; Flooring is a Canberra showroom you can walk into. Our space at
+              3 Pelle Street, Mitchell keeps full sheets and full boards on display, so you can see
+              a colour at real scale, run a hand over the finish and carry it to the doorway to
+              check it in daylight — tiles, flooring and carpet in the one room. We are open
+              Monday to Friday, 9am to 5pm, and Saturday, 10am to 3pm.
             </p>
             <p>
-              Built with modern technology, Capital offers some of the strongest{' '}
-              <Link href="/tiles/outdoor" className={s.inline}>outdoor floor tiles</Link> available,
-              alongside a range manufactured in a wide spread of colours, textures and surfaces to
-              suit every area of a space. Tiles made at our plants carry certifications such as NSF,
-              confirming they meet rigorous health and safety standards, and we hold both a patent
-              and a BIS licence covering compliance and safety.
+              Buy supply-only if you have your own trade lined up, or let our
+              installers see it through: lifting the old floor, preparing the subfloor, laying,
+              grouting, sealing and showing you how to look after the surface once we are done.
+              The people who quote the job are the people who lay it, so nothing is lost between
+              the showroom and the site — whether that is{' '}
+              <Link href="/tiles/outdoor" className={s.inline}>outdoor tiles</Link> around a pool
+              and patio, hybrid or timber flooring through the living areas, or carpet in the
+              bedrooms.
             </p>
             <p>
-              Beyond the surfaces themselves, Capital supports architects, contractors and
-              homeowners through the whole specification — technical guides, installation support,
-              a digital showroom for previewing at real scale, and a dealer network that carries
-              stock rather than catalogues. That is what a tiles company should be: not just a
-              product, but the confidence that the product will still look right in ten years.
+              Every project starts with a free measure and quote at your place, so the metres,
+              the falls and the tricky corners are settled before anything is ordered. We service
+              Canberra and Queanbeyan, out to Yass, Bungendore and Murrumbateman, and across
+              Gungahlin, Belconnen, Tuggeranong and Woden. Call 02 6253 8158 or send your enquiry
+              to cbr@capitaltiles.com.au and we will find a time that suits you.
             </p>
           </div>
 
@@ -52,7 +55,7 @@ export default function WhyChoose() {
           <div className="zoomFrame">
             <img
               src="/img/about/why-choose.jpg"
-              alt="A Capital Tiles surface in a finished living space"
+              alt="A living room with large-format stone-look floor and wall tiles"
               loading="lazy"
             />
           </div>

@@ -68,6 +68,8 @@ export default function OutdoorTilesPage() {
         heading="Pavers, alfresco floors &amp; outdoor surfaces"
         paragraphs={PARAGRAPHS}
         faqs={FAQS}
+        faqEyebrow="Before the first paver goes down"
+        faqLede="10mm tile or 20mm paver? That is where most outdoor jobs start. Then come frost through a Canberra winter, slip grades underfoot, matching the floor inside, and laying over an existing slab."
         related={RELATED}
       />
     </>

@@ -48,10 +48,10 @@ function useCountUp(target, ms = 1600) {
 }
 
 const STATS = [
-  { value: 49, suffix: '+', label: 'Years of craft' },
-  { value: 200, suffix: '+', label: 'Exclusive showrooms' },
-  { value: 8, suffix: '', label: 'Production lines' },
-  { value: 26, suffix: '+', label: 'Countries served' },
+  { value: 3, suffix: '', label: 'Product categories' },
+  { value: 5, suffix: '', label: 'Flooring ranges' },
+  { value: 7, suffix: '', label: 'Carpet ranges' },
+  { value: 9, suffix: '+', label: 'Areas we service' },
 ]
 
 function Stat({ value, suffix, label }) {
@@ -74,30 +74,31 @@ export default function About() {
         <div className={s.media}>
           <div className={s.mediaMain} data-reveal="mask">
             <div className="zoomFrame">
-              <img src="/img/about/showroom.jpg" alt="A Capital Tiles experience centre" loading="lazy" />
+              <img src="/img/about/showroom.jpg" alt="A living room floored in patterned tiles" loading="lazy" />
             </div>
           </div>
           <div className={s.mediaInset} data-reveal="scale" style={{ '--reveal-delay': '220ms' }}>
             <div className="zoomFrame">
-              <img src="/img/about/craft.jpg" alt="A Capital Tiles surface, close up" loading="lazy" />
+              <img src="/img/about/craft.jpg" alt="Timber-look plank tiles laid close up" loading="lazy" />
             </div>
           </div>
           <div className={s.badge} data-reveal="scale" style={{ '--reveal-delay': '420ms' }}>
-            <strong>1977</strong>
-            <span>Since</span>
+            <strong>Mitchell</strong>
+            <span>Showroom</span>
           </div>
         </div>
 
         <div className={s.copy}>
-          <p className="eyebrow" data-reveal>Our legacy</p>
+          <p className="eyebrow" data-reveal>Our showroom</p>
           <h2 className={'title ' + s.title} data-reveal style={{ '--reveal-delay': '90ms' }}>
-            A leading vitrified tiles company, building India&rsquo;s surfaces since 1977
+            A Canberra showroom where you see the full sheet before you buy
           </h2>
           <p className={'lede ' + s.body} data-reveal style={{ '--reveal-delay': '170ms' }}>
-            Capital Tiles curates collections that bring together beauty, innovation and strength.
-            What began with a single red brick, and grew into bathware in 1991, is today a complete
-            tiles and bathware solution brand — from timeless classics to bold, contemporary
-            statements, so every space finds its perfect fit.
+            Capital Tiles &amp; Flooring is a local supplier and installer at 3 Pelle Street,
+            Mitchell. Full sheets are out on display, so you can judge the colour, the size and the
+            finish at full scale rather than from a sample chip — tiles, flooring and carpet in the
+            one room. Our own installers do the work, and every job starts with a free measure and
+            quote.
           </p>
 
           <ul className={s.stats} data-reveal style={{ '--reveal-delay': '240ms' }}>
@@ -108,7 +109,7 @@ export default function About() {
 
           <div data-reveal style={{ '--reveal-delay': '320ms' }}>
             <Link href="/about" className="cta">
-              <span>Know More</span>
+              <span>More about us</span>
             </Link>
           </div>
         </div>

@@ -23,9 +23,10 @@ export default function HybridFlooringPage() {
     <>
       <CollectionIntro
         parent={{ label: 'Flooring', href: '/flooring' }}
+        compact
         crumb="Hybrid Flooring"
-        title="Hybrid Flooring Collection for Modern Homes"
-        lede={`The Hybrid Flooring collection brings together 100% waterproof rigid-core planks in oak, blackbutt and spotted gum looks. Designed for living rooms, bedrooms, kitchens, laundries and commercial spaces, these ${HYBRID.length} ranges span 6.5mm to 9mm with acoustic underlay, offering durability, warmth and a floor that can run right through the house.`}
+        title="Hybrid Flooring, Built Waterproof"
+        lede={`${HYBRID.length} ranges of 100% waterproof rigid-core planks in oak, blackbutt and spotted gum, from 6.5mm to 9mm with acoustic underlay. One floor that runs right through the house.`}
       />
       <CollectionGrid
         items={HYBRID}

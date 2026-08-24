@@ -7,6 +7,9 @@
   align-items: start;
 }
 
+/* Empty collection: no rail to sit beside, so the results take the full width. */
+.layoutBare { display: block; }
+
 /* ---- filter rail -------------------------------------------------------- */
 .railWrap { position: sticky; top: calc(var(--header-h) + 5rem); }
 
@@ -57,8 +60,16 @@
   transition: grid-template-rows 0.4s var(--ease);
 }
 .groupOn .groupPanel { grid-template-rows: 1fr; }
-.groupPanel > ul { min-height: 0; overflow: hidden; }
-.groupOn .groupPanel > ul { max-height: 17rem; overflow-y: auto; }
+/* The cap belongs here, NOT on .groupOn. Hung off the open class it vanished
+   the moment the class was removed, so a long list sprang from 272px to its
+   full height in one frame and the collapse then animated down from there —
+   that was the jump on closing. Kept constant, closing is a clean 272px→0. */
+.groupPanel > ul {
+  min-height: 0;
+  max-height: 17rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 
 .groupPanel label {
   display: flex;
@@ -201,7 +212,8 @@
 .enquire { font-weight: 700; color: var(--ink); }
 .more:hover, .enquire:hover { color: var(--gold); }
 
-.empty { color: var(--grey-text); }
+.empty { max-width: 62ch; line-height: 1.9; color: var(--grey-text); }
+.empty a { color: var(--ink); border-bottom: 1px solid var(--gold); }
 .empty button {
   border: 0;
   background: none;
@@ -260,7 +272,9 @@
   font-size: var(--f-small);
   cursor: pointer;
 }
-.apply { background: var(--black); border-color: var(--black); color: var(--white); }
+/* Scoped to .drawerFoot so it outranks `.drawerFoot button` above — as a bare
+   `.apply` it lost the background to that rule and rendered white-on-white. */
+.drawerFoot .apply { background: var(--black); border-color: var(--black); color: var(--white); }
 
 /* ---- breakpoints -------------------------------------------------------- */
 @media (max-width: 1200px) {
@@ -276,4 +290,13 @@
 @media (max-width: 560px) {
   .grid { grid-template-columns: 1fr; }
   .head { flex-direction: column; align-items: flex-start; }
+}
+
+/* Shown when a range publishes no values for a facet, so the panel visibly
+   opens instead of appearing stuck. */
+.optNone {
+  padding: 0.55rem 0.75rem;
+  font-size: var(--f-small);
+  font-style: italic;
+  color: var(--grey-text);
 }
