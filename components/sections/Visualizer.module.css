@@ -69,7 +69,7 @@
 }
 .doorTitle {
   margin-top: 0.3rem;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(1.5rem, 2.6vw, 2.6rem);
   line-height: 1.05;
 }
@@ -109,7 +109,7 @@
   border-top: 1px solid var(--grey-line);
 }
 .strip span {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--font-display);
   font-size: var(--f-sub);
 }
 

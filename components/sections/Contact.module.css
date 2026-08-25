@@ -34,7 +34,7 @@
    cap scales with the font, so it still wraps cleanly on narrow screens. */
 .title {
   max-width: 34ch;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(1.6rem, 4.1vw, 3.2rem);
   font-weight: 400;
   line-height: 1.12;
@@ -66,7 +66,7 @@
 }
 
 .formTitle {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--font-display);
   font-size: var(--f-title);
   font-weight: 400;
   color: var(--ink);
@@ -154,7 +154,7 @@
   align-items: center;
   gap: 0.6rem;
   margin-bottom: 0.7rem;
-  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
   font-size: var(--f-small);
   font-weight: 500;
   letter-spacing: 0.16em;

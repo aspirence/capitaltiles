@@ -1,0 +1,205 @@
+/* ---- banner ------------------------------------------------------------- */
+.banner {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: clamp(17rem, 32vw, 27rem);
+  overflow: hidden;
+  background: var(--black);
+}
+.banner > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.bannerShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.86), rgba(0, 0, 0, 0.6) 55%, rgba(0, 0, 0, 0.5));
+}
+.bannerInner {
+  position: relative;
+  z-index: 1;
+  padding-top: calc(var(--header-h) + clamp(2.5rem, 5vw, 5rem));
+  padding-bottom: clamp(1.75rem, 3.2vw, 3rem);
+  color: var(--white);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: clamp(0.9rem, 1.6vw, 1.4rem);
+  font-size: var(--f-small);
+  color: rgba(255, 255, 255, 0.75);
+}
+.crumbs i { font-style: normal; opacity: 0.5; }
+.crumbs a { transition: color 0.3s var(--ease); }
+.crumbs a:hover { color: var(--white); }
+
+.kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 0.85rem;
+  font-size: var(--f-small);
+  color: rgba(255, 255, 255, 0.8);
+}
+.cat {
+  padding: 0.3rem 0.7rem;
+  background: var(--white);
+  color: var(--ink);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+
+.title {
+  max-width: 26ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.6vw, 3rem);
+  font-weight: 400;
+  line-height: 1.15;
+  text-wrap: balance;
+  color: var(--white);
+}
+
+/* ---- body --------------------------------------------------------------- */
+.body { background: var(--white); }
+.bodyInner { display: flex; justify-content: center; }
+
+/* 68ch keeps the measure in the comfortable reading band for long-form copy. */
+.prose { width: 100%; max-width: 68ch; }
+
+.prose p {
+  margin-bottom: 1.15rem;
+  line-height: 1.95;
+  color: var(--grey-text);
+}
+.lede {
+  font-size: var(--f-sub);
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.block { margin-top: clamp(2rem, 3.4vw, 3rem); }
+.block h2 {
+  margin-bottom: 0.9rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.9vw, 1.6rem);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.points {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0.4rem 0 1.3rem;
+}
+.points li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: var(--f-small);
+  line-height: 1.85;
+  color: var(--grey-text);
+}
+.points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border: 1px solid var(--gold-deep);
+  transform: rotate(45deg);
+}
+
+.takeaway {
+  margin-top: clamp(2rem, 3.4vw, 3rem);
+  padding-top: clamp(1.4rem, 2.4vw, 2rem);
+  border-top: 1px solid var(--grey-line);
+  font-size: var(--f-sub);
+  line-height: 1.8;
+  color: var(--ink) !important;
+}
+
+.cta {
+  margin-top: clamp(2rem, 3.4vw, 2.75rem);
+  padding: clamp(1.4rem, 2.6vw, 2.25rem);
+  background: var(--grey-bg);
+}
+.cta p { margin-bottom: 1.2rem; font-size: var(--f-small); }
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.75rem);
+}
+.phone {
+  font-family: var(--font-display);
+  font-size: var(--f-sub);
+  color: var(--ink);
+  border-bottom: 1px solid var(--gold-deep);
+  transition: color 0.3s var(--ease);
+}
+.phone:hover { color: var(--gold-deep); }
+
+/* ---- more --------------------------------------------------------------- */
+.more { background: var(--grey-bg); }
+.moreHead { margin-bottom: clamp(1.75rem, 3vw, 2.5rem); }
+.moreTitle { margin-top: 0.6rem; }
+
+.moreGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.4vw, 2.5rem);
+}
+.card { display: block; }
+.frame {
+  display: block;
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--grey-line);
+}
+.frame img { width: 100%; height: 100%; object-fit: cover; }
+.cardCat {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 0.35rem 0.75rem;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.cardDate {
+  display: block;
+  margin-top: 0.9rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey-text);
+}
+.cardTitle {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: var(--font-display);
+  font-size: var(--f-sub);
+  line-height: 1.35;
+  color: var(--ink);
+  transition: color 0.35s var(--ease);
+}
+.card:hover .cardTitle { color: var(--gold-deep); }
+
+@media (max-width: 900px) {
+  .moreGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .moreGrid { grid-template-columns: 1fr; }
+}

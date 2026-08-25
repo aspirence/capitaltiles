@@ -47,7 +47,7 @@
   clip-path: polygon(0 0, 100% 0, 88% 100%, 12% 100%);
 }
 .tab h2 {
-  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: clamp(0.95rem, 1.3vw, 1.2rem);
   color: var(--ink);
@@ -84,7 +84,7 @@
 }
 
 .title {
-  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: clamp(1.05rem, 1.6vw, 1.6rem);
   line-height: 1.15;
@@ -106,7 +106,7 @@
 .colOn .card { opacity: 1; visibility: visible; transform: none; }
 
 .cardTitle {
-  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: clamp(1.15rem, 1.75vw, 1.7rem);
   line-height: 1.15;

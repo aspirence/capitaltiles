@@ -38,7 +38,7 @@
 
 .cardName {
   display: block;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(1.05rem, 1.35vw, 1.35rem);
   transition: color 0.4s var(--ease);
 }

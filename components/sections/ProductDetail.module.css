@@ -1,0 +1,430 @@
+/* =========================================================================
+   Product detail. Gallery + facts, spec strip, long-form copy, size table,
+   related rail. Sits on the same tokens as the collection pages so a product
+   page never reads as a different site.
+   ========================================================================= */
+
+/* ---- hero ---------------------------------------------------------------- */
+.hero {
+  background: var(--grey-bg);
+  /* clears the fixed header */
+  padding-top: calc(var(--header-h) + clamp(1.5rem, 3vw, 3rem));
+  padding-bottom: clamp(2.5rem, 4.5vw, 4.5rem);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: clamp(1.5rem, 2.4vw, 2.25rem);
+  margin-bottom: clamp(1.25rem, 2.4vw, 2.25rem);
+  font-size: var(--f-small);
+  color: var(--grey-text);
+}
+.crumbs i { font-style: normal; opacity: 0.5; }
+.crumbs a { transition: color 0.3s var(--ease); }
+.crumbs a:hover { color: var(--ink); }
+.crumbs span { color: var(--ink); }
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(1.75rem, 4vw, 4.5rem);
+  align-items: start;
+}
+
+/* ---- gallery ------------------------------------------------------------- */
+.gallery { margin-top: 0.5rem; }
+
+.stage {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid var(--grey-line);
+}
+.stage img { width: 100%; height: 100%; object-fit: cover; }
+.stage img.productShot { object-fit: contain; object-position: center; }
+.stage img.flooringShot { object-fit: contain; object-position: center; }
+.stage img.topAlignedShot {
+  transform: translateY(-16%);
+}
+
+.noShot {
+  padding: 2rem;
+  font-size: var(--f-small);
+  text-align: center;
+  color: var(--grey-text);
+}
+
+/* Horizontal rail rather than a wrapping grid: some ranges ship 30 shots and a
+   grid would push the whole right-hand column down the page. */
+.thumbs {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding-bottom: 0.35rem;
+}
+.thumbs::-webkit-scrollbar { height: 4px; }
+.thumbs::-webkit-scrollbar-thumb { background: var(--grey-line); }
+
+.thumb {
+  display: block;
+  flex: 0 0 auto;
+  width: clamp(3.75rem, 6vw, 5.25rem);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid var(--grey-line);
+  background: var(--white);
+  cursor: pointer;
+  opacity: 0.62;
+  transition: opacity 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.thumb img.flooringThumb { object-fit: contain; }
+.thumb:hover { opacity: 1; }
+.thumbOn { opacity: 1; border-color: var(--black); }
+
+/* ---- intro column -------------------------------------------------------- */
+.intro { min-width: 0; }
+
+.eyebrow {
+  font-size: var(--f-small);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.title {
+  margin-top: 0.6rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3.4vw, 2.85rem);
+  font-weight: 400;
+  line-height: 1.14;
+  color: var(--ink);
+}
+
+.tagline {
+  margin-top: 0.7rem;
+  font-size: var(--f-sub);
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.short {
+  max-width: 54ch;
+  margin-top: 0.9rem;
+  line-height: 1.9;
+  color: var(--grey-text);
+}
+
+/* Product variants follow the old catalogue's choose-first flow, while using
+   the quieter spacing and borders of the rebuilt site. */
+.choices {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: clamp(1.5rem, 2.6vw, 2.25rem);
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--grey-line);
+}
+.choiceGroup { min-width: 0; margin: 0; padding: 0; border: 0; }
+.choiceGroup legend {
+  width: 100%;
+  margin-bottom: 0.7rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--grey-text);
+}
+.choiceGroup legend strong { font-weight: 500; color: var(--ink); }
+.optionList { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+.option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.65rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--grey-line);
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--f-small);
+  line-height: 1.35;
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease);
+}
+.option:hover { border-color: var(--gold-deep); }
+.optionOn { border-color: var(--black); background: var(--black); color: var(--white); }
+.colourDot {
+  width: 0.8rem;
+  height: 0.8rem;
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  background: currentColor;
+  opacity: 0.35;
+}
+.optionNote {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--grey-line);
+  font-size: var(--f-small);
+  line-height: 1.65;
+  color: var(--grey-text);
+}
+.optionNote span {
+  margin-right: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ---- fact list ----------------------------------------------------------- */
+.facts {
+  display: grid;
+  gap: 0;
+  margin: clamp(1.25rem, 2.2vw, 1.8rem) 0 0;
+  border-top: 1px solid var(--grey-line);
+}
+.fact {
+  display: grid;
+  grid-template-columns: minmax(7rem, 30%) 1fr;
+  gap: 1rem;
+  padding-block: 0.8rem;
+  border-bottom: 1px solid var(--grey-line);
+  font-size: var(--f-small);
+}
+.fact dt {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey-text);
+}
+.fact dd { margin: 0; color: var(--ink); line-height: 1.7; }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(1rem, 2.4vw, 2rem);
+  margin-top: clamp(1.5rem, 2.6vw, 2.25rem);
+}
+.measure { color: var(--ink); }
+
+.showroom {
+  margin-top: 1.2rem;
+  font-size: var(--f-small);
+  line-height: 1.8;
+  color: var(--grey-text);
+}
+.showroom a { color: var(--ink); border-bottom: 1px solid var(--gold-deep); }
+
+/* ---- spec strip ---------------------------------------------------------- */
+.strip {
+  background: var(--black);
+  color: var(--white);
+  padding-block: clamp(1.5rem, 2.6vw, 2.5rem);
+}
+.stripList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: clamp(1rem, 2.2vw, 2.5rem);
+}
+.stripList li {
+  display: grid;
+  gap: 0.4rem;
+  padding-left: clamp(1rem, 2.2vw, 2.5rem);
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+.stripList li:first-child { padding-left: 0; border-left: 0; }
+
+.stripLabel {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.stripValue {
+  font-family: var(--font-display);
+  font-size: var(--f-body);
+  line-height: 1.5;
+  color: var(--white);
+}
+
+/* ---- overview ------------------------------------------------------------ */
+.about { background: var(--white); }
+.aboutGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(1.75rem, 4vw, 4.5rem);
+  align-items: start;
+}
+
+.h2 { color: var(--ink); }
+.copy .h2 { margin: 0.6rem 0 1.2rem; }
+.copy { display: grid; gap: 1.1rem; min-width: 0; }
+.copy p:not([class]) {
+  max-width: 66ch;
+  line-height: 1.95;
+  color: var(--grey-text);
+}
+
+.featureCard {
+  padding: clamp(1.5rem, 2.6vw, 2.25rem);
+  background: var(--grey-bg);
+  border: 1px solid var(--grey-line);
+}
+.featureTitle {
+  margin-bottom: 1.1rem;
+  font-family: var(--font-display);
+  font-size: var(--f-sub);
+  font-weight: 400;
+  color: var(--ink);
+}
+.features { display: grid; gap: 0.85rem; }
+.features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  font-size: var(--f-small);
+  line-height: 1.75;
+  color: var(--grey-text);
+}
+.features svg { flex: none; margin-top: 0.3rem; color: var(--gold-deep); }
+
+/* ---- specification table ------------------------------------------------- */
+.specs { background: var(--grey-bg); }
+.specHead { margin-bottom: clamp(1.5rem, 2.6vw, 2.25rem); }
+.specHead .h2 { margin: 0.6rem 0 0.8rem; text-transform: none; }
+.specLede {
+  max-width: 64ch;
+  font-size: var(--f-small);
+  line-height: 1.9;
+  color: var(--grey-text);
+}
+
+/* The table is the one block that legitimately runs wide, so it scrolls inside
+   its own box instead of pushing the page sideways. */
+.tableWrap {
+  overflow-x: auto;
+  background: var(--white);
+  border: 1px solid var(--grey-line);
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--f-small);
+}
+.table th,
+.table td {
+  padding: 0.85rem clamp(0.7rem, 1.4vw, 1.25rem);
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--grey-line);
+}
+.table th {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--white);
+  background: var(--black);
+  border-bottom: 0;
+}
+.table td { color: var(--grey-text); }
+.table td:first-child { color: var(--ink); font-weight: 500; }
+.table tbody tr:last-child td { border-bottom: 0; }
+.table tbody tr:nth-child(even) { background: var(--grey-bg); }
+
+/* ---- closing cta --------------------------------------------------------- */
+.cta { background: var(--white); }
+.ctaInner { text-align: center; }
+.ctaTitle { max-width: 22ch; margin-inline: auto; }
+.ctaLede {
+  max-width: 60ch;
+  margin: 1.1rem auto 0;
+  line-height: 1.9;
+  color: var(--grey-text);
+}
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-top: clamp(1.6rem, 2.8vw, 2.4rem);
+}
+.phone {
+  font-family: var(--font-display);
+  font-size: var(--f-sub);
+  color: var(--ink);
+  border-bottom: 1px solid var(--gold-deep);
+  transition: color 0.3s var(--ease);
+}
+.phone:hover { color: var(--gold-deep); }
+
+/* ---- related ------------------------------------------------------------- */
+.related { background: var(--grey-bg); }
+.relatedHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(1.5rem, 2.6vw, 2.5rem);
+}
+.relatedHead .h2 { margin-top: 0.6rem; }
+.all { color: var(--ink); }
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.75rem);
+}
+.relCard { display: block; }
+.relFrame {
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: var(--grey-line);
+}
+.relBody { display: block; padding-top: 0.9rem; }
+.relName {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--f-sub);
+  text-transform: capitalize;
+  color: var(--ink);
+  transition: color 0.35s var(--ease);
+}
+.relCard:hover .relName { color: var(--gold); }
+.relMeta {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: var(--f-small);
+  color: var(--grey-text);
+}
+
+/* ---- responsive ---------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .heroGrid { grid-template-columns: 1fr; }
+  .gallery { margin-top: 0; }
+  .aboutGrid { grid-template-columns: 1fr; }
+  .relatedGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .relatedGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stripList { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .stripList li { padding-left: 0; border-left: 0; }
+}
+
+@media (max-width: 560px) {
+  .stage { aspect-ratio: 1; }
+  .fact { grid-template-columns: 1fr; gap: 0.2rem; }
+  .relatedGrid { grid-template-columns: 1fr; }
+  .actions { gap: 1rem; }
+  .actions :global(.cta) { width: 100%; }
+}

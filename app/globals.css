@@ -1,56 +1,40 @@
 /* =========================================================================
    Capital Tiles — global foundation
-   Typography follows the Simpolo reference: Corbert (primary / UI) paired
-   with Fraunces (secondary / display serif). Every face is served locally.
+   Playfair Display for headings, Open Sans for body copy. Both are served
+   from /public/fonts, so the site still makes no external font request.
    ========================================================================= */
 
 @font-face {
-  font-family: 'Corbert';
-  src: url('/fonts/Corbert-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Corbert';
-  src: url('/fonts/Corbert-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Corbert';
-  src: url('/fonts/Corbert-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'DM Sans';
-  src: url('/fonts/dmsans-latin.woff2') format('woff2');
-  font-weight: 100 900;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
-    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC,
-    U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Fraunces';
-  src: url('/fonts/fraunces-latin.woff2') format('woff2');
-  font-weight: 100 900;
+  font-family: 'Open Sans';
+  src: url('/fonts/opensans-latin.woff2') format('woff2');
+  font-weight: 300 800;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
-    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
-    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Fraunces';
-  src: url('/fonts/fraunces-latin-ext.woff2') format('woff2');
-  font-weight: 100 900;
+  font-family: 'Open Sans';
+  src: url('/fonts/opensans-latin-ext.woff2') format('woff2');
+  font-weight: 300 800;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
-    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
-    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
-    U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/fonts/playfair-latin.woff2') format('woff2');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/fonts/playfair-latin-ext.woff2') format('woff2');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 :root {
@@ -82,6 +66,10 @@
   --f-body: clamp(0.9rem, 1.02vw, 1.02rem);
   --f-small: clamp(0.78rem, 0.86vw, 0.875rem);
 
+  /* Change the typeface here and the whole site follows. */
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Open Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
   --ease: cubic-bezier(0.25, 0.8, 0.28, 1);
   --header-h: 74px;
 }
@@ -101,7 +89,7 @@ body {
   margin: 0;
   background: var(--white);
   color: var(--ink);
-  font-family: 'Corbert', 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
   font-size: var(--f-body);
   line-height: 1.65;
   overflow-x: hidden;
@@ -140,7 +128,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 .title {
-  font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+  font-family: var(--font-display);
   font-size: var(--f-title);
   font-weight: 400;
   letter-spacing: -0.01em;
@@ -236,6 +224,15 @@ ul { margin: 0; padding: 0; list-style: none; }
 [data-reveal='left'] { transform: translateX(-48px); }
 [data-reveal='right'] { transform: translateX(48px); }
 [data-reveal='scale'] { transform: scale(0.94); }
+
+/* On a phone a 48px horizontal offset parks the element past the viewport edge.
+   The mobile layout viewport then grows to fit it — and never shrinks back — so
+   the header controls and floating buttons end up pushed off-screen. Same
+   entrance, travelled vertically instead. */
+@media (max-width: 700px) {
+  [data-reveal='left'],
+  [data-reveal='right'] { transform: translateY(38px); }
+}
 
 [data-shown='true'] {
   opacity: 1;

@@ -43,7 +43,7 @@
 .title {
   display: grid;
   gap: 0.1em;
-  font-family: 'Corbert', 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: clamp(1.8rem, 3.6vw, 3.4rem);
   line-height: 1.1;

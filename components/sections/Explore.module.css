@@ -16,7 +16,7 @@
   padding: 0 0 0.7rem;
   border: 0;
   background: none;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--font-display);
   font-size: var(--f-small);
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -80,7 +80,7 @@
 .label {
   display: block;
   margin-top: 1rem;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--font-display);
   font-size: var(--f-sub);
   text-align: center;
   transition: color 0.35s var(--ease);
