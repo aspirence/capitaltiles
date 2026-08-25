@@ -1,4 +1,8 @@
-.section { background: var(--white); overflow: hidden; }
+.section {
+  /* the homepage scroll cue jumps here, so keep the landing clear of the
+     fixed header in case it slides back in on the way */
+  scroll-margin-top: calc(var(--header-real) + 1rem);
+ background: var(--white); overflow: hidden; }
 
 .grid {
   display: grid;

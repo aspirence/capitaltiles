@@ -11,7 +11,7 @@
 .layoutBare { display: block; }
 
 /* ---- filter rail -------------------------------------------------------- */
-.railWrap { position: sticky; top: calc(var(--header-h) + 5rem); }
+.railWrap { position: sticky; top: calc(var(--header-real) + 2rem); }
 
 .railHead {
   display: flex;

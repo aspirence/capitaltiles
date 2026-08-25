@@ -10,7 +10,6 @@
    ------------------------------------------------------------------------- */
 
 export const CORPORATE = [
-  { label: 'Our Story', href: '/about' },
   { label: 'About Us', href: '/about' },
   {
     label: 'Store Policies',

@@ -96,7 +96,7 @@
 .bodyInner { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); }
 
 /* clears the fixed header when a jump link lands here */
-.group { scroll-margin-top: calc(var(--header-h) + 2rem); }
+.group { scroll-margin-top: calc(var(--header-real) + 1.5rem); }
 
 .groupHead { margin-bottom: clamp(1.25rem, 2.2vw, 1.75rem); }
 .groupTitle {

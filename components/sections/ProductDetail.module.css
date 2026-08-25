@@ -31,15 +31,26 @@
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: clamp(1.75rem, 4vw, 4.5rem);
-  align-items: start;
+  /* stretch, not start: the gallery takes the full row height so the two
+     columns finish level instead of leaving a void under the thumbnails. */
+  align-items: stretch;
 }
 
 /* ---- gallery ------------------------------------------------------------- */
-.gallery { margin-top: 0.5rem; }
+/* Column, so the stage can absorb whatever height the facts column sets. */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-top: 0.5rem;
+}
 
 .stage {
   display: grid;
   place-items: center;
+  /* 1 0 auto: grow into the spare row height, never shrink below the 4:3 the
+     aspect-ratio sets, so a short facts column still gets a proper image. */
+  flex: 1 0 auto;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--white);
@@ -63,6 +74,7 @@
    grid would push the whole right-hand column down the page. */
 .thumbs {
   display: flex;
+  flex: 0 0 auto;
   gap: 0.6rem;
   margin-top: 0.7rem;
   overflow-x: auto;
@@ -409,9 +421,14 @@
 
 /* ---- responsive ---------------------------------------------------------- */
 @media (max-width: 1100px) {
-  .heroGrid { grid-template-columns: 1fr; }
-  .gallery { margin-top: 0; }
-  .aboutGrid { grid-template-columns: 1fr; }
+  /* minmax(0, 1fr), not 1fr: a bare 1fr track is minmax(auto, 1fr) and refuses
+     to shrink below its content's min-content width, so a long variant chip row
+     pushed this column — and the whole page — past the viewport on a phone. */
+  .heroGrid { grid-template-columns: minmax(0, 1fr); }
+  /* Stacked, there is no second column to match, so the gallery goes back to
+     its natural height. */
+  .gallery { display: block; margin-top: 0; }
+  .aboutGrid { grid-template-columns: minmax(0, 1fr); }
   .relatedGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 

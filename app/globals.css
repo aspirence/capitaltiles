@@ -72,6 +72,19 @@
 
   --ease: cubic-bezier(0.25, 0.8, 0.28, 1);
   --header-h: 74px;
+
+  /* The header actually stands a good deal taller than --header-h: a 64px
+     utility row plus the nav row, about 122-127px on desktop, and 64px alone
+     once the nav collapses into the hamburger. --header-h is left where it is
+     because every banner's padding-top is tuned around it; anything that has to
+     sit clear of the header while the page scrolls — a sticky rail, an anchor
+     target — measures against the real thing instead. Without it the header
+     lands on top of that content the moment it slides back in on scroll-up. */
+  --header-real: 128px;
+}
+
+@media (max-width: 900px) {
+  :root { --header-real: 64px; }
 }
 
 *,

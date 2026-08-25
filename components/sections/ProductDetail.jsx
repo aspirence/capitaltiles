@@ -21,6 +21,24 @@ function Icon({ d, size = 18 }) {
 const ARROW = <path d="M5 12h14M13 6l6 6-6 6" />
 const CHECK = <path d="M20 6L9 17l-5-5" />
 
+/* The variant feed publishes raw option values — "Tranquility - Ashen Mist",
+   "600 x 600", "AC5 Surface Finish" — while the chips show the tidied name.
+   Compare on letters and digits alone, and treat the range-name prefix the feed
+   sometimes carries as optional, so the two sides still line up. */
+const norm = (v) => String(v || '').toLowerCase().replace(/[^a-z0-9]/g, '')
+
+function sameOption(a, b) {
+  const x = norm(a)
+  const y = norm(b)
+  if (!x || !y) return false
+  return x === y || x.endsWith(y) || y.endsWith(x)
+}
+
+/* Map a raw variant value back onto the label we actually display. */
+function matchOption(value, list = []) {
+  return list.find((item) => sameOption(value, item)) || value
+}
+
 function Facts({ items }) {
   if (!items.length) return null
   return (
@@ -47,6 +65,15 @@ export default function ProductDetail({ product, collection, related = [] }) {
   const isLaminate = product.productType === 'laminate'
   const isFlooring = isHybrid || isLaminate
 
+  /* A collection can name its own parent crumb; the hybrid and laminate ranges
+     predate that prop and still infer it from the product type. */
+  const parentCrumb = collection.parent ||
+    (isFlooring ? { label: 'Flooring', href: '/flooring' } : { label: 'Tiles', href: '/tiles' })
+
+  /* A carpet's only "size" is its roll width, and a board's is its profile.
+     The collection can say so; tiles keep the plain label. */
+  const sizeLabel = collection.sizeLabel || (isFlooring ? 'Profile' : 'Size')
+
   const [active, setActive] = useState(0)
   const [galleryImages, setGalleryImages] = useState(images)
   const [selectedColour, setSelectedColour] = useState(colours[0] || '')
@@ -65,39 +92,45 @@ export default function ProductDetail({ product, collection, related = [] }) {
         if (liveGallery && data.images?.length) setGalleryImages(data.images)
         setVariants(data.variants)
         const first = data.variants.find((variant) => variant.available) || data.variants[0]
-        setSelectedColour(first.colour || colours[0] || '')
-        setSelectedSize(first.size || sizes[0] || '')
-        setSelectedFinish(first.finish || finishes[0] || '')
+        // Show the tidied label, not the raw feed value.
+        setSelectedColour(first.colour ? matchOption(first.colour, colours) : (colours[0] || ''))
+        setSelectedSize(first.size ? matchOption(first.size, sizes) : (sizes[0] || ''))
+        setSelectedFinish(first.finish ? matchOption(first.finish, finishes) : (finishes[0] || ''))
         if (first.imagePosition && nextImages[first.imagePosition - 1]) setActive(first.imagePosition - 1)
       })
       .catch(() => {})
     return () => { current = false }
   }, [product.handle])
 
+  const setFor = { colour: setSelectedColour, size: setSelectedSize, finish: setSelectedFinish }
+
   const chooseOption = (key, value) => {
-    if (!variants.length) {
-      if (key === 'colour') setSelectedColour(value)
-      if (key === 'size') setSelectedSize(value)
-      if (key === 'finish') setSelectedFinish(value)
-      return
-    }
+    // The chip always wins: whatever the variant feed does or does not know
+    // about, clicking an option must select it. Anything else reads as a dead
+    // control, which is what these were doing on the flooring ranges.
+    setFor[key](value)
+
+    if (!variants.length) return
 
     const wanted = { colour: selectedColour, size: selectedSize, finish: selectedFinish, [key]: value }
-    const exact = variants.find((variant) => variant.available &&
-      (!wanted.colour || variant.colour === wanted.colour) &&
-      (!wanted.size || variant.size === wanted.size) &&
-      (!wanted.finish || variant.finish === wanted.finish))
-    const compatible = exact || variants.find((variant) => variant.available && variant[key] === value)
+    const fits = (variant, field) => !wanted[field] || sameOption(variant[field], wanted[field])
+    const exact = variants.find((v) => v.available &&
+      fits(v, 'colour') && fits(v, 'size') && fits(v, 'finish'))
+    const compatible = exact || variants.find((v) => v.available && sameOption(v[key], value))
     if (!compatible) return
 
-    setSelectedColour(compatible.colour || wanted.colour)
-    setSelectedSize(compatible.size || wanted.size)
-    setSelectedFinish(compatible.finish || wanted.finish)
+    // Keep showing the tidy chip label rather than the raw variant string
+    // ("Tranquility - Ashen Mist"), but follow the variant for the other axes.
+    for (const field of ['colour', 'size', 'finish']) {
+      if (field === key || !compatible[field]) continue
+      const list = field === 'colour' ? colours : field === 'size' ? sizes : finishes
+      setFor[field](matchOption(compatible[field], list))
+    }
 
     let pictured = compatible
     if (!pictured.imagePosition) {
-      pictured = variants.find((variant) => variant.available &&
-        variant.colour === compatible.colour && variant.imagePosition) || compatible
+      pictured = variants.find((v) => v.available &&
+        sameOption(v.colour, compatible.colour) && v.imagePosition) || compatible
     }
     if (pictured.imagePosition && galleryImages[pictured.imagePosition - 1]) setActive(pictured.imagePosition - 1)
   }
@@ -187,7 +220,7 @@ export default function ProductDetail({ product, collection, related = [] }) {
           <nav className={s.crumbs} aria-label="Breadcrumb">
             <Link href="/">Home</Link>
             <i>/</i>
-            <Link href={isFlooring ? '/flooring' : '/tiles'}>{isFlooring ? 'Flooring' : 'Tiles'}</Link>
+            <Link href={parentCrumb.href}>{parentCrumb.label}</Link>
             <i>/</i>
             <Link href={collection.href}>{collection.label}</Link>
             <i>/</i>
@@ -268,7 +301,7 @@ export default function ProductDetail({ product, collection, related = [] }) {
 
                 {sizes.length > 0 ? (
                   <fieldset className={s.choiceGroup}>
-                    <legend>{isFlooring ? 'Profile' : 'Size'}: <strong>{selectedSize}</strong></legend>
+                    <legend>{sizeLabel}: <strong>{selectedSize}</strong></legend>
                     <div className={s.optionList}>
                       {sizes.map((size) => (
                         <button key={size} type="button"
