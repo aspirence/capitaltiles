@@ -5,8 +5,11 @@ import Link from 'next/link'
 import s from './Collections.module.css'
 
 /* The flooring range as an editorial index: hovering a name cross-fades the
-   plate on the right, so the whole section reads as one moving object rather
-   than a row of cards. Touch users get the same result on tap-through. */
+   plate beside it, so the whole section reads as one moving object rather
+   than a row of cards. The rows never change size on hover — the blurb for
+   each range is shown in the plate caption, not unfolded under the name, so
+   nothing shifts beneath the pointer. Touch users get the same result on
+   tap-through. */
 
 const ITEMS = [
   {
@@ -74,6 +77,7 @@ export default function Collections() {
                 <figcaption>
                   <span className={s.plateName}>{item.name}</span>
                   <span className={s.plateTag}>{item.tag}</span>
+                  <span className={s.plateCopy}>{item.copy}</span>
                 </figcaption>
               </figure>
             ))}
@@ -97,7 +101,6 @@ export default function Collections() {
                   <span className={s.rowNum}>{String(i + 1).padStart(2, '0')}</span>
                   <span className={s.rowMain}>
                     <span className={s.rowName}>{item.name}</span>
-                    <span className={s.rowCopy}>{item.copy}</span>
                   </span>
                   <span className={s.rowSwatch} aria-hidden="true">
                     <img src={item.swatch} alt="" loading="lazy" />
