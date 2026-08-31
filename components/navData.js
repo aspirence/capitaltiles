@@ -12,8 +12,9 @@
 export const CORPORATE = [
   { label: 'About Us', href: '/about' },
   {
+    /* A heading for the four policies, not a page of its own — the label
+       renders as plain text and only the children navigate. */
     label: 'Store Policies',
-    href: '/policies',
     children: [
       { label: 'Refund Policy', href: '/policies/refund-policy' },
       { label: 'Privacy Policy', href: '/policies/privacy-policy' },

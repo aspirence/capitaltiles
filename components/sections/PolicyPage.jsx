@@ -16,7 +16,7 @@ export default function PolicyPage({ policy }) {
           <nav className={s.crumbs} aria-label="Breadcrumb">
             <Link href="/">Home</Link>
             <i>/</i>
-            <Link href="/policies">Store Policies</Link>
+            <span>Store Policies</span>
             <i>/</i>
             <span>{title}</span>
           </nav>

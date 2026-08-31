@@ -4,18 +4,11 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { CORPORATE, NAV } from './navData'
+import SearchBox from './SearchBox'
+import search from './SearchBox.module.css'
 import s from './Header.module.css'
 
 /* --- icons ---------------------------------------------------------------- */
-function IconSearch() {
-  return (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-      strokeWidth="1.7" strokeLinecap="round" aria-hidden="true">
-      <circle cx="11" cy="11" r="7" />
-      <path d="M20 20l-3.6-3.6" />
-    </svg>
-  )
-}
 
 function IconCaret({ className }) {
   return (
@@ -146,10 +139,14 @@ export default function Header() {
                 <ul className={s.corporateMenu}>
                   {CORPORATE.map((c) => (
                     <li key={c.label} className={c.children ? s.corporateHasSub : undefined}>
-                      <Link href={c.href}>
-                        {c.label}
-                        {c.children && <IconCaret className={s.corporateSubCaret} />}
-                      </Link>
+                      {c.href ? (
+                        <Link href={c.href}>{c.label}</Link>
+                      ) : (
+                        <span className={s.corporateLabel}>
+                          {c.label}
+                          {c.children && <IconCaret className={s.corporateSubCaret} />}
+                        </span>
+                      )}
                       {c.children && (
                         <ul className={s.corporateSub}>
                           {c.children.map((sub) => (
@@ -170,12 +167,7 @@ export default function Header() {
             </Link>
 
             <div className={s.utilityRight}>
-              <div className={s.search}>
-                <input type="search" placeholder="Search tiles, collections…" aria-label="Search" />
-                <button type="button" aria-label="Search">
-                  <IconSearch />
-                </button>
-              </div>
+              <SearchBox className={s.search} />
               <span className={s.divider} aria-hidden="true" />
               <Link href="/contact-us/enquiry" className={s.enquire}>
                 Enquire
@@ -316,6 +308,16 @@ export default function Header() {
           </button>
         </div>
 
+        {/* The utility bar's search is hidden below 1023px, so the drawer
+            carries its own — otherwise a phone has no way to search at all. */}
+        <div className={s.drawerSearch}>
+          <SearchBox
+            className={search.drawer}
+            placeholder="Search tiles, flooring, carpet…"
+            onNavigate={() => setDrawer(false)}
+          />
+        </div>
+
         <nav className={s.drawerNav} aria-label="Mobile">
           {NAV.map((item) => {
             const open = mobileOpen === item.label
@@ -364,9 +366,11 @@ export default function Header() {
             <ul>
               {CORPORATE.map((c) => (
                 <li key={c.label}>
-                  <Link href={c.href} onClick={() => setDrawer(false)}>
-                    {c.label}
-                  </Link>
+                  {c.href ? (
+                    <Link href={c.href} onClick={() => setDrawer(false)}>{c.label}</Link>
+                  ) : (
+                    <span className={s.drawerCorporateLabel}>{c.label}</span>
+                  )}
                   {c.children && (
                     <ul className={s.drawerSubList}>
                       {c.children.map((sub) => (
