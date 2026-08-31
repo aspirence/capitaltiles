@@ -36,7 +36,11 @@
   cursor: default;
 }
 
-.chev { display: none; flex: none; transition: transform 0.35s var(--ease); }
+/* A plus that becomes a minus on open, and a right chevron on the rows that
+   are a single link — so on a stacked footer every row shows at a glance
+   whether it expands or navigates. Both are mobile-only. */
+.chev { display: none; }
+.rowArrow { display: none; flex: none; transform: rotate(-90deg); opacity: 0.55; }
 
 .links { margin-top: 0.65rem; }
 .links li a {
@@ -111,19 +115,22 @@
 }
 .office p a:hover { color: var(--gold); }
 
+/* The opening hours read as one line. The column is 13rem at its narrowest,
+   so the type drops a touch to leave the string room to stay on it. */
 .tollFree {
   display: block;
   margin-top: 2px;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
+  white-space: nowrap;
   color: var(--grey-text);
 }
 
-.socials { display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; }
+.socials { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; }
 .socials a {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 48px;
+  height: 48px;
   border: 1px solid rgba(35, 31, 32, 0.25);
   border-radius: 50%;
   color: var(--ink);
@@ -149,11 +156,19 @@
 }
 
 /* ---- breakpoints -------------------------------------------------------- */
-@media (max-width: 1180px) {
+/* All five groups hold their own row down to 1000px — at 1180 the last two
+   were dropping to a second row on a 1024 screen with plenty of width still to
+   spare. Below 1000 the columns get too narrow for the longer labels, so it
+   folds to three, exactly as it did before. */
+@media (max-width: 1000px) {
   .deckInner { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-@media (max-width: 767px) {
+/* The stacked accordion, not just for phones: at 768 the three-column deck
+   left two of the five groups stranded on a second row with a column of
+   dead space beside them. Kept in step with the matchMedia query in
+   Footer.jsx — the CSS and the open/close state have to agree. */
+@media (max-width: 900px) {
   .deck { padding-block: 1.25rem; }
   .deckInner { grid-template-columns: 1fr; gap: 0; }
   .col { gap: 0; }
@@ -164,8 +179,29 @@
     font-size: 0.95rem;
     cursor: pointer;
   }
-  .chev { display: block; }
-  .groupOpen .chev { transform: rotate(180deg); }
+  .chev {
+    display: block;
+    flex: none;
+    position: relative;
+    width: 14px;
+    height: 14px;
+    opacity: 0.75;
+  }
+  /* Two bars: the vertical one is dropped when the group opens. */
+  .chev::before,
+  .chev::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto 0;
+    height: 1.5px;
+    background: currentColor;
+    transform: translateY(-50%);
+    transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
+  }
+  .chev::after { transform: translateY(-50%) rotate(90deg); }
+  .groupOpen .chev::after { transform: translateY(-50%) rotate(0deg); opacity: 0; }
+
+  .rowArrow { display: block; }
 
   /* grid-template-rows animates cleanly from nothing to content height.
      It sizes only the FIRST row, so the panel wraps a single <ul> child —
@@ -184,8 +220,34 @@
 
   .groupStatic { border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
   .groupStatic .panel { grid-template-rows: 1fr; }
-  .groupStatic .links li a { padding: 1rem 0; font-size: 0.95rem; }
+  .groupStatic .links li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 0;
+    font-size: 0.95rem;
+  }
+  .groupStatic .links li a:hover { transform: none; }
 
   .offices { flex-direction: column; gap: 2rem; }
   .office { flex: 0 0 100%; max-width: 100%; }
+}
+
+/* Tablet width only. The stacked footer above puts all four address blocks in
+   one column, which leaves the band very tall at this size with half the row
+   empty. Two up pairs them as they are ordered — showroom with phone, e-mail
+   with the socials — under the logo, which keeps its own row. Phones below
+   600px stay in the single column. */
+@media (min-width: 601px) and (max-width: 900px) {
+  /* Three bands of content in a row need air between them, or the logo, the
+     showroom pair and the e-mail pair read as one block. */
+  .footLogo { margin-bottom: 2.75rem; }
+  .offices {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3.25rem 3rem;
+    padding-bottom: 2.75rem;
+  }
+  .office { flex: none; max-width: none; }
 }

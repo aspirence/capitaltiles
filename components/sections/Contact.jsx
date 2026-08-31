@@ -237,7 +237,7 @@ export default function Contact() {
                 {SOCIALS.map((so) => (
                   <a key={so.label} href={so.href} target="_blank" rel="noopener noreferrer"
                     aria-label={so.label} title={so.label}>
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"
                       aria-hidden="true">
                       <path d={so.path} />
                     </svg>

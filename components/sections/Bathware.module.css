@@ -14,6 +14,13 @@
   align-items: center;
 }
 
+/* The button is a grid child now, so the two columns are placed explicitly:
+   copy over button on the left, showcase spanning both rows on the right —
+   the same picture as when the button lived inside the copy. */
+.copy { grid-column: 1; grid-row: 1; }
+.ctaWrap { grid-column: 1; grid-row: 2; }
+.showcase { grid-column: 2; grid-row: 1 / span 2; }
+
 .title { margin-top: 0.7rem; color: var(--white); }
 .body { margin: 1.1rem 0 1.8rem; color: var(--white-70); }
 
@@ -85,11 +92,48 @@
 
 @media (max-width: 900px) {
   .grid { grid-template-columns: 1fr; }
+  .copy,
+  .ctaWrap,
+  .showcase { grid-column: 1; grid-row: auto; }
+}
+
+/* Tablet: same idea as the phone below — the button belongs after the pictures
+   it is asking you to book, not wedged between the copy and them. Centred,
+   because on one column there is no left edge for it to sit against. */
+@media (min-width: 561px) and (max-width: 900px) {
+  .grid { display: flex; flex-direction: column; gap: 2rem; }
+  .ctaWrap { order: 1; text-align: center; }
+  .points { margin-bottom: 0; }
 }
 
 @media (max-width: 560px) {
-  .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
-  .tileLabel { font-size: 0.9rem; }
+  /* Flex, so the button can be ordered last: on a phone it belongs after the
+     work it is asking you to book, not between the copy and the pictures. */
+  .grid { display: flex; flex-direction: column; gap: 1.75rem; }
+  .ctaWrap { order: 1; }
+  .points { margin-bottom: 0; }
+
+  /* Full width and tighter tracking so the label holds one line at 320px. */
+  .ctaWrap :global(.cta) {
+    width: 100%;
+    padding-inline: 1rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  /* Three across leaves about 90px a column, and "Bedrooms & living areas"
+     cannot sit on one line in that at any readable size. Stacked with the
+     thumbnail beside it, every label gets the full width and one line. */
+  .tiles { grid-template-columns: 1fr; gap: 0.9rem; }
+  .tiles a { display: flex; align-items: center; gap: 0.9rem; }
+  .tileFrame { flex: none; width: 6rem; }
+  .tiles a:hover .tileFrame { transform: none; }
+  .tileLabel {
+    margin-top: 0;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
   .tileSub { display: none; }
 }
 

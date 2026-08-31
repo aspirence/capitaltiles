@@ -30,8 +30,15 @@ export default function CollectionIntro({
       <div className="container">
         <nav className={s.crumbs} aria-label="Breadcrumb">
           <Link href="/">Home</Link>
-          <i aria-hidden="true">/</i>
-          <Link href={parent.href}>{parent.label}</Link>
+          {/* The section landings — /tiles, /carpet, /flooring — sit directly
+              under Home and name it as their parent, which printed it twice.
+              Home is already the first crumb, so it is not repeated. */}
+          {parent.href !== '/' && (
+            <>
+              <i aria-hidden="true">/</i>
+              <Link href={parent.href}>{parent.label}</Link>
+            </>
+          )}
           <i aria-hidden="true">/</i>
           <span>{crumb}</span>
         </nav>

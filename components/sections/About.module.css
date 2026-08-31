@@ -55,7 +55,14 @@
 }
 
 /* ---- copy --------------------------------------------------------------- */
-.title { margin: 0.9rem 0 1.2rem; max-width: 20ch; }
+/* 20ch broke this heading over three lines. 32ch holds it in two and still
+   sits inside the copy column; balance keeps the two lines even rather than
+   leaving a short one hanging. */
+.title {
+  margin: 0.9rem 0 1.2rem;
+  max-width: 32ch;
+  text-wrap: balance;
+}
 .body { margin-bottom: 2.2rem; }
 
 .stats {

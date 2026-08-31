@@ -31,11 +31,14 @@ export default function Bathware() {
             <li>One quoted price, with no hidden costs</li>
           </ul>
 
-          <div data-reveal style={{ '--reveal-delay': '290ms' }}>
-            <Link href="/contact-us" className="cta ctaLight">
-              <span>Book a free measure and quote</span>
-            </Link>
-          </div>
+        </div>
+
+        {/* A sibling of the copy rather than a child of it, so a phone can move
+            it below the showcase instead of pushing the images past the fold. */}
+        <div className={s.ctaWrap} data-reveal style={{ '--reveal-delay': '290ms' }}>
+          <Link href="/contact-us" className="cta ctaLight">
+            <span>Book a free measure and quote</span>
+          </Link>
         </div>
 
         <div className={s.showcase}>

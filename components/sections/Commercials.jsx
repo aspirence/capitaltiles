@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import Carousel from '../Carousel'
 import s from './Commercials.module.css'
 
@@ -76,7 +75,6 @@ export default function Commercials() {
                   once the boxes land on site.
                 </p>
               </div>
-              <Link href="/gallery" className={'linkUnder ' + s.viewAll}>View all</Link>
             </div>
           }
         >

@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import s from './BlogArticle.module.css'
 
-/* Article page for one journal post: banner, meta strip, body, then the other
-   posts. Content comes from components/blogData.js so the homepage carousel and
-   these pages can never drift apart. */
+/* Article page for one journal post: banner, meta strip, then the copy on the
+   left with the other posts in a column beside it, so the next read stays in
+   view the whole way down rather than waiting at the bottom of the page.
+   Content comes from components/blogData.js so the homepage carousel and these
+   pages can never drift apart. */
 
 export default function BlogArticle({ post, more }) {
   return (
@@ -61,34 +63,37 @@ export default function BlogArticle({ post, more }) {
               </div>
             </div>
           </div>
+
+          {/* ---------- other posts, beside the copy ---------- */}
+          {more.length > 0 && (
+            <aside className={s.aside} aria-label="More from the journal">
+              <div className={s.asideInner}>
+                <p className={s.asideEyebrow}>Keep reading</p>
+                <h2 className={s.asideTitle}>More from the journal</h2>
+
+                <ul className={s.asideList}>
+                  {more.map((m) => (
+                    <li key={m.slug}>
+                      <Link href={`/blogs/${m.slug}`} className={s.asideCard}>
+                        <span className={s.asideFrame}>
+                          <img src={m.img} alt="" loading="lazy" />
+                        </span>
+                        <span className={s.asideText}>
+                          <span className={s.asideCat}>{m.cat}</span>
+                          <span className={s.asideName}>{m.title}</span>
+                          <span className={s.asideDate}>{m.date}</span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+
+                <Link href="/blogs" className={'linkUnder ' + s.asideAll}>All journal posts</Link>
+              </div>
+            </aside>
+          )}
         </div>
       </article>
-
-      {/* ---------- more ---------- */}
-      {more.length > 0 && (
-        <section className={'sectionPad ' + s.more}>
-          <div className="container">
-            <header className={s.moreHead}>
-              <p className="eyebrow" data-reveal>Keep reading</p>
-              <h2 className={'title ' + s.moreTitle} data-reveal>More from the journal</h2>
-            </header>
-            <ul className={s.moreGrid}>
-              {more.map((m, i) => (
-                <li key={m.slug} data-reveal style={{ '--reveal-delay': i * 80 + 'ms' }}>
-                  <Link href={`/blogs/${m.slug}`} className={s.card}>
-                    <span className={'zoomFrame ' + s.frame}>
-                      <img src={m.img} alt="" loading="lazy" />
-                      <span className={s.cardCat}>{m.cat}</span>
-                    </span>
-                    <span className={s.cardDate}>{m.date}</span>
-                    <span className={s.cardTitle}>{m.title}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
     </>
   )
 }

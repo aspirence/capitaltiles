@@ -145,7 +145,12 @@
 .btn:hover { background: var(--gold); color: var(--white); }
 
 /* ---- breakpoints -------------------------------------------------------- */
-@media (max-width: 1024px) {
+/* The section paints one shared photo behind all four columns and swaps it on
+   hover. Folded into two the photo no longer lines up with the cards sitting on
+   it, which is what looked broken at 1024 and again at 768. Four columns still
+   fit at 768 — about 192px each, enough for the card and its button — so the
+   fold is held back to genuinely narrow screens. */
+@media (max-width: 767px) {
   .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); height: auto; }
   .col { min-height: clamp(23rem, 52vw, 30rem); }
   .divider:nth-of-type(1), .divider:nth-of-type(3) { display: none; }

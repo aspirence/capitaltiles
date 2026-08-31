@@ -26,18 +26,22 @@ export default function Visualizer() {
     <section className={'sectionPad ' + s.section}>
       <div className="container">
         <div className={s.head}>
-          <div>
-            <p className="eyebrow" data-reveal>Two ways to start</p>
+          {/* The eyebrow sits above the pair rather than inside the left
+              column, so the heading and the lede below it start on the same
+              line as each other. */}
+          <p className={'eyebrow ' + s.eyebrow} data-reveal>Two ways to start</p>
+
+          <div className={s.headRow}>
             <h2 className={'title ' + s.title} data-reveal style={{ '--reveal-delay': '80ms' }}>
               Get the measure of your project
             </h2>
+            <p className={'lede ' + s.lede} data-reveal style={{ '--reveal-delay': '160ms' }}>
+              Book a free measure and quote and we&rsquo;ll come to you, check the subfloor and price
+              the job in writing — supply only, or supply and install. Or call into the Mitchell
+              showroom, see full sheets and boards at proper size and take samples home to sit them
+              against your own light and colours.
+            </p>
           </div>
-          <p className={'lede ' + s.lede} data-reveal style={{ '--reveal-delay': '160ms' }}>
-            Book a free measure and quote and we&rsquo;ll come to you, check the subfloor and price
-            the job in writing — supply only, or supply and install. Or call into the Mitchell
-            showroom, see full sheets and boards at proper size and take samples home to sit them
-            against your own light and colours.
-          </p>
         </div>
 
         <div className={s.doors}>

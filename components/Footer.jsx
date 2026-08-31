@@ -12,7 +12,7 @@ import s from './Footer.module.css'
      2. a white address band listing the offices with phone / e-mail / socials,
      3. a centred copyright rule.
 
-   Below 768px the titled groups collapse into accordions, exactly as they do
+   Below 900px the titled groups collapse into accordions, exactly as they do
    on the reference; the static links stay permanently open.
    ------------------------------------------------------------------------- */
 
@@ -96,7 +96,7 @@ const OFFICES = [
   {
     title: 'Call Us',
     phone: '02 6253 8158',
-    tollFree: 'Mon–Fri 9:00am–5:00pm · Sat 10:00am–3:00pm',
+    tollFree: 'Mon–Fri 9am–5pm · Sat 10am–3pm',
   },
   {
     title: 'Email Us',
@@ -161,12 +161,13 @@ const SOCIALS = [
 
 export default function Footer() {
   /* Desktop keeps every group open; the accordion behaviour is added only
-     below 768px so no link is ever hidden behind JS on a wide screen. */
+     below 900px so no link is ever hidden behind JS on a wide screen. The
+     breakpoint has to match the one in Footer.module.css. */
   const [isMobile, setIsMobile] = useState(false)
   const [open, setOpen] = useState(null)
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 767px)')
+    const mq = window.matchMedia('(max-width: 900px)')
     const apply = (matches) => {
       setIsMobile(matches)
       setOpen(null)
@@ -195,7 +196,10 @@ export default function Footer() {
                         <ul className={s.links}>
                           {group.links.map((l) => (
                             <li key={l.label}>
-                              <Link href={l.href}>{l.label}</Link>
+                              <Link href={l.href}>
+                                {l.label}
+                                <IconChevron className={s.rowArrow} />
+                              </Link>
                             </li>
                           ))}
                         </ul>
@@ -213,7 +217,7 @@ export default function Footer() {
                         aria-expanded={shown}
                       >
                         {group.title}
-                        <IconChevron className={s.chev} />
+                        <span className={s.chev} aria-hidden="true" />
                       </button>
                     </h2>
                     {/* Single-child panel: the 0fr→1fr collapse only sizes the
@@ -280,7 +284,7 @@ export default function Footer() {
                         aria-label={so.label}
                         title={so.label}
                       >
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"
                           aria-hidden="true">
                           <path d={so.path} />
                         </svg>

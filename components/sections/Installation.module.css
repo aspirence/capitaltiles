@@ -261,6 +261,19 @@
   .workGrid { grid-template-columns: 1fr; }
   .bandGrid { grid-template-columns: 1fr; }
 }
+/* One column on a tablet gives each card the full width of the container, and
+   a 4:3 frame on that stands over 500px tall — one card fills the screen. The
+   card keeps the full width, which is what the section wants; the frame drops
+   the ratio and takes a set height instead, so the picture is wide and calm
+   rather than tall. Phones below 561px keep the 4:3, where it still fits. */
+@media (min-width: 561px) and (max-width: 880px) {
+  .workFrame,
+  .bandMedia {
+    aspect-ratio: auto;
+    height: clamp(16rem, 44vw, 24rem);
+  }
+}
+
 @media (max-width: 560px) {
   .whyGrid { grid-template-columns: 1fr; }
 }

@@ -6,10 +6,10 @@ import s from './Journey.module.css'
    reveals a rule on hover. */
 
 const CARDS = [
-  { label: 'Free Measure & Quote', copy: 'Book a time that suits you', href: '/contact-us', img: '/img/collections/basaltino.jpg' },
-  { label: 'Visit the Showroom', copy: '3 Pelle Street, Mitchell', href: '/about', img: '/img/about/showroom.jpg' },
+  { label: 'Free Measure & Quote', copy: 'Book a time that suits you', href: '/contact-us/enquiry', img: '/img/collections/basaltino.jpg' },
+  { label: 'Visit the Showroom', copy: '3 Pelle Street, Mitchell', href: '/contact-us', img: '/img/about/showroom.jpg' },
   { label: 'Browse the Tiles', copy: 'Indoor, outdoor and pavers', href: '/tiles', img: '/img/collections/alchimia.jpg' },
-  { label: 'Explore Flooring', copy: 'Talk to us about hybrid and timber', href: '/flooring/hybrid-flooring', img: '/img/flooring/hybrid-flooring.jpg' },
+  { label: 'Explore Flooring', copy: 'Talk to us about hybrid and timber', href: '/flooring', img: '/img/flooring/hybrid-flooring.jpg' },
 ]
 
 export default function Journey() {

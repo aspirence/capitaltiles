@@ -186,12 +186,12 @@
 }
 .hours em { font-style: normal; color: var(--ink); }
 
-.socials { display: flex; gap: 0.6rem; }
+.socials { display: flex; gap: 0.85rem; }
 .socials a {
   display: grid;
   place-items: center;
-  width: 2.35rem;
-  height: 2.35rem;
+  width: 3rem;
+  height: 3rem;
   border: 1px solid var(--grey-line);
   border-radius: 50%;
   color: var(--ink);

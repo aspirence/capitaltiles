@@ -28,7 +28,9 @@
   color: var(--gold-deep);
 }
 .title {
-  max-width: 20ch;
+  /* 20ch broke this heading over two lines. 32ch holds it on one and still
+     sits well inside the container at the display size. */
+  max-width: 32ch;
   font-family: var(--font-display);
   font-size: var(--f-display);
   font-weight: 400;
@@ -134,4 +136,22 @@
 }
 @media (max-width: 600px) {
   .grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  /* balance evens the two lines rather than filling the first, which on a
+     320px screen leaves a wedge of empty space to the right of "Advice from
+     the". Normal wrapping runs each line out to the edge of the section, and
+     the container is the only width limit the heading needs down here. */
+  .title {
+    max-width: none;
+    text-wrap: wrap;
+    /* --f-display bottoms out at 1.55rem, wide enough here that "showroom" is
+       pushed to a second line with a wedge of empty space beside "Advice from
+       the". This step is small enough for the heading to run out to the edge
+       and still sit about 1.5x the body copy, so it reads as a heading rather
+       than as another paragraph. */
+    font-size: clamp(1.25rem, 6.7vw, 1.8rem);
+    line-height: 1.2;
+  }
 }

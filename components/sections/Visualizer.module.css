@@ -5,14 +5,19 @@
   overflow-x: clip;
 }
 
-.head {
+.head { margin-bottom: clamp(2rem, 3.5vw, 3.25rem); }
+.eyebrow { margin-bottom: 0.7rem; }
+
+/* Heading and lede are the two columns, aligned on their top edge so both
+   start on the same line. The left column is the wider of the two, which sets
+   the lede further across the page. */
+.headRow {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  align-items: end;
-  gap: 1.5rem clamp(2rem, 5vw, 5rem);
-  margin-bottom: clamp(2rem, 3.5vw, 3.25rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  align-items: start;
+  gap: 1.5rem clamp(2.5rem, 6vw, 6.5rem);
 }
-.title { margin-top: 0.7rem; }
+.title { margin-top: 0; }
 .lede { margin: 0; }
 
 /* ---- doors -------------------------------------------------------------- */
@@ -114,7 +119,7 @@
 }
 
 @media (max-width: 900px) {
-  .head { grid-template-columns: 1fr; }
+  .headRow { grid-template-columns: 1fr; }
   .doors { grid-template-columns: 1fr; }
   .doorCopy { opacity: 1; max-height: 6rem; }
 }

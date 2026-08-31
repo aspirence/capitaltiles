@@ -251,6 +251,18 @@
   .body { grid-template-columns: 1fr; }
 }
 
+/* One column hands the plate the full width of the container, and a 4:3.2 frame
+   on that stands well over 500px tall. The width is right — it is the height
+   that is too much — so the ratio gives way to a set height and the picture
+   stays as wide as the section. Phones below 561px are narrow enough that the
+   ratio still lands sensibly. */
+@media (min-width: 561px) and (max-width: 980px) {
+  .plates {
+    aspect-ratio: auto;
+    height: clamp(16rem, 44vw, 24rem);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marqueeTrack { animation: none; }
 }
