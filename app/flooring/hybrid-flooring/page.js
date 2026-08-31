@@ -37,6 +37,8 @@ export default function HybridFlooringPage() {
       <CollectionCopy
         heading="Waterproof hybrid planks for every room"
         paragraphs={PARAGRAPHS}
+        image="/img/copy/flooring-hybrid-flooring.jpg"
+        imageAlt="Water pooling and beading on a rigid-core hybrid timber-look floor in a kitchen"
       />
     </>
   )

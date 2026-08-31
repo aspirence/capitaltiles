@@ -63,6 +63,8 @@ export default function MosaicTilesPage() {
         faqs={FAQS}
         faqEyebrow="Grip, grout and setting out"
         faqLede="Mosaics raise a different set of questions to a plain floor tile — where they belong, how much grout you are signing up for, and what has to be sealed. Here is what we tell customers before they commit."
+        image="/img/copy/tiles-mosaic.jpg"
+        imageAlt="Mesh-mounted mosaic tiles following the curve of a shower niche and step"
       />
     </>
   )

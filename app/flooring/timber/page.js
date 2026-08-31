@@ -67,6 +67,8 @@ export default function NaturalTimberPage() {
         faqs={FAQS}
         faqEyebrow="Grain, finish and setout"
         faqLede="Timber raises questions the printed floors do not — how often it can be re-sanded, how it moves through a Canberra winter, and what herringbone really costs to lay. Here is where we usually start."
+        image="/img/copy/flooring-timber.jpg"
+        imageAlt="A solid Australian hardwood floor with grain, knots and colour shifting plank to plank"
       />
     </>
   )

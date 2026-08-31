@@ -71,6 +71,8 @@ export default function PoolTilesPage() {
         faqEyebrow="What pool tiles must handle"
         faqLede="Chlorine, salt and a Canberra winter are hard on a tile. Pool questions start with frost rating and safe footing on a wet edge, then move on to coping profiles and how far the glass mosaic should run."
         related={RELATED}
+        image="/img/copy/tiles-pool.jpg"
+        imageAlt="A pool surround in slip-resistant frost-proof porcelain with wet coping beside blue water"
       />
     </>
   )

@@ -66,6 +66,8 @@ export default function MegaSlabTilesPage() {
         faqs={FAQS}
         faqEyebrow="Panels, benchtops and lead times"
         faqLede="Mega slab is the range people know least about, so the questions tend to be practical ones — what it can be used for, how it compares to stone, and how to get hold of it. Here is where we usually start."
+        image="/img/copy/tiles-mega-slab.jpg"
+        imageAlt="A kitchen island and splashback in one enormous veined porcelain slab with unbroken veining"
       />
     </>
   )

@@ -67,6 +67,8 @@ export default function VinylFlooringPage() {
         faqs={FAQS}
         faqEyebrow="Thickness, backing and subfloors"
         faqLede="Most vinyl decisions come down to thickness, how it is fixed down, and what the subfloor underneath is doing. These are the questions we work through on nearly every vinyl quote."
+        image="/img/copy/flooring-vinyl.jpg"
+        imageAlt="A warm, quiet timber-look vinyl plank floor in a softly furnished room"
       />
     </>
   )

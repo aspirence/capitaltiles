@@ -71,6 +71,8 @@ export default function PatioTilesPage() {
         faqEyebrow="Planning your courtyard floor"
         faqLede="Plan a courtyard and the same questions come up every time: what goes under the pavers, how they behave underfoot when wet, whether a dark colour gets too hot, and how closely they match the floor inside."
         related={RELATED}
+        image="/img/copy/tiles-patio.jpg"
+        imageAlt="A covered entertaining patio paved in travertine-look frost-rated porcelain"
       />
     </>
   )

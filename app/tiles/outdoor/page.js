@@ -71,6 +71,8 @@ export default function OutdoorTilesPage() {
         faqEyebrow="Before the first paver goes down"
         faqLede="10mm tile or 20mm paver? That is where most outdoor jobs start. Then come frost through a Canberra winter, slip grades underfoot, matching the floor inside, and laying over an existing slab."
         related={RELATED}
+        image="/img/copy/tiles-outdoor.jpg"
+        imageAlt="Frost-rated porcelain paving on an outdoor terrace with water beading on the textured surface"
       />
     </>
   )

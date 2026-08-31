@@ -70,6 +70,8 @@ export default function FloorTilesPage() {
         faqs={FAQS}
         faqEyebrow="Grip, format and substrate"
         faqLede="Floor tiles come down to three practical questions — how much grip the room needs, how large a format the space can carry, and how flat the substrate underneath actually is."
+        image="/img/copy/tiles-floor-tiles.jpg"
+        imageAlt="A pale large-format porcelain floor running through a living room with minimal grout lines"
         related={RELATED}
       />
     </>

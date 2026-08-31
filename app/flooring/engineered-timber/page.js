@@ -67,6 +67,8 @@ export default function EngineeredTimberPage() {
         faqs={FAQS}
         faqEyebrow="Wear layers and movement"
         faqLede="Timber raises questions no other floor does — how much it moves, how often it can be re-sanded, and where it should not go. These are the ones Canberra homeowners and builders put to us most."
+        image="/img/copy/flooring-engineered-timber.jpg"
+        imageAlt="A wide-plank engineered oak floor with a cut edge showing the wear layer over its core"
       />
     </>
   )

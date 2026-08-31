@@ -65,6 +65,8 @@ export default function TilesPage() {
         faqs={FAQS}
         faqEyebrow="Finish, format and where it goes"
         faqLede="With a range this size the questions are always the same — where to start, which finish belongs where, and what has to be sealed. Here is how we work through it with customers."
+        image="/img/copy/tiles.jpg"
+        imageAlt="One porcelain range running from an interior floor up a feature wall and out onto a patio"
       />
     </>
   )

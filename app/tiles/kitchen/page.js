@@ -71,6 +71,8 @@ export default function KitchenTilesPage() {
         faqEyebrow="Asked on every kitchen quote"
         faqLede="A kitchen floor takes heat, grease and traffic, then has to look right where it meets the living room. Slip ratings, splashback formats and grout that resists grease come up on nearly every quote we write."
         related={RELATED}
+        image="/img/copy/tiles-kitchen.jpg"
+        imageAlt="A kitchen with a matt porcelain floor and a large-format splashback behind the cooktop"
       />
     </>
   )

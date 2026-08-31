@@ -72,6 +72,8 @@ export default function PolyesterCarpetPage() {
         faqEyebrow="Softness, spills and where it belongs"
         faqLede="Polyester is a fibre with clear strengths and one clear limit, and it is worth knowing both before you choose it. Here is what we tell customers about stains, flattening, the cut pile and loop pile ranges, and cleaning."
         related={RELATED}
+        image="/img/copy/carpet-polyester.jpg"
+        imageAlt="A droplet beading on the surface of pale polyester carpet pile rather than soaking in"
       />
     </>
   )

@@ -71,6 +71,8 @@ export default function WallTilesPage() {
         faqEyebrow="Your splashback and feature wall"
         faqLede="Gloss or matt, whether a floor tile can go on a wall, how fluted profiles hold up in a shower, keeping grout from discolouring — these are the questions Canberra customers ask before committing to a splashback or feature wall."
         related={RELATED}
+        image="/img/copy/tiles-wall.jpg"
+        imageAlt="A tiled feature wall at eye level with side light raking across the gloss and texture"
       />
     </>
   )

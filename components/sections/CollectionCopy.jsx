@@ -24,9 +24,29 @@ export default function CollectionCopy({
   faqEyebrow = 'Everything you need to know',
   faqTitle = 'Frequently Asked Questions',
   faqLede,
+  /* Optional: a photo for the space beside the copy. The copy runs to 86ch and
+     leaves the right of the container empty, so a page with a shot worth
+     showing passes one and the block becomes two columns. Pages that do not
+     pass one render exactly as before. */
+  image,
+  imageAlt = '',
 }) {
   const [more, setMore] = useState(false)
   const [open, setOpen] = useState(0)
+
+  const copyBlock = (
+    <>
+      <div className={more ? s.copy + ' ' + s.copyOpen : s.copy}>
+        {paragraphs.map((para, i) => (
+          <p key={i}>{para}</p>
+        ))}
+      </div>
+
+      <button type="button" className={'linkUnder ' + s.toggle} onClick={() => setMore((m) => !m)}>
+        {more ? 'Read less' : 'Read more'}
+      </button>
+    </>
+  )
 
   return (
     <>
@@ -35,15 +55,16 @@ export default function CollectionCopy({
         <div className="container">
           <h2 className={'title ' + s.h2}>{heading}</h2>
 
-          <div className={more ? s.copy + ' ' + s.copyOpen : s.copy}>
-            {paragraphs.map((para, i) => (
-              <p key={i}>{para}</p>
-            ))}
-          </div>
-
-          <button type="button" className={'linkUnder ' + s.toggle} onClick={() => setMore((m) => !m)}>
-            {more ? 'Read less' : 'Read more'}
-          </button>
+          {image ? (
+            <div className={s.copyGrid}>
+              <div>{copyBlock}</div>
+              <figure className={s.copyFigure}>
+                <img src={image} alt={imageAlt} loading="lazy" />
+              </figure>
+            </div>
+          ) : (
+            copyBlock
+          )}
         </div>
       </section>
 

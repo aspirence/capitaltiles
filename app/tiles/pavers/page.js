@@ -71,6 +71,8 @@ export default function PaversPage() {
         faqEyebrow="Base, frost and falls"
         faqLede="Paving questions are nearly always about what goes underneath and what the weather does to it. Here is what we work through before anything is laid."
         related={RELATED}
+        image="/img/copy/tiles-pavers.jpg"
+        imageAlt="Thick 20mm porcelain pavers laid on compacted sand with their depth visible at the edge"
       />
     </>
   )

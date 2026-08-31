@@ -71,6 +71,8 @@ export default function BathroomTilesPage() {
         faqEyebrow="Sizing, slip and grout"
         faqLede="Bathrooms ask more of a tile than any other room, so these are the questions we field most often — sizing, safe footing in the shower, the difference between matt, honed and polished, and keeping grout looking fresh."
         related={RELATED}
+        image="/img/copy/tiles-bathroom.jpg"
+        imageAlt="A modern bathroom finished in large-format marble-look porcelain, floor and shower wall"
       />
     </>
   )

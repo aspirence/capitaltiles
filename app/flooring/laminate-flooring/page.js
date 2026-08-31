@@ -67,6 +67,8 @@ export default function LaminateFlooringPage() {
         faqs={FAQS}
         faqEyebrow="Water, wear and what fits where"
         faqLede="Laminate is the floor people compare hardest against hybrid and vinyl, so most questions come down to water, wear and what it can be laid over. Here is what we tell customers before they choose."
+        image="/img/copy/flooring-laminate-flooring.jpg"
+        imageAlt="A timber-look laminate floor with embossed grain running through a hallway"
       />
     </>
   )

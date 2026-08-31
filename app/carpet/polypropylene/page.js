@@ -76,6 +76,8 @@ export default function PolypropyleneCarpetPage() {
         faqEyebrow="Spills, traffic lanes and honest limits"
         faqLede="Polypropylene is easy to like and easy to oversell, so here is the straight version — what it genuinely shrugs off, where it gives ground, and how to keep it looking right."
         related={RELATED}
+        image="/img/copy/carpet-polypropylene.jpg"
+        imageAlt="A family rumpus room floored in hard-wearing textured polypropylene carpet"
       />
     </>
   )

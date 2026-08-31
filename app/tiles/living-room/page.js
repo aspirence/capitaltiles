@@ -73,6 +73,8 @@ export default function LivingRoomTilesPage() {
         faqEyebrow="Asked on every living room quote"
         faqLede="Size, finish and whether the floor should carry through to the alfresco — these three decide how a living room floor turns out, and they come up on nearly every quote we write."
         related={RELATED}
+        image="/img/copy/tiles-living-room.jpg"
+        imageAlt="Large-format travertine-look porcelain running the length of a hallway into a living room"
       />
     </>
   )

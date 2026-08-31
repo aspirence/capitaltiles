@@ -72,6 +72,8 @@ export default function WoolCarpetPage() {
         faqEyebrow="Cost, care and cold mornings"
         faqLede="Wool asks a little more of you than a synthetic — more money up front and more care over what you clean it with — and gives back resilience, warmth and colour that lasts. Here is what we tell Canberra customers before they commit."
         related={RELATED}
+        image="/img/copy/carpet-wool.jpg"
+        imageAlt="A macro view of natural wool carpet pile showing the crimp in the fibres"
       />
     </>
   )

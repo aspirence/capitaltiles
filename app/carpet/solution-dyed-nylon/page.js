@@ -72,6 +72,8 @@ export default function SolutionDyedNylonCarpetPage() {
         faqEyebrow="Fade, cleaning and wear"
         faqLede="Solution dyed nylon raises a different set of questions to wool or polyester — how the colour gets in, what you are allowed to clean it with, and where the fibre earns its keep. These are the ones we work through on nearly every nylon quote."
         related={RELATED}
+        image="/img/copy/carpet-solution-dyed-nylon.jpg"
+        imageAlt="A hard-wearing grey loop pile carpet on a staircase with strong sunlight across the treads"
       />
     </>
   )

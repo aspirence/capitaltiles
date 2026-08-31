@@ -72,6 +72,8 @@ export default function TriextaPage() {
         faqEyebrow="Cleaning, pets and construction"
         faqLede="Triexta is the fibre customers ask the most questions about, mostly because the cold-water cleaning claim sounds too good. Here is what it does, what it does not, and how to choose between the two constructions."
         related={RELATED}
+        image="/img/copy/tiles-triexta.jpg"
+        imageAlt="A soft dense cut-pile carpet in a warm oat tone filling a sunlit lounge"
       />
     </>
   )

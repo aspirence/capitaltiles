@@ -73,6 +73,8 @@ export default function BedroomTilesPage() {
         faqEyebrow="Asked before every tiled bedroom"
         faqLede="Nearly every bedroom conversation starts with the same worry — that it will be cold and hard. Heating, finish and where the rugs go are what actually settle it."
         related={RELATED}
+        image="/img/copy/tiles-bedroom.jpg"
+        imageAlt="A bedroom with a warm matt timber-look tile floor and a rug either side of the bed"
       />
     </>
   )

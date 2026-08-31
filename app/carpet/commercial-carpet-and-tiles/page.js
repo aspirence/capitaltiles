@@ -75,6 +75,8 @@ export default function CommercialCarpetAndTilesPage() {
         faqEyebrow="Modules, ratings and site programs"
         faqLede="A commercial floor gets chosen on different grounds to a house — duty ratings, how the building keeps running through the works, and what happens the day something gets damaged. These are the questions we work through with facilities managers, builders and fit-out crews."
         related={RELATED}
+        image="/img/copy/carpet-commercial.jpg"
+        imageAlt="An office floored in modular carpet tiles with one module lifted at the corner"
       />
     </>
   )

@@ -80,6 +80,8 @@ export default function DuraTuftCarpetPage() {
         faqEyebrow="Fibre, wear and cleaning"
         faqLede="DuraTuft® raises a different set of questions to a wool or a nylon — what the yarn actually is, how it behaves when something goes over on it, and which of the six ranges belongs in a hallway. Here is what we tell people in the showroom."
         related={RELATED}
+        image="/img/copy/carpet-duratuft.jpg"
+        imageAlt="An exceptionally soft fine-filament cut pile carpet in a heathered grey lounge"
       />
     </>
   )

@@ -11,7 +11,10 @@
   max-height: 10.5rem;
   overflow: hidden;
   color: var(--grey-text);
-  line-height: 1.95;
+  /* Sized to match the FAQ answers below it: this block was inheriting body
+     size and read a step larger than the rest of its own band. */
+  font-size: var(--f-small);
+  line-height: 1.85;
   transition: max-height 0.6s var(--ease);
 }
 .copyOpen { max-height: 70rem; }
@@ -28,6 +31,31 @@
 }
 .copyOpen::after { opacity: 0; }
 
+/* Two columns only when a page passes an image. The copy already caps at 86ch,
+   so it keeps its measure and the photo takes the space to its right that was
+   sitting empty. */
+.copyGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.62fr);
+  gap: clamp(2rem, 4.5vw, 4.5rem);
+  align-items: start;
+}
+
+.copyFigure { margin: 0; }
+.copyFigure img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .copyGrid { grid-template-columns: 1fr; }
+  /* On one column the photo introduces the copy rather than trailing the
+     read-more button, where it would read as a stray image. */
+  .copyFigure { order: -1; }
+}
+
 .inline { color: var(--ink); border-bottom: 1px solid var(--gold); }
 
 .toggle {
@@ -43,7 +71,9 @@
 /* Same treatment as the About page FAQ (AboutFaq.module.css): a centred
    header over a two-column grid of white cards, held to a 1440px frame rather
    than the site's wider container so the questions do not stretch thin. */
-.faqSection { background: var(--grey-bg); }
+/* White. The cards keep their own grey-line border, so they still read as
+   cards against it, and the grey copy band above is what separates the two. */
+.faqSection { background: var(--white); }
 
 .faqInner {
   width: 100%;

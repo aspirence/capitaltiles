@@ -66,6 +66,8 @@ export default function SubwayTilesPage() {
         faqs={FAQS}
         faqEyebrow="Format, finish and grout"
         faqLede="With subway the tile is the easy part — the decisions are size, glaze, laying pattern and grout colour, and together they change the room completely. These are the questions we work through with customers."
+        image="/img/copy/tiles-subway.jpg"
+        imageAlt="A kitchen splashback in classic white subway tiles laid in a running bond"
       />
     </>
   )

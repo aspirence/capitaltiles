@@ -65,6 +65,8 @@ export default function FlooringPage() {
         faqs={FAQS}
         faqEyebrow="Water, wear and subfloors"
         faqLede="Choosing between five floor types comes down to a handful of practical questions — what gets wet, what gets walked on, and what is already underneath. These are the ones we answer most."
+        image="/img/copy/flooring.jpg"
+        imageAlt="Floor board samples side by side showing their edge profiles and core construction"
       />
     </>
   )

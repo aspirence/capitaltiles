@@ -65,6 +65,8 @@ export default function CarpetPage() {
         faqs={FAQS}
         faqEyebrow="Fibre, pile and wear"
         faqLede="Nearly every carpet decision comes back to two things — what the fibre is and how it is tufted. These are the questions that sort it out."
+        image="/img/copy/carpet.jpg"
+        imageAlt="A close view of carpet pile in natural tones, raking light picking out the texture"
       />
     </>
   )
