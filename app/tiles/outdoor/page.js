@@ -61,7 +61,7 @@ export default function OutdoorTilesPage() {
       <CollectionGrid
         items={OUTDOOR}
         heading="Outdoor Tiles"
-        basePath="/tiles/outdoor"
+        basePath="/tiles"
         imgPath="/img/outdoor"
       />
       <CollectionCopy

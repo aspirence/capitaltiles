@@ -177,10 +177,6 @@ export default function Header() {
                 </button>
               </div>
               <span className={s.divider} aria-hidden="true" />
-              <Link href="/where-to-buy" className={s.whereToBuy}>
-                <IconPin /> Where to Buy
-              </Link>
-              <span className={s.divider} aria-hidden="true" />
               <Link href="/contact-us/enquiry" className={s.enquire}>
                 Enquire
               </Link>
@@ -387,13 +383,6 @@ export default function Header() {
             </ul>
           </div>
 
-          <Link
-            href="/where-to-buy"
-            className={'cta ctaLight ' + s.drawerCta}
-            onClick={() => setDrawer(false)}
-          >
-            <span>Where to Buy</span>
-          </Link>
         </nav>
       </aside>
     </>

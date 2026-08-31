@@ -26,7 +26,7 @@ const RANGES = [
   {
     name: 'Installation',
     line: 'Free measure · Lay · Seal',
-    href: '/contact-us/enquiry',
+    href: '/installation',
     img: '/img/about/craft.jpg',
   },
 ]
