@@ -237,15 +237,6 @@ export default function ProductDetail({ product, collection, related = [] }) {
                     alt={`${name} ${isFlooring ? 'flooring' : 'tiles'}`}
                     width="1400"
                     height="1050"
-                    className={
-                      isFlooring
-                        ? s.flooringShot
-                        : product.handle === 'vienna'
-                        ? s.topAlignedShot
-                        : product.handle === 'caesarstone' && active >= 8
-                          ? s.productShot
-                          : undefined
-                    }
                   />
                 ) : (
                   <span className={s.noShot}>Images available in our Mitchell showroom</span>

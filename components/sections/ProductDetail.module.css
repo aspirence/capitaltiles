@@ -56,12 +56,12 @@
   background: var(--white);
   border: 1px solid var(--grey-line);
 }
-.stage img { width: 100%; height: 100%; object-fit: cover; }
-.stage img.productShot { object-fit: contain; object-position: center; }
-.stage img.flooringShot { object-fit: contain; object-position: center; }
-.stage img.topAlignedShot {
-  transform: translateY(-16%);
-}
+/* contain, not cover. The stage is a fixed 4:3 but the gallery is not: room
+   shots, square product shots and spec sheets all land here, and cropping a
+   spec sheet cuts off the thickness, format and slip rating printed near its
+   edges. Fitting inside the frame is the only rule that is never wrong, and
+   the stage is white so the margin reads as part of the card. */
+.stage img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
 
 .noShot {
   padding: 2rem;
@@ -432,6 +432,23 @@
   .relatedGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
+/* Three across but four ranges in the rail, so the fourth drops to a row of
+   its own with two empty cells beside it. In this band the rail shows three
+   and stops. Wider it is four across, narrower it is two — both divide evenly,
+   so neither needs this. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .relatedGrid > li:nth-child(4) { display: none; }
+}
+
+/* The strip lays out on auto-fit at an 11rem minimum, and four of those plus
+   their gaps need about 824px — so from there down to the two-column fold the
+   fourth spec dropped to a row of its own. A 9rem minimum fits all four across
+   at 768 and still lets auto-fit decide, so a range with three or five specs
+   lays out on its own terms rather than being forced into four. */
+@media (min-width: 761px) and (max-width: 900px) {
+  .stripList { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
+}
+
 @media (max-width: 760px) {
   .relatedGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stripList { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
@@ -444,4 +461,15 @@
   .relatedGrid { grid-template-columns: 1fr; }
   .actions { gap: 1rem; }
   .actions :global(.cta) { width: 100%; }
+
+  /* "Enquire about this range" is 24 characters, and at the default tracking
+     and padding it needs about 300px — more than a 320px screen has. Tighter
+     on both counts keeps it on one line. */
+  .ctaRow :global(.cta) {
+    width: 100%;
+    padding-inline: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
 }
