@@ -20,7 +20,7 @@ export default function CollectionIntro({
   compact = false,
   heroBg,
 }) {
-  const bg = heroBg || `/img/title-bg/${imageSlug(title)}.png`
+  const bg = heroBg || `/img/title-bg/${imageSlug(title)}.jpg`
 
   return (
     <section

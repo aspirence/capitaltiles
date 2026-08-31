@@ -26,7 +26,7 @@ export default function Faqs({ groups, lede }) {
     <>
       {/* ---------- banner ---------- */}
       <section className={s.banner}>
-        <img src="/img/title-bg/frequently-asked-questions.png" alt="" />
+        <img src="/img/title-bg/frequently-asked-questions.jpg" alt="" />
         <div className={s.bannerShade} aria-hidden="true" />
         <div className={'container ' + s.bannerInner}>
           <nav className={s.crumbs} aria-label="Breadcrumb">

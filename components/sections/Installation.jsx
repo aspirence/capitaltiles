@@ -10,19 +10,19 @@ const WORK = [
   {
     title: 'Hybrid & Timber Flooring',
     copy: 'Rigid-core hybrid, laminate, engineered timber and vinyl planks, laid over a subfloor we have levelled and checked for moisture first. Click systems float over a sound existing floor; glue-down goes straight to the slab.',
-    img: '/img/installation/hybrid-timber.png',
+    img: '/img/installation/hybrid-timber.jpg',
     href: '/flooring/hybrid-flooring',
   },
   {
     title: 'Porcelain & Feature Tiles',
     copy: 'Floors, walls, splashbacks, showers and outdoor paving. We handle the setting out so cuts land where you will not notice them, then grout, seal and finish the edges properly.',
-    img: '/img/installation/porcelain-tiles.png',
+    img: '/img/installation/porcelain-tiles.jpg',
     href: '/tiles/wall',
   },
   {
     title: 'Measure, Supply & Install',
     copy: 'One team from the first site visit to the final clean-up. You get one quote covering product, preparation, labour and rubbish removal, so nothing appears on the invoice that was not on the quote.',
-    img: '/img/installation/measure-supply-install.png',
+    img: '/img/installation/measure-supply-install.jpg',
     href: '/contact-us/enquiry',
   },
 ]
@@ -31,22 +31,22 @@ const REASONS = [
   {
     title: 'Free Measure & Quote',
     copy: 'We come to you, measure the rooms accurately, check what is under the existing floor, and put the price in writing. No obligation, no pressure.',
-    icon: '/img/installation/free-quote.png',
+    icon: '/img/installation/free-quote.jpg',
   },
   {
     title: 'Work We Stand Behind',
     copy: 'Straight lines, even grout joints, tight thresholds and edges that are finished rather than covered up. If something is not right, we come back and fix it.',
-    icon: '/img/installation/quality.png',
+    icon: '/img/installation/quality.jpg',
   },
   {
     title: 'Advice Before You Buy',
     copy: 'Slip ratings for a wet area, which fibre suits a hallway, whether hybrid or vinyl fits your subfloor. We would rather talk you into the right product than the dearest one.',
-    icon: '/img/installation/advice.png',
+    icon: '/img/installation/advice.jpg',
   },
   {
     title: 'Start to Finish',
     copy: 'Old floor removal, subfloor preparation, laying, grouting, sealing and the clean-up afterwards. You deal with us the whole way through, not four different trades.',
-    icon: '/img/installation/start-to-finish.png',
+    icon: '/img/installation/start-to-finish.jpg',
   },
 ]
 
@@ -67,7 +67,7 @@ export default function Installation() {
     <>
       {/* ---------- banner ---------- */}
       <section className={s.banner}>
-        <img src="/img/installation/banner.png" alt="" />
+        <img src="/img/installation/banner.jpg" alt="" />
         <div className={s.bannerShade} aria-hidden="true" />
         <div className={'container ' + s.bannerInner}>
           <nav className={s.crumbs} aria-label="Breadcrumb">
@@ -156,7 +156,7 @@ export default function Installation() {
       <section className={s.band}>
         <div className={'container ' + s.bandGrid}>
           <div className={s.bandMedia} data-reveal="left">
-            <img src="/img/installation/feature-tile.png" alt="" loading="lazy" />
+            <img src="/img/installation/feature-tile.jpg" alt="" loading="lazy" />
           </div>
           <div className={s.bandCopy} data-reveal="right">
             <p className="eyebrow">Why it matters</p>
