@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { SERVICE_AREA } from '../siteData'
 import s from './About.module.css'
 
 /* Counts up once, the first time the block scrolls into view. */
@@ -107,9 +108,22 @@ export default function About() {
             ))}
           </ul>
 
-          <div data-reveal style={{ '--reveal-delay': '320ms' }}>
-            <Link href="/about" className="cta">
-              <span>More about us</span>
+          {/* The address, hours, phone and email were shown here for a while,
+              carried over when WhyChoose was folded in. They came back out:
+              the footer already carries the full set on every page, and a
+              second copy mid-page earned its space only while WhyChoose was
+              gone. components/siteData.js still holds them if they are ever
+              wanted here again. */}
+          <p className={s.areas} data-reveal style={{ '--reveal-delay': '300ms' }}>
+            Free measure and quote across {SERVICE_AREA}
+          </p>
+
+          <div className={s.actions} data-reveal style={{ '--reveal-delay': '380ms' }}>
+            <Link href="/contact-us/enquiry" className="cta">
+              <span>Book a free measure &amp; quote</span>
+            </Link>
+            <Link href="/about" className={'linkUnder ' + s.secondary}>
+              More about us
             </Link>
           </div>
         </div>

@@ -36,7 +36,7 @@ components/
   Reveal.jsx         one IntersectionObserver driving every reveal
   FloatingActions.jsx enquiry / WhatsApp / back-to-top
   navData.js         navigation taxonomy
-  sections/          the 12 body sections
+  sections/          the body sections
 public/
   fonts/             Corbert + Fraunces + DM Sans, served locally
   img/               all imagery, local
@@ -44,9 +44,14 @@ public/
 
 ## Homepage order
 
-Hero → About (counters) → Explore (tabbed carousel) → Collections (editorial
-index + marquee) → Spaces (expanding rack) → Bathware → Visualizer → Ranges →
-Brand films → Journey → Blogs → Social rails → Why Choose.
+Hero → About (showroom, with the address, hours and phone) → Explore (tab rail
+over an editorial index) → Spaces (expanding rack) → Bathware (the installation
+pitch) → Visualizer (measure & quote / showroom) → Advice (films and articles on
+one rail) → Social rails.
+
+Eight sections, down from fourteen. Ranges, Journey and Press were cut; Why
+Choose folded into About, Collections into Explore, and Commercials into Blogs
+to become Advice. See the note in `app/page.js` for what each one duplicated.
 
 ## Animation
 

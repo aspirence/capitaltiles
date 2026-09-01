@@ -96,3 +96,21 @@
   .badge { left: 0; bottom: 2.5rem; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+.areas {
+  margin: 0 0 2rem;
+  max-width: 52ch;
+  font-size: var(--f-small);
+  line-height: 1.6;
+  color: var(--grey-text);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+}
+.secondary { color: var(--grey-text); }
+.secondary:hover { color: var(--ink); }
+

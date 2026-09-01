@@ -24,21 +24,40 @@
 .title { margin-top: 0.7rem; color: var(--white); }
 .body { margin: 1.1rem 0 1.8rem; color: var(--white-70); }
 
+/* Rule-separated rows with a short gold marker, the same gesture as the
+   Explore index and the tab rail. These were pill-shaped chips — the only
+   border-radius in the codebase outside an explicit reset — so they read as
+   borrowed from another design system. */
 .points {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 2.2rem;
+  margin: 0 0 2.2rem;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
 .points li {
-  padding: 0.5rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 999px;
+  position: relative;
+  padding: 0.85rem 0 0.85rem 1.9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   font-size: var(--f-small);
+  line-height: 1.55;
   color: var(--white-70);
-  transition: border-color 0.35s var(--ease), color 0.35s var(--ease);
+  transition: color 0.35s var(--ease);
 }
-.points li:hover { border-color: var(--gold); color: var(--white); }
+/* The marker sits on the first line's optical centre rather than the row's, so
+   it stays put if a point wraps to two lines on a narrow column. */
+.points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 1.62em;
+  width: 0.85rem;
+  height: 1px;
+  background: var(--gold);
+  transform-origin: left;
+  transition: width 0.4s var(--ease);
+}
+.points li:hover { color: var(--white); }
+.points li:hover::before { width: 1.35rem; }
 
 /* ---- showcase ----------------------------------------------------------- */
 .showcase { display: grid; gap: clamp(1rem, 1.8vw, 1.75rem); }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import s from './Footer.module.css'
+import { SHOWROOM } from './siteData'
 
 /* ---------------------------------------------------------------------------
    Footer:
@@ -91,16 +92,16 @@ const COLUMNS = [
 const OFFICES = [
   {
     title: 'Visit Our Showroom',
-    address: '3 Pelle Street, Mitchell ACT 2911, Canberra',
+    address: SHOWROOM.address,
   },
   {
     title: 'Call Us',
-    phone: '02 6253 8158',
-    tollFree: 'Mon–Fri 9am–5pm · Sat 10am–3pm',
+    phone: SHOWROOM.phone,
+    tollFree: SHOWROOM.hours,
   },
   {
     title: 'Email Us',
-    email: 'cbr@capitaltiles.com.au',
+    email: SHOWROOM.email,
   },
   {
     title: 'Follow Us',
