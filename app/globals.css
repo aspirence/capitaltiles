@@ -98,6 +98,32 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* No visible scrollbar anywhere — not on the page, not in any inner scroller.
+   Everything still scrolls by wheel, trackpad, touch, keyboard and drag; only
+   the painted bar goes.
+
+   This was already being done a component at a time — the carousel track, the
+   Explore tab rail, the Installation grid each hid their own — which is why it
+   kept being missed elsewhere, most visibly in the filter panels on a category
+   page. One rule covers every scroller, including ones added later.
+
+   Worth knowing: with the bar gone, a scrollable list loses the only hint that
+   it scrolls. Where a panel holds more than it shows, give it a fade or a
+   count so the overflow is still legible. */
+html,
+body,
+*,
+*::before,
+*::after {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge */
+}
+::-webkit-scrollbar { /* Chromium, Safari */
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 body {
   margin: 0;
   background: var(--white);
