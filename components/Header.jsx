@@ -93,6 +93,43 @@ export default function Header() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
+  /* The desktop panels open on mouseenter — but if the pointer is already
+     parked on a nav item when the page loads, that event has already been and
+     gone. The browser keeps the item in :hover (the link stays dimmed, the
+     status bar still shows its href) while React never hears about it, so the
+     panel stays shut until the pointer leaves the item and comes back —
+     nudging it inside the item is not enough, because no boundary is crossed.
+     Reconcile against the browser's own hover state once the page is live.
+
+     Chromium recomputes hover off layout, which can land after hydration, so
+     this retries briefly and stops at the first match. It only ever opens what
+     is genuinely hovered; it never closes anything. */
+  useEffect(() => {
+    if (!window.matchMedia('(hover: hover)').matches) return
+
+    const timers = []
+    const sync = () => {
+      const hovered = document.querySelector('[data-nav-panel]:hover')
+      if (!hovered) return false
+      setOpenNav(hovered.dataset.navPanel)
+      return true
+    }
+    const retry = ([delay, ...rest]) => {
+      if (sync() || delay === undefined) return
+      timers.push(setTimeout(() => retry(rest), delay))
+    }
+    retry([0, 120, 400])
+
+    /* Coming back from the back/forward cache reinstates the pointer without
+       replaying its events either. */
+    const onShow = () => retry([0, 120])
+    window.addEventListener('pageshow', onShow)
+    return () => {
+      timers.forEach(clearTimeout)
+      window.removeEventListener('pageshow', onShow)
+    }
+  }, [])
+
   /* A short grace period on mouseleave lets the pointer cross the gap between
      a trigger and its panel without the panel snapping shut.
 
@@ -208,6 +245,7 @@ export default function Header() {
                   <li
                     key={item.label}
                     className={cls}
+                    data-nav-panel={hasPanel ? item.label : undefined}
                     onMouseEnter={() => (hasPanel ? openPanel(item.label) : scheduleClose())}
                     onMouseLeave={scheduleClose}
                   >
@@ -217,11 +255,13 @@ export default function Header() {
                     </Link>
 
                     {hasPanel && (
-                    <div
-                      className={s.mega}
-                      onMouseEnter={() => openPanel(item.label)}
-                      onMouseLeave={scheduleClose}
-                    >
+                    /* No mouse handlers of its own: the panel is a child of the
+                       <li>, so the <li>'s enter/leave already cover it. Its own
+                       onMouseLeave used to fire as the panel slid down out from
+                       under a pointer resting on the bottom of the bar — the
+                       pointer had not left the item at all, but the panel
+                       scheduled its own close and shut behind it. */
+                    <div className={s.mega}>
                       <div className={s.megaInner}>
                         {item.type === 'tabbed' && (
                           <>

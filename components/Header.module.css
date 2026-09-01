@@ -197,14 +197,28 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   font-size: var(--f-small);
-  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+  transition: background 0.4s var(--ease), color 0.4s var(--ease),
+    border-color 0.4s var(--ease);
 }
+/* Over the hero the button is white-on-transparent, so it fills white and the
+   label flips dark. It used to fill with `currentColor` while the same rule set
+   `color: white` — currentColor resolves against that very declaration, so the
+   fill and the label both came out white and the button hovered to a blank
+   white block. */
 .enquire:hover {
   opacity: 1;
-  background: currentColor;
-  color: var(--white);
+  background: var(--white);
+  color: var(--ink);
+  border-color: var(--white);
 }
-.solid .enquire:hover { color: var(--white); background: var(--black); border-color: var(--black); }
+/* Once the bar is white — scrolled, or holding an open mega panel — the label
+   is already dark, so it inverts the other way. */
+.solid .enquire:hover,
+.panelOpen .enquire:hover {
+  color: var(--white);
+  background: var(--black);
+  border-color: var(--black);
+}
 
 .burger {
   display: none;
@@ -246,19 +260,31 @@
    max-width container or their own <li>. */
 .navInner { position: static; }
 
+/* Every item claims an equal slice of the bar, and the slices touch.
+   With auto-width items and space-between, the only live hover target was the
+   label itself — about four fifths of the bar opened nothing, and dragging the
+   pointer across that dead space closed whatever was already open. */
 .navList {
   display: flex;
-  justify-content: space-between;
-  gap: clamp(0.5rem, 2vw, 2.5rem);
+  align-items: stretch;
 }
 
 /* Also static — a positioned <li> would anchor its mega panel to itself, and
    every item sits at a different x, which is what threw each panel off. */
-.navItem { position: static; }
+.navItem {
+  position: static;
+  flex: 1 1 0;
+  display: flex;
+  min-width: 0;
+}
 
 .navLink {
   position: relative;
   display: block;
+  /* Fills its slot so the whole strip is hoverable and clickable, not just the
+     few characters of the label. */
+  flex: 1;
+  text-align: center;
   padding: 1.15rem 0;
   font-size: clamp(0.72rem, 0.86vw, 0.9rem);
   letter-spacing: 0.14em;
@@ -267,6 +293,11 @@
   transition: opacity 0.3s var(--ease);
 }
 .navItem:hover .navLink { opacity: 0.62; }
+
+/* The two end items stay flush against the container edges, where they were
+   before the slots took over the spacing. */
+.navItem:first-child .navLink { text-align: left; }
+.navItem:last-child .navLink { text-align: right; }
 
 /* The little caret that points at the open panel, as on the reference. */
 .navPointer {
@@ -297,6 +328,12 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
+  /* Parked 10px high, the closed panel's box overlaps the bottom of the bar,
+     and visibility is transitioned rather than switched — so on the way out it
+     stays hit-testable at opacity 0 for the full 0.3s. That let a closed panel
+     swallow the pointer over the last 10px of the nav. Only an open panel
+     takes the pointer. */
+  pointer-events: none;
   transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0.3s;
   max-height: min(74vh, 640px);
   overflow-y: auto;
@@ -306,6 +343,7 @@
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  pointer-events: auto;
   transition: opacity 0.24s var(--ease), transform 0.24s var(--ease);
 }
 
