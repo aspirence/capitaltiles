@@ -78,11 +78,8 @@
   gap: 0.6rem;
   margin-top: 0.7rem;
   overflow-x: auto;
-  scrollbar-width: thin;
   padding-bottom: 0.35rem;
 }
-.thumbs::-webkit-scrollbar { height: 4px; }
-.thumbs::-webkit-scrollbar-thumb { background: var(--grey-line); }
 
 .thumb {
   display: block;
@@ -266,45 +263,9 @@
 }
 
 /* ---- overview ------------------------------------------------------------ */
-.about { background: var(--white); }
-.aboutGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  gap: clamp(1.75rem, 4vw, 4.5rem);
-  align-items: start;
-}
 
 .h2 { color: var(--ink); }
-.copy .h2 { margin: 0.6rem 0 1.2rem; }
-.copy { display: grid; gap: 1.1rem; min-width: 0; }
-.copy p:not([class]) {
-  max-width: 66ch;
-  line-height: 1.95;
-  color: var(--grey-text);
-}
 
-.featureCard {
-  padding: clamp(1.5rem, 2.6vw, 2.25rem);
-  background: var(--grey-bg);
-  border: 1px solid var(--grey-line);
-}
-.featureTitle {
-  margin-bottom: 1.1rem;
-  font-family: var(--font-display);
-  font-size: var(--f-sub);
-  font-weight: 400;
-  color: var(--ink);
-}
-.features { display: grid; gap: 0.85rem; }
-.features li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.7rem;
-  font-size: var(--f-small);
-  line-height: 1.75;
-  color: var(--grey-text);
-}
-.features svg { flex: none; margin-top: 0.3rem; color: var(--gold-deep); }
 
 /* ---- specification table ------------------------------------------------- */
 .specs { background: var(--grey-bg); }
@@ -472,4 +433,250 @@
     letter-spacing: 0.1em;
     white-space: nowrap;
   }
+}
+
+/* ---- floating enquire bar ----------------------------------------------- */
+/* Replaces the closing CTA section that sat under the spec table. That block
+   only reached a reader who got to the bottom of the page; this rides in as
+   soon as the hero's own Enquire button leaves the screen, so the ask is
+   always one click away without being shown twice at once.
+
+   Square, like everything else on the site — the reference this was modelled
+   on is a rounded e-commerce add-to-cart bar, but nothing here is rounded. */
+/* A centred card rather than a full-bleed strip: at 1440 a bar across the whole
+   window is a bigger object than the ask deserves, and it also put itself under
+   the floating rail. */
+.bar {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(0.9rem, 1.8vw, 1.6rem);
+  z-index: 85; /* over the page, under the mobile drawer and the film lightbox */
+  width: min(34rem, calc(100% - 1.5rem));
+  background: var(--white);
+  border: 1px solid var(--grey-line);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.16);
+  /* Both transforms live on one property, so the slide-in cannot fight the
+     centring the way separate rules would. */
+  transform: translateX(-50%) translateY(calc(100% + 2rem));
+  visibility: hidden;
+  transition: transform 0.45s var(--ease), visibility 0.45s;
+}
+.barOn {
+  transform: translateX(-50%) translateY(0);
+  visibility: visible;
+}
+
+/* The card sets its own gutter — the global .container padding would waste half
+   of a 34rem card on white space. */
+.barInner {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.7rem, 1.4vw, 1rem);
+  width: 100%;
+  max-width: none;
+  padding: 0.6rem 0.7rem;
+}
+
+.barThumb {
+  flex: none;
+  display: block;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  background: var(--grey-bg);
+}
+.barThumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.barText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  /* Takes the slack so the button stays hard right. */
+  margin-right: auto;
+}
+.barName {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  line-height: 1.25;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.barMeta {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --gold-deep rather than --gold: this is a solid fill carrying white text on
+   a white bar, and only the deep tone clears WCAG AA against white. */
+.barCta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.5rem;
+  border: 1px solid var(--gold-deep);
+  background: var(--gold-deep);
+  color: var(--white);
+  font-size: var(--f-small);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background 0.35s var(--ease), color 0.35s var(--ease);
+}
+.barCta:hover {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+}
+
+@media (max-width: 640px) {
+  .barThumb { width: 40px; height: 40px; }
+  .barMeta { display: none; }
+  .barCta { padding: 0.75rem 1rem; letter-spacing: 0.1em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar { transition: visibility 0.45s; transform: translateX(-50%) translateY(0); }
+  .bar:not(.barOn) { visibility: hidden; }
+}
+
+/* ---- the range, as an editorial band ------------------------------------ */
+/* The one dark break on an otherwise white product page, and the only block
+   whose job is what the range is LIKE rather than what it measures. It
+   replaced a two-column prose-plus-checklist that stated the same published
+   fields twice over. */
+.about {
+  background: var(--black-deep);
+  color: var(--white);
+  overflow: hidden;
+}
+
+/* Copy on the left, plate on the right. The columns lean towards the picture
+   because the copy is short — two paragraphs at most — and a 50/50 split left
+   the text column half empty. */
+.aboutGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: stretch;
+  gap: 0;
+}
+
+/* The plate runs the full height of the band and bleeds off the right edge —
+   no container padding on that side, so the picture meets the window. */
+.aboutPlate {
+  position: relative;
+  min-height: clamp(17rem, 27vw, 24rem);
+  overflow: hidden;
+  background: #1c1b1b;
+}
+/* Absolutely placed, not just height:100%. The plate only sets a min-height,
+   so a percentage height on the image resolved against auto and the picture
+   sized the band by its own aspect ratio — a landscape shot gave a 533px band
+   and a square one 754px on the same page width. Taken out of flow it fills
+   whatever the row turns out to be, and every range gets the same band. */
+.aboutPlate img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+  transition: transform 1.6s var(--ease);
+}
+.about:hover .aboutPlate img { transform: none; }
+
+.aboutNoShot {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: var(--f-small);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white-45);
+}
+
+.aboutCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(2rem, 3.4vw, 3.5rem) clamp(1.25rem, 3.6vw, 4rem);
+}
+
+.aboutName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 2.9vw, 2.75rem);
+  line-height: 1.1;
+  color: var(--white);
+}
+
+/* A rule under the name, the same gesture the tab rails and index rows use. */
+.aboutName::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-top: clamp(0.9rem, 1.5vw, 1.2rem);
+  background: var(--gold);
+}
+
+/* The opening paragraph carries the section — set larger, in white, with the
+   rest stepping back to the muted tone. */
+.aboutLead {
+  margin: clamp(0.9rem, 1.5vw, 1.25rem) 0 0;
+  max-width: 44ch;
+  font-size: clamp(0.98rem, 1.15vw, 1.12rem);
+  line-height: 1.7;
+  color: var(--white);
+}
+.aboutBody {
+  margin: 0.9rem 0 0;
+  max-width: 50ch;
+  font-size: var(--f-small);
+  line-height: 1.8;
+  color: var(--white-70);
+}
+
+.aboutLink {
+  position: relative;
+  margin-top: clamp(1.25rem, 2vw, 1.75rem);
+  padding-bottom: 0.35rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.aboutLink::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(1);
+  transform-origin: right;
+  transition: transform 0.45s var(--ease);
+}
+.aboutLink:hover::after { transform: scaleX(0); }
+
+@media (max-width: 900px) {
+  .aboutGrid { grid-template-columns: 1fr; }
+  /* The picture still leads on a phone, even though the copy comes first in
+     the markup so that the desktop reading order needs no override. */
+  .aboutPlate { order: -1; min-height: clamp(13rem, 46vw, 19rem); }
 }

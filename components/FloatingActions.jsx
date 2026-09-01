@@ -17,7 +17,7 @@ export default function FloatingActions() {
   }, [])
 
   return (
-    <div className={s.rail}>
+    <div className={s.rail} data-floating-rail>
       <Link href="/contact-us/enquiry" className={s.btn} aria-label="Send an enquiry" title="Enquire">
         <svg viewBox="0 0 36 36" width="23" height="23" fill="currentColor" aria-hidden="true">
           <path d="M6 12c0-2 2-4 4-4h16c2 0 4 2 4 4v10c0 2-2 4-4 4h-7l-6 4v-4h-3c-2 0-4-2-4-4V12Z" />

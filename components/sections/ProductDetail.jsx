@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import s from './ProductDetail.module.css'
 
@@ -19,7 +19,6 @@ function Icon({ d, size = 18 }) {
 }
 
 const ARROW = <path d="M5 12h14M13 6l6 6-6 6" />
-const CHECK = <path d="M20 6L9 17l-5-5" />
 
 /* The variant feed publishes raw option values — "Tranquility - Ashen Mist",
    "600 x 600", "AC5 Surface Finish" — while the chips show the tidied name.
@@ -55,7 +54,7 @@ function Facts({ items }) {
 
 export default function ProductDetail({ product, collection, related = [] }) {
   const {
-    name, brand, tagline, short, overview = [], features = [],
+    name, brand, tagline, short, overview = [],
     images = [], colours = [], sizes = [], finishes = [],
     thickness = [], slip = [], material = [],
     specCols = [], specRows = [], rooms = [],
@@ -81,6 +80,9 @@ export default function ProductDetail({ product, collection, related = [] }) {
   const [selectedFinish, setSelectedFinish] = useState(finishes[0] || '')
   const [variants, setVariants] = useState([])
   const shot = galleryImages[active] || galleryImages[0]
+  /* The editorial band wants a different frame from the one the gallery is
+     currently showing; fall back to the hero shot when there is only one. */
+  const aboutShot = galleryImages.find((img) => img !== shot) || shot
 
   useEffect(() => {
     let current = true
@@ -175,26 +177,28 @@ export default function ProductDetail({ product, collection, related = [] }) {
     `${name} is designed to give bathrooms a composed, lasting finish while remaining straightforward to coordinate with tapware, cabinetry and adjoining surfaces. ${material.length ? `Made in ${material.join(' and ').toLowerCase()}, the range balances visual character with dependable everyday performance.` : 'Its versatile surface makes it a confident starting point for both renovations and new builds.'}`,
     `Choose from ${sizes.length ? sizes.join(', ') : 'the formats available through our showroom'}${finishes.length ? `, with ${finishes.join(' and ')} finish options` : ''}. Because tone, pattern and texture can change under different lighting, we recommend comparing full-size samples in person and confirming the right specification for your wall, floor or wet-area application with our team.`,
   ]
-  const publishedFeatures = features.filter((f) => !isPlaceholder(f))
-  const displayFeatures = publishedFeatures.length ? publishedFeatures : isHybrid ? [
-    'Waterproof rigid-core construction for everyday spills',
-    colours.length ? `${colours.length} timber-inspired colour option${colours.length === 1 ? '' : 's'}` : 'Natural timber-look surface with easy-care performance',
-    sizes.length ? `Published profile: ${sizes.join(', ')}` : 'Comfortable, stable flooring for busy interiors',
-    'Suitable for connected living, kitchen and bedroom spaces',
-    'Professional measure, subfloor assessment and installation available',
-  ] : isLaminate ? [
-    'Durable wear surface made for everyday residential traffic',
-    colours.length ? `${colours.length} published colour option${colours.length === 1 ? '' : 's'}` : 'Timber-look tone and grain designed for easy coordination',
-    'Simple routine care with no sanding or refinishing required',
-    'Suitable for living areas, bedrooms, hallways and home offices',
-    'Professional measure, subfloor assessment and installation available',
-  ] : [
-    colours.length ? `${colours.length} colour option${colours.length === 1 ? '' : 's'}: ${colours.join(', ')}` : 'Colour availability can be confirmed in the showroom',
-    sizes.length ? `${sizes.length} format${sizes.length === 1 ? '' : 's'} for flexible layouts` : 'Format and availability confirmed to suit your project',
-    finishes.length ? `Available in ${finishes.join(', ')}` : 'Finish samples available to view in person',
-    slip.length ? `Published slip rating: ${slip.join(', ')}` : 'Our team can confirm suitability for your intended area',
-    'Suitable for residential renovations and new-build selections',
-  ]
+  /* What the band actually prints. Two paragraphs at most — the section was
+     running to three and standing taller than anything else on the page.
+
+     Counted across the 417 ranges that publish an overview: 88 second
+     paragraphs are a formats-and-finishes recital, which the spec table below
+     already sets out properly, and 232 of 299 third paragraphs are the same
+     invitation the link at the foot of the band makes. Both are dropped. The
+     rest of the second paragraphs are not filler at all — Australian Made,
+     Godfrey Hirst, where the wool comes from — so they stay. A blanket "keep
+     only the first" would have cost nearly three hundred ranges their one
+     distinguishing line. */
+  const isSpecRecital = (para) =>
+    /published for this range|^Formats published/.test(para)
+  const isShowroomPitch = (para) => /showroom/i.test(para)
+
+  const bandCopy = (() => {
+    const kept = aboutCopy.filter(
+      (para, i) => i === 0 || (!isSpecRecital(para) && !isShowroomPitch(para)),
+    )
+    /* A range whose only paragraph is a recital still needs something to say. */
+    return (kept.length ? kept : aboutCopy).slice(0, 2)
+  })()
 
   /* The strip only earns its space when there is something in it. */
   const strip = [
@@ -211,6 +215,72 @@ export default function ProductDetail({ product, collection, related = [] }) {
     colours.length && { label: 'Colours', value: colours.join(', ') },
     material.length && { label: 'Material', value: material.join(', ') },
   ].filter(Boolean)
+
+  /* The enquire bar rides in once the hero's own Enquire button has scrolled
+     off, so the page never shows the same ask twice at once. It replaced a
+     full closing CTA section that only a reader who made it to the bottom ever
+     saw. */
+  const actionsRef = useRef(null)
+  const barRef = useRef(null)
+  const [showBar, setShowBar] = useState(false)
+
+  useEffect(() => {
+    const el = actionsRef.current
+    if (!el || typeof IntersectionObserver === 'undefined') return undefined
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        /* Only once it has gone off the TOP. Before you reach it the button is
+           simply below the fold, and a bar offering the same thing then would
+           be arguing with itself. */
+        setShowBar(!entry.isIntersecting && entry.boundingClientRect.top < 0)
+      },
+      { threshold: 0 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  /* The bar is a centred card, so on a wide screen the floating rail clears it
+     on its own and should stay put. On a narrow one the card grows to nearly
+     the full width and the two collide. Rather than guess a breakpoint, measure
+     both and lift the rail only when their horizontal ranges actually overlap.
+     The lift is the card's real distance from the bottom of the viewport, so it
+     holds whatever the card's height or offset turns out to be. */
+  useEffect(() => {
+    document.body.dataset.enquireBar = showBar ? 'on' : 'off'
+
+    const sync = () => {
+      const bar = barRef.current
+      const rail = document.querySelector('[data-floating-rail]')
+      if (!showBar || !bar || !rail) {
+        document.body.style.removeProperty('--rail-lift')
+        return
+      }
+      const b = bar.getBoundingClientRect()
+      const r = rail.getBoundingClientRect()
+      /* Horizontal only: translateX(-50%) is part of the resting transform, so
+         left/right are already right, but the card is mid-slide when this
+         first runs and its top is still below the fold. Height and the CSS
+         bottom offset are both immune to the transform, so the lift is
+         measured from those rather than from a rect that is still moving. */
+      const overlaps = r.right > b.left && r.left < b.right
+      if (overlaps) {
+        const bottom = parseFloat(getComputedStyle(bar).bottom) || 0
+        document.body.style.setProperty('--rail-lift', Math.round(bar.offsetHeight + bottom + 12) + 'px')
+      } else {
+        document.body.style.removeProperty('--rail-lift')
+      }
+    }
+
+    sync()
+    window.addEventListener('resize', sync)
+    return () => {
+      window.removeEventListener('resize', sync)
+      delete document.body.dataset.enquireBar
+      document.body.style.removeProperty('--rail-lift')
+    }
+  }, [showBar])
 
   return (
     <>
@@ -319,7 +389,7 @@ export default function ProductDetail({ product, collection, related = [] }) {
 
               <Facts items={heroFacts} />
 
-              <div className={s.actions}>
+              <div className={s.actions} ref={actionsRef}>
                 <Link href="/contact-us/enquiry" className="cta">
                   <span>Enquire now</span>
                   <Icon d={ARROW} size={16} />
@@ -354,33 +424,66 @@ export default function ProductDetail({ product, collection, related = [] }) {
         </section>
       )}
 
-      {/* ---------- overview + features ---------- */}
-      {(aboutCopy.length > 0 || displayFeatures.length > 0) && (
-        <section className={'sectionPad ' + s.about} data-reveal-scope>
-          <div className="container">
-            <div className={s.aboutGrid}>
-              {aboutCopy.length > 0 && (
-                <div className={s.copy} data-reveal>
-                  <p className="eyebrow">About this range</p>
-                  <h2 className={'title ' + s.h2}>{name}</h2>
-                  {aboutCopy.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                </div>
+      {/* ---------- the range, as an editorial band ----------
+
+          This used to be prose on the left and an "At a glance" checklist on
+          the right, and the two said the same thing in two shapes: the copy
+          read "It runs in beige, Beige Fluted, Ivory Fluted and ivory" while
+          the card listed "Colours: Beige, Beige Fluted, Ivory Fluted and
+          Ivory". Both are drawn from the same published fields, and those
+          fields already appear twice more on the page — in the spec strip
+          above and the full table below. Four passes at the same numbers is
+          why the section read as filler.
+
+          So the checklist is gone and the section has been given the one job
+          nothing else on the page does: showing what the range is like. A
+          plate that bleeds off the edge, the name set large on a dark ground,
+          the narrative copy, and the invitation to come and stand on it. The
+          numbers stay where numbers belong. */}
+      {bandCopy.length > 0 && (
+        <section className={s.about} data-reveal-scope>
+          {/* Copy first in the DOM as well as on screen; the plate takes
+              order:-1 on a phone so the picture still leads there. */}
+          <div className={s.aboutGrid}>
+            <div className={s.aboutCopy}>
+              <h2 className={s.aboutName} data-reveal>
+                {name}
+              </h2>
+
+              {bandCopy[0] && (
+                <p className={s.aboutLead} data-reveal style={{ '--reveal-delay': '90ms' }}>
+                  {bandCopy[0]}
+                </p>
               )}
 
-              {displayFeatures.length > 0 && (
-                <div className={s.featureCard} data-reveal="right">
-                  <h3 className={s.featureTitle}>At a glance</h3>
-                  <ul className={s.features}>
-                    {displayFeatures.map((f, i) => (
-                      <li key={i}>
-                        <Icon d={CHECK} size={15} />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              {bandCopy.slice(1).map((para, i) => (
+                <p
+                  key={i}
+                  className={s.aboutBody}
+                  data-reveal
+                  style={{ '--reveal-delay': 150 + i * 60 + 'ms' }}
+                >
+                  {para}
+                </p>
+              ))}
+
+              <Link
+                href="/contact-us"
+                className={s.aboutLink}
+                data-reveal
+                style={{ '--reveal-delay': '220ms' }}
+              >
+                See it in the Mitchell showroom
+              </Link>
+            </div>
+
+            {/* The second frame where there is one, so the band is not the
+                same picture the gallery is already showing. */}
+            <div className={s.aboutPlate} data-reveal="scale">
+              {aboutShot ? (
+                <img src={aboutShot} alt={`${name} in place`} loading="lazy" />
+              ) : (
+                <span className={s.aboutNoShot}>In our Mitchell showroom</span>
               )}
             </div>
           </div>
@@ -424,25 +527,27 @@ export default function ProductDetail({ product, collection, related = [] }) {
         </section>
       )}
 
-      {/* ---------- closing cta ---------- */}
-      <section className={'sectionPad ' + s.cta}>
-        <div className="container">
-          <div className={s.ctaInner}>
-            <h2 className={'title ' + s.ctaTitle}>See {name} before you commit</h2>
-            <p className={s.ctaLede}>
-              {isFlooring
-                ? 'Full boards are on display in Mitchell, so you can compare colour, grain and texture in natural light. Choose supply only, or ask our team to measure, prepare the subfloor and install the complete floor.'
-                : 'Full tiles are on display in Mitchell, so you can carry one to the doorway and check the colour in daylight. Supply only, or let our own installers take care of removal, preparation, laying and grouting.'}
-            </p>
-            <div className={s.ctaRow}>
-              <Link href="/contact-us/enquiry" className="cta">
-                <span>Enquire about this range</span>
-              </Link>
-              <a href="tel:0262538158" className={s.phone}>02 6253 8158</a>
-            </div>
-          </div>
+
+      {/* ---------- floating enquire bar ---------- */}
+      <div ref={barRef} className={showBar ? s.bar + ' ' + s.barOn : s.bar}>
+        <div className={'container ' + s.barInner}>
+          {shot && (
+            <span className={s.barThumb} aria-hidden="true">
+              <img src={shot} alt="" />
+            </span>
+          )}
+          <span className={s.barText}>
+            <span className={s.barName}>{name}</span>
+            <span className={s.barMeta}>
+              {brand}
+              {sizes.length > 0 && ' · ' + sizes[0] + 'mm'}
+            </span>
+          </span>
+          <Link href="/contact-us/enquiry" className={s.barCta}>
+            Enquire Now
+          </Link>
         </div>
-      </section>
+      </div>
 
       {/* ---------- related ---------- */}
       {related.length > 0 && (

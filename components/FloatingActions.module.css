@@ -1,7 +1,8 @@
 .rail {
   position: fixed;
   right: clamp(0.75rem, 1.5vw, 1.5rem);
-  bottom: clamp(1rem, 2.5vw, 2rem);
+  /* --rail-lift is set on <body> while a product page's enquire bar is up. */
+  bottom: calc(clamp(1rem, 2.5vw, 2rem) + var(--rail-lift, 0px));
   z-index: 80;
   display: flex;
   flex-direction: column;
