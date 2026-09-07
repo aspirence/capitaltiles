@@ -24,11 +24,10 @@
 .crumbs a:hover { color: var(--ink); }
 .crumbs span { color: var(--ink); }
 
-/* 15rem rail + 5rem gap + 34rem prose = the 54rem the body below occupies.
-   Without this the header ran the full container while the body sat centred,
-   and the two started 230px apart on a 1440 screen. */
+/* The header keeps the body's frame, so the page holds one left edge from the
+   breadcrumb to the last paragraph. */
 .headInner {
-  max-width: 54rem;
+  max-width: 1440px;
   margin-inline: auto;
 }
 
@@ -60,21 +59,24 @@
 /* ---- body ---------------------------------------------------------------- */
 .body { background: var(--white); }
 
-/* The measure is set by the track, not by a cap inside it.
+/* The rail and the prose fill a 1440 frame, and the prose is justified.
 
-   These two were fighting: a 1fr content column ran to about 1050px at 1440
-   while `.prose p` capped the ink at 74ch (~621px), so every paragraph left
-   roughly 430px of empty page to its right for the whole length of a legal
-   document — which is why this page reads as broken on a desktop and fine on a
-   phone, where one column fills the width. Cap the column and centre the pair
-   instead: the leftover becomes margin on both sides rather than a void on
-   one. */
+   Before this the content column was a 1fr track with a 74ch cap on the
+   paragraphs inside it, so the ink stopped around 621px and left roughly 430px
+   of blank page beside every paragraph — which is why the page read as broken
+   on a desktop and fine on a phone. Filling the frame closes that gap from the
+   other side: the text uses the width instead of the width being trimmed to
+   the text, and a long policy takes far less scrolling.
+
+   Justified text needs hyphenation or it opens rivers of white between words
+   at this measure, so `hyphens: auto` comes with it rather than after it. */
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 15rem) minmax(0, 34rem);
-  justify-content: center;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
   gap: clamp(2rem, 5vw, 5rem);
   align-items: start;
+  max-width: 1440px;
+  margin-inline: auto;
 }
 
 .railWrap { position: sticky; top: calc(var(--header-real) + 1.5rem); }
@@ -117,6 +119,10 @@
 .prose p {
   line-height: 1.95;
   color: var(--grey-text);
+  text-align: justify;
+  /* Without this, justifying a line this wide pulls word gaps apart. */
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
 .prose p + p { margin-top: 1rem; }
 
@@ -200,4 +206,10 @@
   /* The rail is only useful while it can sit beside the copy. */
   .railWrap { display: none; }
   .moreGrid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 700px) {
+  /* Ragged right on a phone: at 358px a justified line has too few words to
+     distribute, so the gaps between them open up instead. */
+  .prose p { text-align: left; }
 }
