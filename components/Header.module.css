@@ -614,8 +614,14 @@
   .whereToBuy,
   .enquire,
   .corporate { display: none; }
-  .utilityInner { grid-template-columns: 1fr auto 1fr; min-height: 64px; }
-  .utilityLeft { justify-self: start; }
+  /* Logo left, burger right. The left cell carries only the Corporate menu,
+     which is hidden at this width, so the three-column track was holding an
+     empty 1fr whose only effect was to centre the mark. Two columns instead:
+     the mark sits against the container edge like everything else on the page,
+     and the burger keeps the far side. */
+  .utilityInner { grid-template-columns: auto 1fr; min-height: 64px; }
+  .utilityLeft { display: none; }
+  .logo { justify-self: start; }
 }
 
 /* Same treatment in the drawer: a heading, not a link. */
