@@ -50,7 +50,6 @@ export default function VinylFlooringPage() {
     <>
       <CollectionIntro
         parent={{ label: 'Flooring', href: '/flooring' }}
-        compact
         crumb="Vinyl Flooring"
         title="Vinyl: Quiet, Warm, Waterproof"
         lede={`${VINYL.length} ranges from 2.0mm to 5.0mm in oak, blackbutt and stone looks, in loose lay, glue-down and click. Soft underfoot and waterproof right through the plank.`}

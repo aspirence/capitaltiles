@@ -50,7 +50,6 @@ export default function EngineeredTimberPage() {
     <>
       <CollectionIntro
         parent={{ label: 'Flooring', href: '/flooring' }}
-        compact
         crumb="Engineered Timber"
         title="Real Timber, Engineered Flat"
         lede={`${TIMBER.length} ranges from 12mm to 15mm in oak, blackbutt, spotted gum and Tasmanian oak. Genuine hardwood over a cross-bonded core, so it keeps the grain without the cupping.`}

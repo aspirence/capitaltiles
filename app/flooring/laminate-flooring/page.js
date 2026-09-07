@@ -49,7 +49,6 @@ export default function LaminateFlooringPage() {
   return (
     <>
       <CollectionIntro
-        compact
         parent={{ label: 'Flooring', href: '/flooring' }}
         crumb="Laminate Flooring"
         title="Laminate Built for Traffic"

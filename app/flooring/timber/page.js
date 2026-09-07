@@ -49,7 +49,6 @@ export default function NaturalTimberPage() {
   return (
     <>
       <CollectionIntro
-        compact
         parent={{ label: 'Flooring', href: '/flooring' }}
         crumb="Natural Timber"
         title="Natural Timber, Real Grain"

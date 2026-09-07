@@ -15,16 +15,13 @@ export default function CollectionIntro({
   title,
   lede,
   parent = { label: 'Tiles', href: '/tiles' },
-  /* Opt-in: tightens the headline and lede on phones. Used by the flooring
-     pages, whose intros ran to six lines at 375px. */
-  compact = false,
   heroBg,
 }) {
   const bg = heroBg || `/img/title-bg/${imageSlug(title)}.jpg`
 
   return (
     <section
-      className={compact ? s.section + ' ' + s.compact : s.section}
+      className={s.section}
       style={{ '--intro-bg': `url('${bg}')` }}
     >
       <div className="container">

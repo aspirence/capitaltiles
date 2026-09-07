@@ -47,7 +47,6 @@ export default function TilesPage() {
   return (
     <>
       <CollectionIntro
-        compact
         parent={{ label: 'Home', href: '/' }}
         crumb="Tiles"
         title="Every Tile We Stock"

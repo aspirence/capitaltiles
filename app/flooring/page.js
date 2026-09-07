@@ -47,7 +47,6 @@ export default function FlooringPage() {
   return (
     <>
       <CollectionIntro
-        compact
         parent={{ label: 'Home', href: '/' }}
         crumb="Flooring"
         title="Five Floors, One Showroom"

@@ -39,24 +39,46 @@
   line-height: 1.9;
 }
 
-/* ---- compact (phones only) ---------------------------------------------- */
-/* Desktop is untouched: these rules exist only below 700px, and only for
-   sections that opted in with the `compact` prop. */
+/* ---- phones -------------------------------------------------------------- */
+/* Desktop is untouched: these rules exist only below 700px.
+
+   This used to be opt-in behind a `compact` prop, and only 11 of the 28 routes
+   that render this component ever passed it — so on 17 collection landings,
+   including most of /tiles/*, the entire phone treatment was dead code and the
+   headline sat oversized over the photograph. There was never a page that
+   wanted the untightened version; the prop only recorded which ones someone
+   had got to. */
 @media (max-width: 700px) {
-  .compact {
+  .section {
     padding-top: calc(var(--header-h) + 2.25rem);
     padding-bottom: 2rem;
+    /* The wash turns through 90 degrees here. On desktop it runs left to right
+       and fades to 0.28 at the far edge, which is fine because the copy stops
+       around 60% of the width. On a phone the copy runs the full width, so the
+       end of every line was landing on the clear end of the ramp — the last
+       lines of the lede sat straight on the photograph. Top to bottom instead,
+       opaque where the text is, clearing at the foot so the picture still
+       reads as a band under the copy. */
+    background:
+      linear-gradient(
+        180deg,
+        rgba(247, 245, 242, 0.97) 0%,
+        rgba(247, 245, 242, 0.94) 58%,
+        rgba(247, 245, 242, 0.55) 100%
+      ),
+      var(--intro-bg) center bottom / cover no-repeat,
+      var(--grey-bg);
   }
   /* No ch cap here: 17ch resolved to about 196px and forced an early wrap,
      leaving the headline stranded mid-row. Let it run the full container width
      and size it so the longest of these titles still holds one line at 360px. */
-  .compact .title {
+  .title {
     max-width: none;
     font-size: clamp(1.2rem, 5.5vw, 1.7rem);
     line-height: 1.2;
     text-wrap: balance;
   }
-  .compact .lede {
+  .lede {
     margin-top: 0.85rem;
     font-size: 0.84rem;
     line-height: 1.75;

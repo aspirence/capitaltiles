@@ -47,7 +47,6 @@ export default function CarpetPage() {
   return (
     <>
       <CollectionIntro
-        compact
         parent={{ label: 'Home', href: '/' }}
         crumb="Carpet"
         title="Carpet, Fibre by Fibre"

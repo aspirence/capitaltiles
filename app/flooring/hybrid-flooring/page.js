@@ -23,7 +23,6 @@ export default function HybridFlooringPage() {
     <>
       <CollectionIntro
         parent={{ label: 'Flooring', href: '/flooring' }}
-        compact
         crumb="Hybrid Flooring"
         title="Hybrid Flooring, Built Waterproof"
         lede={`${HYBRID.length} ranges of 100% waterproof rigid-core planks in oak, blackbutt and spotted gum, from 6.5mm to 9mm with acoustic underlay. One floor that runs right through the house.`}
