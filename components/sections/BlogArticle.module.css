@@ -198,7 +198,7 @@
   justify-content: center;
   min-height: 44px;
   padding-inline: 0.2rem;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--f-sub);
   color: var(--white);
   text-decoration: underline;
@@ -263,7 +263,7 @@
   margin-top: 1.25rem;
   padding-top: 1.25rem;
   border-top: 1px solid var(--grey-line);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: calc(var(--f-sub) * 1.1);
   font-weight: 400;
   line-height: 1.25;

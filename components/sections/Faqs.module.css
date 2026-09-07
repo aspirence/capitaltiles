@@ -250,7 +250,7 @@
   margin-top: clamp(1.6rem, 2.8vw, 2.25rem);
 }
 .phone {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--f-sub);
   color: var(--white);
   border-bottom: 1px solid var(--accent);

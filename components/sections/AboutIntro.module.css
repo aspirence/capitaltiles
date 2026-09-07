@@ -57,7 +57,7 @@
   border-top: 3px solid var(--accent);
 }
 .taglineHead {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--f-sub);
   line-height: 1.25;
   color: var(--accent);

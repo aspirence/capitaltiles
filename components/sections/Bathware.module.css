@@ -110,7 +110,7 @@
 .tileLabel {
   display: block;
   margin-top: 0.85rem;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 1.05rem;
   transition: color 0.35s var(--ease);
 }

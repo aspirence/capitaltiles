@@ -114,7 +114,7 @@
 .strip :global(.linkUnder) { color: var(--white-70); }
 .strip :global(.linkUnder):hover { color: var(--white); }
 .strip span {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--f-sub);
 }
 

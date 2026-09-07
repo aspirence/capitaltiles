@@ -302,7 +302,7 @@
   color: var(--accent);
 }
 .stripValue {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--f-body);
   line-height: 1.5;
   color: var(--white);
@@ -419,7 +419,7 @@
   margin-top: clamp(1.6rem, 2.8vw, 2.4rem);
 }
 .phone {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--f-sub);
   color: var(--ink);
   border-bottom: 1px solid var(--accent);
@@ -454,7 +454,7 @@
 .relBody { display: block; padding-top: 0.9rem; }
 .relName {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--f-sub);
   text-transform: capitalize;
   color: var(--ink);

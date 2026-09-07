@@ -46,7 +46,7 @@
   padding: 0 0 0.7rem;
   border: 0;
   background: none;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--f-small);
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -224,7 +224,7 @@
 .rowMain { min-width: 0; }
 .rowName {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: clamp(1.1rem, 1.5vw, 1.45rem);
   transition: color 0.35s var(--ease), transform 0.5s var(--ease);
 }

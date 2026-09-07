@@ -91,7 +91,7 @@
 .leadBody { display: block; }
 .leadTitle {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   /* The 1.35rem floor put the lead only 1.29x above a card title on one
      column, so the featured post read as card zero. 1.6rem holds the step near
      1.5x everywhere the clamp bottoms out, without a breakpoint that would
@@ -138,7 +138,7 @@
   display: block;
   /* the gap the date used to hold open under the plate */
   margin-top: 0.95rem;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--f-sub);
   line-height: 1.35;
   /* Two lines is the natural length of every title in blogData, but not all of
@@ -170,7 +170,7 @@
   margin-top: clamp(1.6rem, 2.8vw, 2.25rem);
 }
 .phone {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--f-sub);
   color: var(--white);
   border-bottom: 1px solid var(--accent);

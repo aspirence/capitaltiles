@@ -61,7 +61,7 @@
   margin-right: auto;
 }
 .barName {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: clamp(0.95rem, 1.2vw, 1.15rem);
   line-height: 1.25;
   color: var(--ink);

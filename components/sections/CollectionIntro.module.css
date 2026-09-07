@@ -70,17 +70,19 @@
        The old 58% knee started the fade halfway up the lede, and no percentage
        fixes that: at 390px this section runs 353px on /flooring and 450px on
        /tiles/subway, so its last line lands anywhere between 71.6% and 77.7%.
-       What is constant across all 28 routes is what sits below the lede — the
-       1.25rem gap, the 45px CTA slab and 2rem of padding, 100.3px end to end.
-       Change that block and this stop moves with it — a route passing
-       cta={null} drops 68px of it and lands its last line in the clearing.
+       What is constant across all 28 is what sits below it — the 1.25rem gap,
+       the 45px CTA slab and 2rem of padding measure 100.3px from the foot of
+       the last line to the section's bottom edge, on every one. Change that
+       block and this stop moves with it: a route passing cta={null} takes 65px
+       out of it and drops its last line into the clearing.
 
        0.98 rather than a gentler floor because there is barely a budget to
-       spend: --grey-text on this wash reaches only 4.92:1 with the photograph
-       fully covered. At 0.98 the darkest composited pixel under any lede line
-       on any route measures 4.71:1; 0.96 gives 4.51:1, which is AA by luck.
-       The picture is not the loser — over the copy it was only ever 3-6%
-       visible, and the foot band now opens to 0.3 where it stopped at 0.55. */
+       spend — --grey-text on this wash reaches only 4.92:1 with the photograph
+       fully covered, so the whole margin over AA is two tenths of a point. At
+       0.98 the darkest composited pixel under any lede line on any of the 28
+       routes measures 4.70:1, where it was 3.04:1. The picture is not the
+       loser: over the copy it was only ever 3-6% visible, and the foot band
+       now opens to 0.3 where it stopped at 0.55. */
     background:
       linear-gradient(
         180deg,
