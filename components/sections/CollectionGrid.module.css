@@ -169,15 +169,7 @@
 .count strong { color: var(--ink); }
 
 .order { display: flex; align-items: center; gap: 0.5rem; color: var(--grey-text); }
-.order select {
-  padding: 0.4rem 0.6rem;
-  border: 1px solid var(--grey-line);
-  background: var(--white);
-  font: inherit;
-  font-size: var(--f-small);
-  color: var(--ink);
-  cursor: pointer;
-}
+.orderSelect { min-width: 9.5rem; }
 
 /* opens the drawer below the rail's breakpoint */
 .filterBtn {

@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import EnquireLink from '@/components/EnquireLink'
 import { useOverflow } from '@/components/useOverflow'
+import Select from '@/components/Select'
 import s from './CollectionGrid.module.css'
 
 /* Collection browser, to the Simpolo listing pattern: a filter rail on the
@@ -12,6 +13,14 @@ import s from './CollectionGrid.module.css'
    colour / finish / size counts, and View More / Enquire actions.
 
    Fully data-driven — every collection listing renders through this. */
+
+/* Order-by choices, as data — the control below is a listbox, not a <select>,
+   so it takes options rather than children. */
+const ORDERS = [
+  { value: 'latest', label: 'Latest' },
+  { value: 'name_az', label: 'Name A-Z' },
+  { value: 'name_za', label: 'Name Z-A' },
+]
 
 /* An open panel caps at 17rem, which is eight option rows, and the site paints
    no scrollbar — so a list of forty colours looks exactly like a list that
@@ -236,14 +245,17 @@ export default function CollectionGrid({ items: all, heading, basePath, imgPath 
                 <span className={s.count}>
                   <strong>{items.length}</strong> Items
                 </span>
-                <label className={s.order}>
-                  <span>Order by</span>
-                  <select value={order} onChange={(e) => setOrder(e.target.value)}>
-                    <option value="latest">Latest</option>
-                    <option value="name_az">Name A-Z</option>
-                    <option value="name_za">Name Z-A</option>
-                  </select>
-                </label>
+                <div className={s.order}>
+                  <span id="order-by-label">Order by</span>
+                  <Select
+                    id="order-by"
+                    label="Order by"
+                    value={order}
+                    onChange={setOrder}
+                    options={ORDERS}
+                    className={s.orderSelect}
+                  />
+                </div>
               </div>
             </div>
             )}

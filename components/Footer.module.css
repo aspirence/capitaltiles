@@ -127,27 +127,6 @@
   color: var(--grey-text);
 }
 
-.socials { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; }
-.socials a {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border: 1px solid rgba(35, 31, 32, 0.25);
-  border-radius: 50%;
-  color: var(--ink);
-  transition:
-    border-color 0.35s var(--ease),
-    background 0.35s var(--ease),
-    color 0.35s var(--ease),
-    transform 0.35s var(--ease);
-}
-.socials a:hover {
-  border-color: var(--black);
-  background: var(--black);
-  color: var(--white);
-  transform: translateY(-3px);
-}
 
 .copyright {
   padding-block: 1.1rem;

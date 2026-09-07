@@ -1,0 +1,75 @@
+/* The listbox that replaces the native <select>.
+
+   Square corners, hairline rules and the house accent, so an open dropdown
+   looks like the rest of the site rather than like the operating system. */
+
+.root { position: relative; }
+
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--grey-line);
+  background: var(--white);
+  font: inherit;
+  font-family: var(--font-body);
+  font-size: var(--f-small);
+  line-height: 1.4;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease);
+}
+.control:hover { border-color: var(--black); }
+.controlOn { border-color: var(--black); }
+
+.value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.chev { flex: none; transition: transform 0.25s var(--ease); }
+.controlOn .chev { transform: rotate(180deg); }
+
+.list {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% - 1px);
+  left: 0;
+  min-width: 100%;
+  max-height: 15rem;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--white);
+  border: 1px solid var(--black);
+  /* The one shadow on the page: a menu has to sit above the grid behind it,
+     and a hairline alone does not separate white from white. */
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.12);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.75rem;
+  font-family: var(--font-body);
+  font-size: var(--f-small);
+  line-height: 1.4;
+  color: var(--ink);
+  cursor: pointer;
+}
+.option + .option { border-top: 1px solid var(--grey-line); }
+
+/* Keyboard and pointer share one highlight, so arrowing down looks the same as
+   hovering. --grey-bg rather than a saturated fill: the accent is reserved for
+   the tick that marks what is actually chosen. */
+.optionCursor { background: var(--grey-bg); }
+.optionOn { color: var(--ink); }
+.optionOn svg { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .control, .chev { transition: none; }
+}

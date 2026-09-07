@@ -1,0 +1,65 @@
+/* Platform marks in the platforms' own colours.
+
+   The rest of the site is deliberately monochrome, so these are the one place
+   colour arrives from outside the palette. That is the point: a social mark is
+   recognised by its colour before its shape, and a grey Instagram glyph reads
+   as an unfamiliar icon rather than as Instagram.
+
+   The colour sits on the glyph, not on a filled disc, so the row still belongs
+   to a restrained page — the disc only fills in on hover, which is where the
+   full brand lockup earns its weight. */
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.link {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  /* --brand is set per platform below and drives the glyph, the ring and the
+     hover fill from one value. Instagram overrides the glyph with a gradient
+     and keeps --brand for its ring. */
+  border: 1px solid var(--brand);
+  border-radius: 50%;
+  color: var(--brand);
+  transition:
+    background 0.35s var(--ease),
+    color 0.35s var(--ease),
+    transform 0.35s var(--ease);
+}
+.link:hover {
+  background: var(--brand);
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+.facebook { --brand: #1877f2; }
+.whatsapp { --brand: #25d366; }
+/* Instagram has no single flat colour; the ring takes the gradient's magenta
+   midpoint so the outline still reads as Instagram. */
+.instagram { --brand: #d62976; }
+
+/* On hover the disc fills, so the gradient glyph would sit on magenta and lose
+   its lighter stops. Swap it for the flat white mark the fill expects. */
+.instagram:hover {
+  background: linear-gradient(45deg, #feda75, #fa7e1e 30%, #d62976 55%, #962fbf 80%, #4f5bd5);
+  border-color: transparent;
+}
+.instagram:hover path { fill: var(--white); }
+
+/* On a dark ground the rings would disappear into the section; give them the
+   brand colour at full strength and let the glyph carry it too. */
+:global(.bandDark) .link,
+:global(.footerDark) .link {
+  border-color: color-mix(in srgb, var(--brand) 70%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link { transition: none; }
+  .link:hover { transform: none; }
+}
