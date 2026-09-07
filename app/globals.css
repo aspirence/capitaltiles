@@ -3,9 +3,10 @@
    Playfair Display for headings, Open Sans for body copy. Both are served
    from /public/fonts, so the site still makes no external font request.
 
-   Candidate faces are declared here too and cost nothing until referenced:
-   a browser only downloads a @font-face an element actually uses. /font-test
-   renders the pairings side by side.
+   Playfair Display and Open Sans are still declared below and stay in the
+   fallback stacks. Nothing references them, so no browser downloads them —
+   a @font-face costs nothing until an element actually renders with it — and
+   swapping the two --font-* tokens back is the whole revert.
    ========================================================================= */
 
 @font-face {
