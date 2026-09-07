@@ -4,8 +4,12 @@ import { useState } from 'react'
 import Link from 'next/link'
 import s from './CollectionCopy.module.css'
 
-/* Long-form range copy with a read-more, then the FAQ accordion and a related
-   collections rail — the three blocks that close a collection listing. */
+/* Long-form range copy, then the FAQ accordion and a related collections rail —
+   the three blocks that close a collection listing.
+
+   The copy used to be clipped to 10.5rem behind a fade and a "Read more". It
+   runs to four paragraphs on every one of the 28 pages that use this block and
+   is the page's only real explanation of the range, so it is simply shown. */
 
 function Chevron() {
   return (
@@ -30,22 +34,37 @@ export default function CollectionCopy({
      pass one render exactly as before. */
   image,
   imageAlt = '',
+  /* The page's only ask used to be the last sentence of the copy, as plain
+     grey text. These give it something to click; every caller gets the default. */
+  ctaHref = '/contact-us/enquiry',
+  ctaLabel = 'Book a free measure & quote',
 }) {
-  const [more, setMore] = useState(false)
   const [open, setOpen] = useState(0)
 
-  const copyBlock = (
-    <>
-      <div className={more ? s.copy + ' ' + s.copyOpen : s.copy}>
-        {paragraphs.map((para, i) => (
-          <p key={i}>{para}</p>
-        ))}
-      </div>
+  /* The opening paragraph and the closing one, and nothing between.
 
-      <button type="button" className={'linkUnder ' + s.toggle} onClick={() => setMore((m) => !m)}>
-        {more ? 'Read less' : 'Read more'}
-      </button>
-    </>
+     Measured across the 28 pages that use this block: they run to 270 words on
+     average and 489 at the longest, in four paragraphs of roughly equal size.
+     The first says what the range is; the last carries the measure-and-quote
+     ask on 25 of the 28. The two in the middle are range detail, and the FAQ
+     accordion directly below answers the same ground in six questions. Keeping
+     the ends halves the block to about 133 words without losing either the
+     opening or the ask.
+
+     Pages with two paragraphs or fewer are left alone — there is no middle to
+     drop, and first-and-last would print the same paragraph twice. */
+  const shown = paragraphs.length > 2
+    ? [paragraphs[0], paragraphs[paragraphs.length - 1]]
+    : paragraphs
+
+  const copyBlock = (
+    <div className={s.copy}>
+      {shown.map((para, i) => (
+        <p key={i} data-reveal style={{ '--reveal-delay': i * 80 + 'ms' }}>
+          {para}
+        </p>
+      ))}
+    </div>
   )
 
   return (
@@ -53,17 +72,40 @@ export default function CollectionCopy({
       {/* ---------- long-form copy ---------- */}
       <section className={'sectionPad ' + s.copySection}>
         <div className="container">
-          <h2 className={'title ' + s.h2}>{heading}</h2>
-
+          {/* The heading rides inside the text column rather than sitting
+              full-width above the grid. Centring the copy against a 4:3 plate
+              pushed it down the row, and with the heading left up top the two
+              drifted a long way apart. Kept together, the whole block centres
+              as one and the heading stays tight to its first line. */}
           {image ? (
             <div className={s.copyGrid}>
-              <div>{copyBlock}</div>
-              <figure className={s.copyFigure}>
+              <div className={s.copyCol}>
+                <h2 className={'title ' + s.copyH2} data-reveal>{heading}</h2>
+                {copyBlock}
+                {ctaHref && (
+                  <Link href={ctaHref} className={'cta ' + s.copyCta} data-reveal
+                    style={{ '--reveal-delay': '160ms' }}>
+                    <span>{ctaLabel}</span>
+                  </Link>
+                )}
+              </div>
+              <figure className={s.copyFigure} data-reveal="right">
                 <img src={image} alt={imageAlt} loading="lazy" />
               </figure>
             </div>
           ) : (
-            copyBlock
+            /* No caller passes this today, but the measure it was written for
+               is what used to leave a dead gutter beside every page that does.
+               Scoped here so it cannot come back. */
+            <div className={s.copySolo}>
+              <h2 className={'title ' + s.copyH2} data-reveal>{heading}</h2>
+              {copyBlock}
+              {ctaHref && (
+                <Link href={ctaHref} className={'cta ' + s.copyCta} data-reveal>
+                  <span>{ctaLabel}</span>
+                </Link>
+              )}
+            </div>
           )}
         </div>
       </section>

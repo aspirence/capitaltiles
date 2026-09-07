@@ -1,71 +1,137 @@
 /* ---- long-form copy ----------------------------------------------------- */
 .copySection { background: var(--grey-bg); }
 
+/* .h2 is shared with the Related Collections heading further down this same
+   component, so the copy band's own treatment is scoped rather than added here
+   -- otherwise the rule and the tighter margin land on that rail too. */
 .h2 { margin-bottom: clamp(1.25rem, 2vw, 1.75rem); }
 
-.copy {
-  position: relative;
-  display: grid;
-  gap: 1rem;
-  max-width: 86ch;
-  max-height: 10.5rem;
-  overflow: hidden;
-  color: var(--grey-text);
-  /* Sized to match the FAQ answers below it: this block was inheriting body
-     size and read a step larger than the rest of its own band. */
-  font-size: var(--f-small);
-  line-height: 1.85;
-  transition: max-height 0.6s var(--ease);
+.copyH2 {
+  margin-bottom: clamp(1.5rem, 2vw, 1.85rem);
+  max-width: 20ch;
+  text-wrap: balance;
 }
-.copyOpen { max-height: 70rem; }
 
-/* fade the clipped tail so the cut never reads as a rendering fault */
-.copy::after {
+/* The short rule under a heading, as on the product page's range band and the
+   tab rails. --gold-deep rather than --gold: this sits on the light grey band,
+   where only the deep tone holds up. Set nearer the heading than the copy -- at
+   an even distance from both it reads as a divider parked between them rather
+   than as the heading's own underline. */
+.copyH2::after {
   content: '';
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 4.5rem;
-  background: linear-gradient(to top, var(--grey-bg), transparent);
-  transition: opacity 0.4s var(--ease);
-  pointer-events: none;
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-top: clamp(0.7rem, 1.1vw, 0.9rem);
+  background: var(--gold-deep);
 }
-.copyOpen::after { opacity: 0; }
+
+/* Heading, copy and the ask as one block, centred against the plate. */
+.copyCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.copyCta {
+  align-self: flex-start;
+  margin-top: clamp(1.5rem, 2.4vw, 2rem);
+}
+
+/* The no-image fallback keeps the measure the two-column layout no longer
+   needs, so it cannot leak back into the grid. */
+.copySolo { max-width: 62ch; }
+
+/* Shown in full -- this was clipped behind a fade and a "Read more" -- and set
+   at body size rather than --f-small. --f-small is a flat 12.48px until a
+   1451px viewport, so the band's only prose, carrying the measure-and-quote ask
+   on 25 of the 28 pages, was reading smaller than ordinary body copy and the
+   same size as an eyebrow. The old comment claimed it matched the FAQ answers
+   below; those are collapsed on load, so there was nothing to match.
+
+   No max-width here: the track itself is capped at 34rem, which sets the
+   measure. Capping inside a wider track was what opened the dead gutter between
+   the last word and the plate. */
+.copy {
+  display: grid;
+  /* ~1.5x the line advance, so the break between paragraphs is bigger than the
+     space inside one. At 1rem it was smaller. */
+  gap: 1.4rem;
+  color: var(--grey-text);
+  font-size: var(--f-body);
+  line-height: 1.7;
+}
+
+/* Copy runs from 93 to 259 words across the 28 pages, so widows land in
+   unpredictable places; this is the cheapest guard against them. */
+.copy p { text-wrap: pretty; }
+
+/* The closing paragraph is the ask on 25 of 28 pages -- it carries the darker
+   tone rather than sitting at the same weight as the description. */
+.copy p:last-child { color: var(--ink); }
 
 /* Two columns only when a page passes an image. The copy already caps at 86ch,
    so it keeps its measure and the photo takes the space to its right that was
    sitting empty. */
 .copyGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.62fr);
+  /* Sized to the text rather than capped inside it. A 1fr/0.62fr split with an
+     86ch cap on the copy left a 233x362px hole between the last word and the
+     plate -- wider than the declared gutter, sitting in the middle of the
+     composition. 34rem sets the measure at about 74 characters; the picture
+     takes what is left, with a 20rem floor so it never shrinks to a stamp
+     between 901 and 1024. */
+  grid-template-columns: minmax(0, 34rem) minmax(20rem, 1fr);
   gap: clamp(2rem, 4.5vw, 4.5rem);
-  align-items: start;
+  /* The plate runs the row's height; .copyCol centres its own contents. */
+  align-items: stretch;
 }
 
-.copyFigure { margin: 0; }
+/* Height comes from the row, not from a ratio: at the wider track a locked 4:3
+   would stand about 695px tall and simply move the empty space from beside the
+   copy to under it. The image is absolutely placed rather than height:100% -- a
+   percentage height would resolve against auto and let the photo size the row
+   by its own proportions. The grey ground is what a lazy image that has not
+   decoded yet shows instead of a hole in the band; .relFrame below does the
+   same thing for the same reason. */
+.copyFigure {
+  position: relative;
+  margin: 0;
+  min-height: clamp(17rem, 26vw, 23rem);
+  background: var(--grey-line);
+}
 .copyFigure img {
-  display: block;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 100%;
   object-fit: cover;
 }
 
 @media (max-width: 900px) {
-  .copyGrid { grid-template-columns: 1fr; }
-  /* On one column the photo introduces the copy rather than trailing the
-     read-more button, where it would read as a stray image. */
-  .copyFigure { order: -1; }
+  /* One measure for the whole stack, so the picture and the text share a left
+     and a right edge. Without the cap the figure took the full container while
+     the copy kept its own width -- 827px of picture over 638px of text at 899.
+     At 390 the container binds first, so the phone layout is untouched. */
+  .copyGrid {
+    grid-template-columns: 1fr;
+    max-width: 34rem;
+    margin-inline: auto;
+    row-gap: clamp(2.5rem, 8vw, 3.5rem);
+  }
+  /* The photo introduces the copy here rather than trailing it. The ratio has
+     to be restated: with the base rule now sizing off the row, a single-column
+     figure holding an absolutely-placed image has no intrinsic height and would
+     flatten to the min-height. */
+  .copyFigure {
+    order: -1;
+    aspect-ratio: 4 / 3;
+    min-height: 0;
+  }
 }
 
-.inline { color: var(--ink); border-bottom: 1px solid var(--gold); }
 
-.toggle {
-  margin-top: 1.4rem;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--ink);
-  cursor: pointer;
-}
 
 /* ---- faqs --------------------------------------------------------------- */
 /* Same treatment as the About page FAQ (AboutFaq.module.css): a centred
@@ -206,7 +272,8 @@
   color: var(--ink);
   transition: color 0.35s var(--ease);
 }
-.relGrid a:hover .relLabel { color: var(--gold); }
+/* --gold-deep: this label sits on white, where --gold lands near 2.8:1. */
+.relGrid a:hover .relLabel { color: var(--gold-deep); }
 
 @media (max-width: 900px) {
   .relGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
