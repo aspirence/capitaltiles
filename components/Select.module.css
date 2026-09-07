@@ -31,13 +31,13 @@
 .chev { flex: none; transition: transform 0.25s var(--ease); }
 .controlOn .chev { transform: rotate(180deg); }
 
+/* Fixed and portalled to <body>: an ancestor with overflow (the collection
+   page's meta rail scrolls horizontally) would otherwise clip this to its own
+   box and show only the first row. Coordinates come from the control's rect,
+   set inline by the component. */
 .list {
-  position: absolute;
-  z-index: 40;
-  top: calc(100% - 1px);
-  left: 0;
-  min-width: 100%;
-  max-height: 15rem;
+  position: fixed;
+  z-index: 120;
   margin: 0;
   padding: 0;
   overflow-y: auto;

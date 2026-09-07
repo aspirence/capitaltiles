@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useId, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import s from './Select.module.css'
 
 /* A listbox, because a native <select> cannot be styled where it matters.
@@ -20,7 +21,16 @@ import s from './Select.module.css'
      - typing letters jumps to the next option starting with them
      - clicking outside closes without changing anything
    Screen readers get the same information through role="listbox",
-   aria-activedescendant and aria-selected. */
+   aria-activedescendant and aria-selected.
+
+   The list is portalled to <body> and positioned fixed rather than absolutely
+   inside the control. It has to be: the collection page puts this control in a
+   horizontally scrolling meta rail (`overflow-x: auto`), and a scroll container
+   clips its descendants on both axes — so an absolutely positioned list showed
+   its first row and had the rest cut off. No ancestor can clip a portalled
+   node, and fixed coordinates are re-measured whenever anything scrolls or
+   resizes, which the capture-phase listener below catches even when the thing
+   scrolling is that inner rail rather than the window. */
 
 export default function Select({ value, onChange, options, label, id, className = '' }) {
   const [open, setOpen] = useState(false)
@@ -30,11 +40,48 @@ export default function Select({ value, onChange, options, label, id, className 
   const rootRef = useRef(null)
   const btnRef = useRef(null)
   const listRef = useRef(null)
+  const [box, setBox] = useState(null)
+  const [mounted, setMounted] = useState(false)
   const typed = useRef({ str: '', at: 0 })
   const auto = useId()
   const baseId = id || 'sel' + auto.replace(/:/g, '')
 
   const selected = options.find((o) => o.value === value) || options[0]
+
+  /* createPortal needs a DOM target, which does not exist during the server
+     render. */
+  useEffect(() => setMounted(true), [])
+
+  /* Measure before paint so the list never shows at the wrong coordinates. */
+  const place = useCallback(() => {
+    const el = btnRef.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
+    const below = window.innerHeight - r.bottom
+    /* Flip above when the control sits near the bottom of the window and the
+       list would otherwise run off it. */
+    const flip = below < 200 && r.top > below
+    setBox({
+      left: r.left,
+      width: r.width,
+      top: flip ? undefined : r.bottom - 1,
+      bottom: flip ? window.innerHeight - r.top - 1 : undefined,
+      max: Math.max(120, (flip ? r.top : below) - 16),
+    })
+  }, [])
+
+  useLayoutEffect(() => {
+    if (!open) return undefined
+    place()
+    /* Capture phase: the control can sit inside a scrolling rail, and a scroll
+       on that rail does not bubble to the window. */
+    window.addEventListener('scroll', place, true)
+    window.addEventListener('resize', place)
+    return () => {
+      window.removeEventListener('scroll', place, true)
+      window.removeEventListener('resize', place)
+    }
+  }, [open, place])
 
   const close = useCallback((refocus) => {
     setOpen(false)
@@ -51,14 +98,22 @@ export default function Select({ value, onChange, options, label, id, className 
     [options, onChange, close],
   )
 
-  /* Clicking or tabbing away closes without committing anything. */
+  /* Clicking or tabbing away closes without committing anything.
+
+     "Away" has to mean outside the control AND outside the list. Now that the
+     list is portalled it is no longer a descendant of the control, so a check
+     against the control alone counted a click on an option as a click away:
+     the list unmounted on mousedown and the click never reached the option. */
   useEffect(() => {
     if (!open) return undefined
+    const outside = (node) =>
+      !(rootRef.current && rootRef.current.contains(node)) &&
+      !(listRef.current && listRef.current.contains(node))
     const onDown = (e) => {
-      if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false)
+      if (outside(e.target)) setOpen(false)
     }
     const onFocus = (e) => {
-      if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false)
+      if (outside(e.target)) setOpen(false)
     }
     document.addEventListener('mousedown', onDown)
     document.addEventListener('focusin', onFocus)
@@ -164,12 +219,19 @@ export default function Select({ value, onChange, options, label, id, className 
         </svg>
       </button>
 
-      {open && (
+      {open && mounted && box && createPortal(
         <ul
           ref={listRef}
           className={s.list}
           role="listbox"
           tabIndex={-1}
+          style={{
+            left: box.left,
+            width: box.width,
+            top: box.top,
+            bottom: box.bottom,
+            maxHeight: box.max,
+          }}
           aria-labelledby={label ? baseId + '-label' : undefined}
           aria-activedescendant={baseId + '-opt-' + cursor}
           onKeyDown={onKeyDown}
@@ -202,7 +264,8 @@ export default function Select({ value, onChange, options, label, id, className 
               </li>
             )
           })}
-        </ul>
+        </ul>,
+        document.body,
       )}
     </div>
   )
