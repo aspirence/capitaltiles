@@ -39,6 +39,12 @@
   line-height: 1.9;
 }
 
+/* The slab the band closes on. It had no rule at all, so `s.cta` resolved to
+   nothing — the anchor rendered `class="cta undefined"` and, with `p` reset to
+   zero margin, the button's top edge sat flush against the last line of the
+   lede. Spaced to match the same ask in the closing copy band. */
+.cta { margin-top: clamp(1.5rem, 2.4vw, 2rem); }
+
 /* ---- phones -------------------------------------------------------------- */
 /* Desktop is untouched: these rules exist only below 700px.
 
@@ -58,13 +64,29 @@
        end of every line was landing on the clear end of the ramp — the last
        lines of the lede sat straight on the photograph. Top to bottom instead,
        opaque where the text is, clearing at the foot so the picture still
-       reads as a band under the copy. */
+       reads as a band under the copy.
+
+       The clearing is pinned 100px off the foot rather than to a percentage.
+       The old 58% knee started the fade halfway up the lede, and no percentage
+       fixes that: at 390px this section runs 353px on /flooring and 450px on
+       /tiles/subway, so its last line lands anywhere between 71.6% and 77.7%.
+       What is constant across all 28 routes is what sits below the lede — the
+       1.25rem gap, the 45px CTA slab and 2rem of padding, 100.3px end to end.
+       Change that block and this stop moves with it — a route passing
+       cta={null} drops 68px of it and lands its last line in the clearing.
+
+       0.98 rather than a gentler floor because there is barely a budget to
+       spend: --grey-text on this wash reaches only 4.92:1 with the photograph
+       fully covered. At 0.98 the darkest composited pixel under any lede line
+       on any route measures 4.71:1; 0.96 gives 4.51:1, which is AA by luck.
+       The picture is not the loser — over the copy it was only ever 3-6%
+       visible, and the foot band now opens to 0.3 where it stopped at 0.55. */
     background:
       linear-gradient(
         180deg,
-        rgba(247, 245, 242, 0.97) 0%,
-        rgba(247, 245, 242, 0.94) 58%,
-        rgba(247, 245, 242, 0.55) 100%
+        rgba(247, 245, 242, 0.98) 0%,
+        rgba(247, 245, 242, 0.98) calc(100% - 100px),
+        rgba(247, 245, 242, 0.3) 100%
       ),
       var(--intro-bg) center bottom / cover no-repeat,
       var(--grey-bg);
@@ -82,5 +104,13 @@
     margin-top: 0.85rem;
     font-size: 0.84rem;
     line-height: 1.75;
+  }
+  /* Twenty-seven characters at 0.18em tracking measure about 270px, and the
+     slab's 2.1rem flanks put it over a 360px container's 331px of content.
+     The flanks give way rather than the label — shrinking the type would drop
+     it below the smallest size anything else on the page is set at. */
+  .cta {
+    margin-top: 1.25rem;
+    padding-inline: 1.35rem;
   }
 }

@@ -67,7 +67,7 @@ const EXTRA_PAGES = [
   { label: 'Free Measure & Quote', href: '/contact-us/enquiry', section: 'Service', keywords: 'quote enquiry booking' },
   { label: 'Contact & Showroom', href: '/contact-us', section: 'Service', keywords: 'showroom mitchell address phone hours visit' },
   { label: 'About Capital Tiles', href: '/about', section: 'Service', keywords: 'story company' },
-  { label: "FAQ's", href: '/faqs', section: 'Service', keywords: 'questions help advice' },
+  { label: "FAQs", href: '/faqs', section: 'Service', keywords: 'questions help advice' },
   { label: 'Blogs', href: '/blogs', section: 'Service', keywords: 'articles guides advice' },
 ]
 

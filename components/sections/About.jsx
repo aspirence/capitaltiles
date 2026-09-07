@@ -74,12 +74,12 @@ export default function About() {
       <div className={'container ' + s.grid}>
         <div className={s.media}>
           <div className={s.mediaMain} data-reveal="mask">
-            <div className="zoomFrame">
+            <div className={s.imgFrame}>
               <img src="/img/about/showroom.jpg" alt="A living room floored in patterned tiles" loading="lazy" />
             </div>
           </div>
           <div className={s.mediaInset} data-reveal="scale" style={{ '--reveal-delay': '220ms' }}>
-            <div className="zoomFrame">
+            <div className={s.imgFrame}>
               <img src="/img/about/craft.jpg" alt="Timber-look plank tiles laid close up" loading="lazy" />
             </div>
           </div>

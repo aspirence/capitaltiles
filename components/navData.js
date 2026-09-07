@@ -1,7 +1,7 @@
 /* ---------------------------------------------------------------------------
    Navigation taxonomy, mirroring the live capitaltiles.com.au header:
 
-     Home ▾ | Tiles ▾ | Flooring ▾ | Carpet ▾ | Installation | FAQ's
+     Home ▾ | Tiles ▾ | Flooring ▾ | Carpet ▾ | Installation | FAQs
 
    Panels are either "tabbed" (a rail of groups on the left, cards on the right
    — this is how Tiles carries its third level: Indoor / Outdoor / Browse By
@@ -88,5 +88,5 @@ export const NAV = [
     ],
   },
   { label: 'Installation', href: '/installation' },
-  { label: 'FAQ’s', href: '/faqs' },
+  { label: 'FAQs', href: '/faqs' },
 ]

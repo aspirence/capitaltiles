@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
+import EnquireLink from '@/components/EnquireLink'
+import { useOverflow } from '@/components/useOverflow'
+import EnquireBar from './EnquireBar'
 import s from './ProductDetail.module.css'
 
 /* Single product page: gallery + key facts, the spec strip, long-form copy,
@@ -36,6 +39,185 @@ function sameOption(a, b) {
 /* Map a raw variant value back onto the label we actually display. */
 function matchOption(value, list = []) {
   return list.find((item) => sameOption(value, item)) || value
+}
+
+/* The chip's dot was a 35% tint of the chip's own text colour, so bianco, taupe
+   and beige were three identical greys — the one control shaped like a colour
+   carried no colour at all, on a range whose whole decision is the tone. These
+   are the tone words our ranges actually publish; the hexes are indicative, not
+   the manufacturer's, which is why the showroom line under the chips still asks
+   you to come and look.
+
+   The map that replaced the tint looked the name up by substring, and a
+   substring is how a swatch starts telling lies. Across the 1,637 colour names
+   the ranges publish it painted twelve engineered-timber oaks — Almond,
+   Chocolate, Blonde, Milky, Cashew — with one identical tan, and it read
+   Blackbutt, a pale honey hardwood, as black. In 22 ranges it put two
+   genuinely different tones on the same dot, on the page people use to choose.
+
+   So the lookup is exact now, over a much longer map, and a name the map does
+   not know renders as its name alone. No dot is the honest answer for a tone we
+   cannot show; a confident wrong one is worse than none. That leaves 647 of the
+   1,637 names carrying a swatch, and no range showing two different colours as
+   one dot — where the substring match claimed 627 and got 106 of them wrong. */
+const SWATCH = {
+  /* whites and off-whites */
+  white: '#f6f4f1', 'off white': '#efece6', bianco: '#f0ece6', blanco: '#f0ece6',
+  'bianco white': '#f0ece6', porcelain: '#eceae5', marble: '#ece9e3', chalk: '#eae7e0',
+  magnolia: '#f2e9d7', ivory: '#f2ead9', pearl: '#e8e6e1', quartz: '#e2ded6',
+  dolomite: '#e6e2da', opal: '#dfe0dc', bone: '#e5ded2', cream: '#ece3d2',
+  linen: '#e6ded0', almond: '#e6d9c4', champagne: '#e2d3b4',
+
+  /* sands, beiges, greiges */
+  ecru: '#dfd6c3', oatmeal: '#ded3bd', limestone: '#ded5c4', sand: '#dccaad',
+  arena: '#d3c0a0', sabbia: '#d8c8ab', sandstone: '#d8c6a6', beige: '#d9cbb4',
+  'warm beige': '#dccbb0', cashmere: '#d8cec0', oyster: '#d9d2c5', natural: '#cbb79a',
+  greige: '#c3b8ab', taupe: '#b9ada0', fawn: '#c4a480', tan: '#b98b5e',
+
+  /* greys, palest to black */
+  mist: '#d7d8d6', cloud: '#d4d4d1', 'pearl grey': '#d5d4cf', dove: '#cfcac2',
+  'dove grey': '#cfcac2', 'light grey': '#c9c9c6', fog: '#c0c1bf', silver: '#c2c4c4',
+  aluminium: '#b4b7b8', 'cool grey': '#b6bab9', ash: '#b2b0aa', 'ash grey': '#b2b0aa',
+  concrete: '#a5a29c', smoke: '#a3a19c', gravel: '#9a958c', grey: '#9b9b98',
+  gray: '#9b9b98', gris: '#9b9b98', grigio: '#9b9b98', pewter: '#8d8b85',
+  zinc: '#7d8285', steel: '#71787c', granite: '#6e6d6a', 'dark grey': '#5f6060',
+  slate: '#5c6366', basalt: '#4e4f4e', gunmetal: '#4c5257', 'gun metal': '#4c5257',
+  graphite: '#4a4d4f', charcoal: '#3c3f41', anthracite: '#36393b', carbon: '#33322f',
+  onyx: '#2b2b2d', ebony: '#2a2523', black: '#232323', nero: '#232323',
+  'nero black': '#232323', negro: '#232323',
+
+  /* timbers, including the species the flooring feed names outright */
+  'limed oak': '#d3c3a8', blackbutt: '#d9bd93', 'tasmanian oak': '#d8bc94',
+  oak: '#c49a6c', 'natural oak': '#c49a6c', cork: '#c39a6b', driftwood: '#b5aa9c',
+  mushroom: '#b3a99c', 'spotted gum': '#b07f4f', hazelnut: '#a5794f', teak: '#9c6b3f',
+  brown: '#7a5c42', chestnut: '#7b4b32', jarrah: '#7d3a2c', merbau: '#6f3a24',
+  mahogany: '#6b3225', walnut: '#6b4a31', sable: '#4f4038',
+
+  /* hues */
+  terracotta: '#b06a4a', rojo: '#9e3b32', blush: '#dcbdb4', rosa: '#d8a6ad',
+  'dusty pink': '#c9a3a2', 'dusky pink': '#c9a3a2', purple: '#5f4b73',
+  cornflower: '#6f8bc4', blue: '#4d6478', azul: '#4d6478', blu: '#4d6478',
+  cobalt: '#2f4b8f', 'midnight blue': '#232f45', turquoise: '#48a3a6',
+  turchese: '#48a3a6', sage: '#a3ab96', matcha: '#8f9c62', jade: '#4f8a72',
+  green: '#5c6f5a', verde: '#5c6f5a', 'pine green': '#3f5a44', gold: '#c2a25c',
+}
+
+/* Light and dark of a mapped tone are the same hue at another value, which is
+   arithmetic rather than a guess — unlike "Chocolate Oak", where the word in
+   front names a different tone altogether and so gets nothing. Italian hangs
+   its qualifier off the back ("Verde Scuro"), so both ends are tried. */
+const SHADE = { pale: 0.34, light: 0.24, medium: 0, dark: -0.26, deep: -0.34 }
+const SHADE_AFTER = { chiaro: 0.24, scuro: -0.26 }
+
+/* Words the feed appends that describe the face rather than the tone: "Beige
+   Fluted" is beige, "Bone Stipple" is bone. Dropping a word off this closed
+   list is normalisation; dropping "Coast" off "Ivory Coast" would be the
+   substring bug again, so nothing else goes. */
+const FINISH = new Set(['stipple', 'fluted', 'matt', 'matte', 'gloss', 'polished', 'honed'])
+
+const shade = (hex, amount) => {
+  if (!amount) return hex
+  const n = parseInt(hex.slice(1), 16)
+  return '#' + [(n >> 16) & 255, (n >> 8) & 255, n & 255]
+    .map((c) => Math.round(amount > 0 ? c + (255 - c) * amount : c * (1 + amount)))
+    .map((c) => c.toString(16).padStart(2, '0'))
+    .join('')
+}
+
+/* The feed carries its product codes inside the colour name — "Almond Oak 722",
+   "Atticus+4318", "Meadow Blackbutt M4" — and a few carpet ranges publish
+   nothing but the code ("111", "312"). A token holding a digit is the code,
+   never the tone, so it goes; a name that is all code normalises to nothing and
+   is left as it was published. */
+function toneKey(name) {
+  return String(name || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+    .split(' ')
+    .filter((word) => word && !/\d/.test(word) && !FINISH.has(word))
+    .join(' ')
+}
+
+/* hasOwn rather than a bare lookup: these are plain objects, and the feed's
+   colour vocabulary already runs to Foundry, Assembly and Precinct — a range
+   publishing "Constructor" would otherwise resolve off Object.prototype and
+   paint a function into the style attribute. */
+const toneHex = (key) => (Object.hasOwn(SWATCH, key) ? SWATCH[key] : null)
+
+function swatchFor(name) {
+  const key = toneKey(name)
+  const exact = toneHex(key)
+  if (exact) return exact
+  /* Two words at most, and one of them has to be a qualifier over a tone we
+     hold. Anything longer or looser is a name, not a description of a colour. */
+  const [first, last, ...rest] = key.split(' ')
+  if (!last || rest.length) return null
+  if (Object.hasOwn(SHADE, first) && toneHex(last)) return shade(toneHex(last), SHADE[first])
+  if (Object.hasOwn(SHADE_AFTER, last) && toneHex(first)) return shade(toneHex(first), SHADE_AFTER[last])
+  return null
+}
+
+/* Boxed-quantity columns, as opposed to the descriptive ones. Used to tell a
+   row of six em-dashes ("this format is quoted by the piece") apart from a
+   genuinely missing slip rating, which should keep saying so. */
+const isQtyCol = (column) => /ctn|plt|\/box|pcs|pieces|m²|kg|qty|quantit/i.test(column)
+
+/* The thumbnail strip, out here as its own component rather than inline so the
+   overflow hook mounts with the rail: a liveGallery range arrives with one
+   image and gains the rest from the variants fetch, and a hook called up in
+   ProductDetail would have measured a rail that did not exist yet. */
+function Thumbs({ images, active, onPick, contain }) {
+  const { ref, fade } = useOverflow()
+
+  /* The stage moves without the rail being touched: the variant fetch lands on
+     image twelve of seventeen, a colour chip jumps nine frames right. The live
+     thumb was then off-screen, so nothing in the visible strip was marked and
+     the rail and the stage disagreed. Centred by scrollBy rather than
+     scrollIntoView — the fetch resolves after paint, and scrollIntoView would
+     drag the whole page down to the rail to do it. */
+  useEffect(() => {
+    const rail = ref.current
+    const thumb = rail?.children[active]
+    if (!rail || !thumb) return
+    const r = rail.getBoundingClientRect()
+    const t = thumb.getBoundingClientRect()
+    rail.scrollBy({ left: t.left + t.width / 2 - (r.left + r.width / 2), behavior: 'smooth' })
+  }, [active, ref])
+
+  return (
+    <>
+      <div className={'overflowFade ' + s.thumbFade} data-fade={fade}>
+        <ul ref={ref} className={s.thumbs}>
+          {images.map((src, i) => (
+            <li key={src}>
+              <button
+                type="button"
+                className={i === active ? s.thumb + ' ' + s.thumbOn : s.thumb}
+                onClick={() => onPick(i)}
+                aria-label={`View image ${i + 1} of ${images.length}`}
+                aria-current={i === active}
+              >
+                <img
+                  src={src}
+                  alt=""
+                  loading="lazy"
+                  className={contain ? s.flooringThumb : undefined}
+                />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Thirty shots scroll past the right edge with no scrollbar to say so.
+          The count is the only thing left that tells you how far the strip
+          runs, and which frame you are on. */}
+      <p className={s.thumbCount}>
+        <strong>{active + 1}</strong> / {images.length}
+      </p>
+    </>
+  )
 }
 
 function Facts({ items }) {
@@ -78,6 +260,9 @@ export default function ProductDetail({ product, collection, related = [] }) {
   const [selectedColour, setSelectedColour] = useState(colours[0] || '')
   const [selectedSize, setSelectedSize] = useState(sizes[0] || '')
   const [selectedFinish, setSelectedFinish] = useState(finishes[0] || '')
+  /* Set by the table's own "show all" link and cleared by the next chip: a
+     reader who asked for the whole table has not asked to stop choosing sizes. */
+  const [showAllSpecs, setShowAllSpecs] = useState(false)
   const [variants, setVariants] = useState([])
   const shot = galleryImages[active] || galleryImages[0]
   /* The editorial band wants a different frame from the one the gallery is
@@ -111,6 +296,7 @@ export default function ProductDetail({ product, collection, related = [] }) {
     // about, clicking an option must select it. Anything else reads as a dead
     // control, which is what these were doing on the flooring ranges.
     setFor[key](value)
+    setShowAllSpecs(false)
 
     if (!variants.length) return
 
@@ -137,19 +323,49 @@ export default function ProductDetail({ product, collection, related = [] }) {
     if (pictured.imagePosition && galleryImages[pictured.imagePosition - 1]) setActive(pictured.imagePosition - 1)
   }
 
-  const normaliseSize = (value) => value.toLowerCase().replace(/\s|mm|×/g, '').replace(/x/g, 'x')
-  const selectedSpecRows = useMemo(() => {
-    if (!specRows.length) return []
-    const sizeColumn = specCols.findIndex((column) => /size/i.test(column))
-    const finishColumn = specCols.findIndex((column) => /finish/i.test(column))
+  const sizeColumn = specCols.findIndex((column) => /size/i.test(column))
+  const finishColumn = specCols.findIndex((column) => /finish/i.test(column))
+
+  /* The feed writes a size as "300 × 600" and the chip above it as "300x600".
+     Deleting the × left "300600" to compare against "300x600", so on this range
+     nothing ever matched and the filter fell through to the whole table; on the
+     344 rows written with a plain x it fired and nobody was told. Folding × onto
+     x is what the two sides had in common all along. */
+  const normaliseSize = (value) =>
+    value.toLowerCase().replace(/[×\s]|mm/g, (part) => (part === '×' ? 'x' : ''))
+
+  /* The rows the reader's own size and finish leave standing, plus what to say
+     they are scoped to. A table quietly rewritten to one of ten rows, under a
+     heading still reading "how the range is supplied", is worse than one that
+     never filtered — so scope is empty unless the filter actually narrowed it. */
+  const specFilter = useMemo(() => {
+    if (!specRows.length) return { rows: [], scope: [] }
     const matches = specRows.filter((row) => {
       const sizeMatches = sizeColumn < 0 || !selectedSize || normaliseSize(row[sizeColumn] || '') === normaliseSize(selectedSize)
       const finishCell = finishColumn < 0 ? '' : String(row[finishColumn] || '').toLowerCase()
       const finishMatches = finishColumn < 0 || !selectedFinish || finishCell.includes(selectedFinish.toLowerCase())
       return sizeMatches && finishMatches
     })
-    return matches.length ? matches : specRows
-  }, [selectedSize, selectedFinish, specCols, specRows])
+    if (!matches.length || matches.length === specRows.length) return { rows: specRows, scope: [] }
+    return {
+      rows: matches,
+      scope: [sizeColumn >= 0 && selectedSize, finishColumn >= 0 && selectedFinish].filter(Boolean),
+    }
+  }, [selectedSize, selectedFinish, sizeColumn, finishColumn, specRows])
+
+  const shownSpecRows = showAllSpecs ? specRows : specFilter.rows
+
+  /* Some formats are quoted by the piece rather than boxed, and the feed writes
+     that as an em-dash in every quantity column — six in a row, which reads as
+     missing data rather than as a different way of selling the same tile, and
+     on Bari it is the note the table ends on. Only the dash block collapses:
+     the size and the finish beside it are real. */
+  const qtyFrom = specCols.findIndex(isQtyCol)
+  const hasQtyTail = qtyFrom > 0 &&
+    specCols.length - qtyFrom >= 3 &&
+    specCols.slice(qtyFrom).every(isQtyCol)
+  const onRequest = (row) =>
+    hasQtyTail && row.slice(qtyFrom).every((cell) => !cell || cell === '—')
 
   const isPlaceholder = (value) => typeof value === 'string' && value.startsWith('Placeholder')
   const displayTagline = !isPlaceholder(tagline)
@@ -209,78 +425,30 @@ export default function ProductDetail({ product, collection, related = [] }) {
     { label: 'Slip rating', value: slip },
   ].filter((x) => x.value.length)
 
+  /* No colours row. The chips directly above this list already name them, and
+     the dark strip directly below recites them again — three passes at Bianco,
+     Taupe and Beige inside one scroll. Brand, rooms and material are the only
+     lines here that are not stated somewhere else on the page. */
   const heroFacts = [
     { label: 'Brand', value: brand },
     rooms.length && { label: 'Suitable for', value: rooms.map((r) => r.label).join(', ') },
-    colours.length && { label: 'Colours', value: colours.join(', ') },
     material.length && { label: 'Material', value: material.join(', ') },
   ].filter(Boolean)
 
-  /* The enquire bar rides in once the hero's own Enquire button has scrolled
-     off, so the page never shows the same ask twice at once. It replaced a
-     full closing CTA section that only a reader who made it to the bottom ever
-     saw. */
+  /* Watched by the floating enquire bar, which rides in once the hero's own
+     Enquire button has scrolled off the top. */
   const actionsRef = useRef(null)
-  const barRef = useRef(null)
-  const [showBar, setShowBar] = useState(false)
 
-  useEffect(() => {
-    const el = actionsRef.current
-    if (!el || typeof IntersectionObserver === 'undefined') return undefined
+  /* The bar's second line. "mm" is only ours to add when the published size is
+     a bare dimension: the flooring and carpet ranges write their own unit
+     ("6.5mm", "3.66m", "1900 x 190 x 14 mm"), and appending to those gave the
+     bar "6.5mmmm" and "3.66mmm" on 147 of the 381 ranges that publish a size. */
+  const barSize = /^[\d\s.x×]+$/i.test(sizes[0] || '') ? `${sizes[0]}mm` : sizes[0]
+  const barMeta = barSize ? `${brand} · ${barSize}` : brand
 
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        /* Only once it has gone off the TOP. Before you reach it the button is
-           simply below the fold, and a bar offering the same thing then would
-           be arguing with itself. */
-        setShowBar(!entry.isIntersecting && entry.boundingClientRect.top < 0)
-      },
-      { threshold: 0 },
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-
-  /* The bar is a centred card, so on a wide screen the floating rail clears it
-     on its own and should stay put. On a narrow one the card grows to nearly
-     the full width and the two collide. Rather than guess a breakpoint, measure
-     both and lift the rail only when their horizontal ranges actually overlap.
-     The lift is the card's real distance from the bottom of the viewport, so it
-     holds whatever the card's height or offset turns out to be. */
-  useEffect(() => {
-    document.body.dataset.enquireBar = showBar ? 'on' : 'off'
-
-    const sync = () => {
-      const bar = barRef.current
-      const rail = document.querySelector('[data-floating-rail]')
-      if (!showBar || !bar || !rail) {
-        document.body.style.removeProperty('--rail-lift')
-        return
-      }
-      const b = bar.getBoundingClientRect()
-      const r = rail.getBoundingClientRect()
-      /* Horizontal only: translateX(-50%) is part of the resting transform, so
-         left/right are already right, but the card is mid-slide when this
-         first runs and its top is still below the fold. Height and the CSS
-         bottom offset are both immune to the transform, so the lift is
-         measured from those rather than from a rect that is still moving. */
-      const overlaps = r.right > b.left && r.left < b.right
-      if (overlaps) {
-        const bottom = parseFloat(getComputedStyle(bar).bottom) || 0
-        document.body.style.setProperty('--rail-lift', Math.round(bar.offsetHeight + bottom + 12) + 'px')
-      } else {
-        document.body.style.removeProperty('--rail-lift')
-      }
-    }
-
-    sync()
-    window.addEventListener('resize', sync)
-    return () => {
-      window.removeEventListener('resize', sync)
-      delete document.body.dataset.enquireBar
-      document.body.style.removeProperty('--rail-lift')
-    }
-  }, [showBar])
+  /* The table is the one block on the page that legitimately runs wider than
+     the column it sits in. */
+  const { ref: specRef, fade: specFade } = useOverflow()
 
   return (
     <>
@@ -314,26 +482,12 @@ export default function ProductDetail({ product, collection, related = [] }) {
               </div>
 
               {galleryImages.length > 1 && (
-                <ul className={s.thumbs}>
-                  {galleryImages.map((src, i) => (
-                    <li key={src}>
-                      <button
-                        type="button"
-                        className={i === active ? s.thumb + ' ' + s.thumbOn : s.thumb}
-                        onClick={() => setActive(i)}
-                        aria-label={`View image ${i + 1} of ${galleryImages.length}`}
-                        aria-current={i === active}
-                      >
-                        <img
-                          src={src}
-                          alt=""
-                          loading="lazy"
-                          className={isFlooring ? s.flooringThumb : undefined}
-                        />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                <Thumbs
+                  images={galleryImages}
+                  active={active}
+                  onPick={setActive}
+                  contain={isFlooring}
+                />
               )}
             </div>
 
@@ -349,13 +503,23 @@ export default function ProductDetail({ product, collection, related = [] }) {
                   <fieldset className={s.choiceGroup}>
                     <legend>Colour: <strong>{selectedColour}</strong></legend>
                     <div className={s.optionList}>
-                      {colours.map((colour) => (
-                        <button key={colour} type="button"
-                          className={selectedColour === colour ? `${s.option} ${s.optionOn}` : s.option}
-                          onClick={() => chooseOption('colour', colour)} aria-pressed={selectedColour === colour}>
-                          <span className={s.colourDot} aria-hidden="true" />{colour}
-                        </button>
-                      ))}
+                      {colours.map((colour) => {
+                        const dot = swatchFor(colour)
+                        return (
+                          <button key={colour} type="button"
+                            className={selectedColour === colour ? `${s.option} ${s.optionOn}` : s.option}
+                            onClick={() => chooseOption('colour', colour)} aria-pressed={selectedColour === colour}>
+                            {/* Nothing at all rather than a placeholder ring: an
+                                empty circle is still a swatch-shaped thing
+                                saying nothing, and the chip closing up around
+                                the name keeps the row reading as one set of
+                                controls instead of holding a gap open. */}
+                            {dot && (
+                              <span className={s.colourDot} style={{ '--dot': dot }} aria-hidden="true" />
+                            )}{colour}
+                          </button>
+                        )
+                      })}
                     </div>
                   </fieldset>
                 ) : <p className={s.optionNote}><span>Colour</span> Ask our showroom team about available colour options.</p>}
@@ -390,10 +554,10 @@ export default function ProductDetail({ product, collection, related = [] }) {
               <Facts items={heroFacts} />
 
               <div className={s.actions} ref={actionsRef}>
-                <Link href="/contact-us/enquiry" className="cta">
+                <EnquireLink range={name} subject="Product enquiry" className="cta">
                   <span>Enquire now</span>
                   <Icon d={ARROW} size={16} />
-                </Link>
+                </EnquireLink>
                 <Link href="/contact-us" className={'linkUnder ' + s.measure}>
                   Book a free measure
                 </Link>
@@ -501,27 +665,58 @@ export default function ProductDetail({ product, collection, related = [] }) {
                 Published by the manufacturer for this range. Bring the room measurements
                 into the showroom and we will work out quantities with you.
               </p>
+
+              {!showAllSpecs && specFilter.scope.length > 0 && (
+                <p className={s.specScope}>
+                  Showing {specFilter.scope.join(' · ')}
+                  <button
+                    type="button"
+                    className={'linkUnder ' + s.specAll}
+                    onClick={() => setShowAllSpecs(true)}
+                  >
+                    Show all {specRows.length} formats
+                  </button>
+                </p>
+              )}
+
+              {specCols.length > 2 && (
+                <p className={s.specSwipe}>
+                  Swipe the table for the rest of the columns, through to{' '}
+                  {specCols[specCols.length - 1]}.
+                </p>
+              )}
             </div>
 
-            <div className={s.tableWrap} data-reveal>
-              <table className={s.table}>
-                <thead>
-                  <tr>
-                    {specCols.map((c) => (
-                      <th key={c} scope="col">{c}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedSpecRows.map((r, i) => (
-                    <tr key={i}>
-                      {r.map((cell, j) => (
-                        <td key={j}>{cell || '—'}</td>
+            <div className={'overflowFade ' + s.tableFade} data-fade={specFade} data-reveal>
+              <div ref={specRef} className={s.tableWrap}>
+                <table className={s.table}>
+                  <thead>
+                    <tr>
+                      {specCols.map((c) => (
+                        <th key={c} scope="col">{c}</th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {shownSpecRows.map((r, i) => (
+                      <tr key={i}>
+                        {onRequest(r) ? (
+                          <>
+                            {r.slice(0, qtyFrom).map((cell, j) => (
+                              <td key={j}>{cell || '—'}</td>
+                            ))}
+                            <td colSpan={specCols.length - qtyFrom} className={s.onRequest}>
+                              Quantities on request
+                            </td>
+                          </>
+                        ) : (
+                          r.map((cell, j) => <td key={j}>{cell || '—'}</td>)
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </section>
@@ -529,25 +724,14 @@ export default function ProductDetail({ product, collection, related = [] }) {
 
 
       {/* ---------- floating enquire bar ---------- */}
-      <div ref={barRef} className={showBar ? s.bar + ' ' + s.barOn : s.bar}>
-        <div className={'container ' + s.barInner}>
-          {shot && (
-            <span className={s.barThumb} aria-hidden="true">
-              <img src={shot} alt="" />
-            </span>
-          )}
-          <span className={s.barText}>
-            <span className={s.barName}>{name}</span>
-            <span className={s.barMeta}>
-              {brand}
-              {sizes.length > 0 && ' · ' + sizes[0] + 'mm'}
-            </span>
-          </span>
-          <Link href="/contact-us/enquiry" className={s.barCta}>
-            Enquire Now
-          </Link>
-        </div>
-      </div>
+      <EnquireBar
+        watch={actionsRef}
+        name={name}
+        meta={barMeta}
+        image={shot}
+        range={name}
+        subject="Product enquiry"
+      />
 
       {/* ---------- related ---------- */}
       {related.length > 0 && (
@@ -555,7 +739,10 @@ export default function ProductDetail({ product, collection, related = [] }) {
           <div className="container">
             <div className={s.relatedHead}>
               <div>
-                <p className="eyebrow">More from this range</p>
+                {/* Not "more from this range" — every card here is a different
+                    range in the same collection, which is what the link beside
+                    it has always said. */}
+                <p className="eyebrow">More {collection.label}</p>
                 <h2 className={'title ' + s.h2}>You may also like</h2>
               </div>
               <Link href={collection.href} className={'linkUnder ' + s.all}>
@@ -563,7 +750,11 @@ export default function ProductDetail({ product, collection, related = [] }) {
               </Link>
             </div>
 
-            <ul className={s.relatedGrid}>
+            {/* The rail carries whatever the collection has left over: four
+                ranges from a big one, exactly one from Pavers. The grid lays
+                itself out to that count rather than leaving three quarters of
+                the page's closing band empty. */}
+            <ul className={s.relatedGrid} data-count={related.length}>
               {related.map((r) => (
                 <li key={r.handle} data-reveal>
                   <Link href={`${collection.href}/${r.handle}`} className={s.relCard}>

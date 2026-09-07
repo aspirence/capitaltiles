@@ -60,12 +60,7 @@
 
 /* ---- intro + jump rail --------------------------------------------------- */
 .intro { background: var(--grey-bg); }
-.introInner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-  gap: clamp(1.5rem, 4vw, 4rem);
-  align-items: start;
-}
+.introInner { display: grid; }
 .lede {
   max-width: 46ch;
   font-size: var(--f-sub);
@@ -73,29 +68,56 @@
   color: var(--ink);
 }
 
-.jump {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-.jump a {
-  display: inline-block;
-  padding: 0.55rem 1rem;
-  border: 1px solid var(--grey-line);
-  background: var(--white);
-  font-size: var(--f-small);
-  color: var(--ink);
-  transition: border-color 0.35s var(--ease), background 0.35s var(--ease), color 0.35s var(--ease);
-}
-.jump a:hover {
-  border-color: var(--black);
-  background: var(--black);
-  color: var(--white);
-}
-
 /* ---- groups -------------------------------------------------------------- */
 .body { background: var(--white); }
-.bodyInner { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); }
+
+/* The rail track matches the store policies, so the two long documents on the
+   site are navigated the same way. */
+.bodyInner {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+.groups { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); min-width: 0; }
+
+.railWrap { position: sticky; top: calc(var(--header-real) + 1.5rem); }
+.railHead {
+  margin-bottom: 0.9rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.rail ul { display: grid; gap: 0.55rem; }
+/* Fixed-height tick rather than a border on the item: a two-line chapter name
+   would otherwise get a double-height mark and the rail's edge would step. */
+.rail a {
+  position: relative;
+  display: block;
+  padding-left: 0.9rem;
+  font-size: var(--f-small);
+  line-height: 1.5;
+  color: var(--grey-text);
+  transition: color 0.3s var(--ease);
+}
+.rail a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  width: 2px;
+  height: 1.4em;
+  background: var(--grey-line);
+  transition: background 0.3s var(--ease);
+}
+.rail a:hover { color: var(--ink); }
+.rail a:hover::before { background: var(--accent); }
+.railOn { color: var(--ink); }
+.railOn::before { background: var(--accent); }
+
+/* Only shown once the rail is dropped on a phone. */
+.backUp { display: none; margin-top: 1.4rem; }
 
 /* clears the fixed header when a jump link lands here */
 .group { scroll-margin-top: calc(var(--header-real) + 1.5rem); }
@@ -107,18 +129,28 @@
   font-weight: 400;
   color: var(--ink);
 }
+/* Six chapters ran down a flat white page with no mark on any of them. */
+.groupTitle::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-top: 0.9rem;
+  background: var(--accent);
+}
 .groupIntro {
   max-width: 68ch;
   margin-top: 0.6rem;
-  font-size: var(--f-small);
+  font-size: var(--f-copy-sm);
   line-height: 1.85;
   color: var(--grey-text);
 }
 
+/* One column. In two, opening an answer grew one cell and left a white void
+   the same height beside it, and the question rows ran a 95-character line. */
 .list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(0.7rem, 1.3vw, 1.15rem) clamp(1.25rem, 2.6vw, 2.5rem);
+  gap: clamp(0.7rem, 1.3vw, 1.15rem);
   align-items: start;
 }
 
@@ -127,6 +159,10 @@
   border: 1px solid var(--grey-line);
   transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
+/* A closed row had no hover at all, on a 1.28:1 hairline — nothing said it
+   could be clicked. */
+.item:hover { border-color: var(--black); }
+.item:hover .chev { background: var(--black); color: var(--white); }
 .itemOn {
   border-color: var(--black);
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06);
@@ -164,33 +200,47 @@
 }
 .itemOn .chev { transform: rotate(180deg); background: var(--black); color: var(--white); }
 
-/* single-child grid: 0fr→1fr only sizes the first row */
-.panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.4s var(--ease);
-}
-.itemOn .panel { grid-template-rows: 1fr; }
-.panel > p {
+/* The panel is shown and hidden by the `hidden` attribute rather than by a
+   0fr→1fr grid, so that a closed answer can carry `until-found` and stay
+   searchable. An element coming back from `display: none` has no starting frame
+   to transition from, so there is deliberately no animation here. */
+.panel { display: block; }
+.answer {
   min-height: 0;
   overflow: hidden;
-  font-size: var(--f-small);
-  line-height: 1.95;
-  color: var(--grey-text);
   padding-inline: clamp(1rem, 1.9vw, 1.6rem);
 }
-.itemOn .panel > p { padding-bottom: clamp(1rem, 1.7vw, 1.5rem); }
+.answer p {
+  /* The substance of the page. Held to a reading measure now that the row runs
+     the full track — without the cap a one-column answer would be worse than
+     the 95-character line it replaced. */
+  max-width: 68ch;
+  font-size: var(--f-copy-sm);
+  line-height: 1.85;
+  color: var(--grey-text);
+}
+.answerLink { display: inline-block; margin-top: 0.9rem; }
+.itemOn .answer { padding-bottom: clamp(1rem, 1.7vw, 1.5rem); }
 
 /* ---- closing cta --------------------------------------------------------- */
-.cta { background: var(--grey-bg); }
+/* Ground, heading and button come from .bandDark. What is left here is the copy
+   and the phone, which were written for the grey band this used to sit on. */
 .ctaInner { text-align: center; }
 .ctaTitle { max-width: 20ch; margin-inline: auto; }
 .ctaLede {
   max-width: 58ch;
   margin: 1.1rem auto 0;
   line-height: 1.9;
-  color: var(--grey-text);
+  color: var(--white-70);
 }
+.ctaVisit {
+  margin-top: clamp(1.1rem, 2vw, 1.5rem);
+  font-size: var(--f-small);
+  line-height: 1.8;
+  color: var(--white-70);
+}
+.ctaVisit a { color: var(--white); border-bottom: 1px solid var(--accent); }
+
 .ctaRow {
   display: flex;
   flex-wrap: wrap;
@@ -202,7 +252,7 @@
 .phone {
   font-family: var(--font-display);
   font-size: var(--f-sub);
-  color: var(--ink);
+  color: var(--white);
   border-bottom: 1px solid var(--accent);
   transition: color 0.3s var(--ease);
 }
@@ -210,30 +260,15 @@
 
 /* ---- responsive ---------------------------------------------------------- */
 @media (max-width: 900px) {
-  .introInner { grid-template-columns: 1fr; }
-  .list { grid-template-columns: 1fr; }
+  /* The rail is only useful while it can sit beside the copy. With it gone,
+     each chapter gets its own way back to the top of the set. */
+  .bodyInner { grid-template-columns: minmax(0, 1fr); }
+  .railWrap { display: none; }
+  .backUp { display: inline-block; }
 }
 
 @media (max-width: 700px) {
   .bannerTitle { font-size: clamp(1.5rem, 7vw, 2.1rem); }
   .lede { font-size: var(--f-body); }
 
-  /* Free-flowing chips wrapped into ragged rows of one and two. A two-column
-     grid gives every chip the same width, and grid rows equalise the heights,
-     so a label that needs two lines no longer knocks the row out of line. */
-  .jump {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
-  }
-  .jump a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 0.6rem 0.55rem;
-    font-size: 0.74rem;
-    line-height: 1.35;
-    text-align: center;
-  }
 }

@@ -59,14 +59,6 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-.date {
-  display: block;
-  margin-top: 0.95rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--grey-text);
-}
 .excerpt {
   display: block;
   margin-top: 0.55rem;
@@ -80,7 +72,11 @@
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: clamp(1.5rem, 3.5vw, 3.5rem);
-  align-items: center;
+  /* Centred, a ~190px copy block floated in the middle of a 469px plate with
+     roughly 140px of dead white above and below it. Anchored to the top it
+     reads as attached to the picture, and the display face carries enough
+     cap-height inset of its own to do the optical nudge without a rule. */
+  align-items: start;
   padding-bottom: clamp(2rem, 3.6vw, 3.25rem);
   margin-bottom: clamp(2rem, 3.6vw, 3.25rem);
   border-bottom: 1px solid var(--grey-line);
@@ -95,22 +91,41 @@
 .leadBody { display: block; }
 .leadTitle {
   display: block;
-  margin-top: 0.5rem;
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+  /* The 1.35rem floor put the lead only 1.29x above a card title on one
+     column, so the featured post read as card zero. 1.6rem holds the step near
+     1.5x everywhere the clamp bottoms out, without a breakpoint that would
+     make the title jump as the layout stacks. */
+  font-size: clamp(1.6rem, 2.4vw, 2.1rem);
   line-height: 1.22;
   color: var(--ink);
   transition: color 0.35s var(--ease);
 }
 .lead:hover .leadTitle { color: var(--gold-deep); }
+/* The featured summary sat on --f-small, a flat 12.4px until a 1451px
+   viewport, inside a 593px track: about 95 characters a line, at the same size
+   as a thumbnail summary, with its right edge crossing under the fixed action
+   rail between 1440 and 1520. Body size on the 34rem measure the copy bands
+   settled on. */
+.lead .excerpt {
+  max-width: 34rem;
+  font-size: var(--f-body);
+  line-height: 1.9;
+}
 .more { margin-top: 1.1rem; color: var(--ink); }
+/* The whole card is the link, so the wipe has to fire from anywhere on it.
+   The .linkUnder rule only answers a hover on the span itself. */
+.lead:hover .more::after { transform: scaleX(1); transform-origin: left; }
 
 /* the rest */
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Six tracks, not three: an ordinary card spans two, which is the same 3-up
+     as before, but a short tail row can span three and close itself. */
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: clamp(1.5rem, 2.8vw, 2.75rem);
 }
+.grid > li { grid-column: span 2; }
 .card { display: block; }
 .frame {
   display: block;
@@ -121,21 +136,85 @@
 .frame img { width: 100%; height: 100%; object-fit: cover; }
 .cardTitle {
   display: block;
-  margin-top: 0.45rem;
+  /* the gap the date used to hold open under the plate */
+  margin-top: 0.95rem;
   font-family: var(--font-display);
   font-size: var(--f-sub);
   line-height: 1.35;
+  /* Two lines is the natural length of every title in blogData, but not all of
+     them wrap to two, and on plain margins one short title threw the excerpts
+     in its row about 17px out of line. Reserving the second line squares the
+     row off. */
+  min-height: calc(2 * 1.35em);
   color: var(--ink);
   transition: color 0.35s var(--ease);
 }
 .card:hover .cardTitle { color: var(--gold-deep); }
 
+/* ---- closing cta -------------------------------------------------------- */
+/* Ground, heading and button come from .bandDark. */
+.ctaInner { text-align: center; }
+.ctaTitle { max-width: 22ch; margin-inline: auto; }
+.ctaLede {
+  max-width: 62ch;
+  margin: 1.1rem auto 0;
+  line-height: 1.9;
+  color: var(--white-70);
+}
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-top: clamp(1.6rem, 2.8vw, 2.25rem);
+}
+.phone {
+  font-family: var(--font-display);
+  font-size: var(--f-sub);
+  color: var(--white);
+  border-bottom: 1px solid var(--accent);
+  transition: color 0.3s var(--ease);
+}
+.phone:hover { color: var(--accent); }
+
+/* Five posts in a three-wide grid left row two running 2-up beside a 415px
+   hole. The tail widens to half the row rather than leaving it open. The
+   selector only fires when exactly two cards trail a complete row, so a sixth
+   post restores the plain 3-up, and the wider plate takes a wider crop so it
+   cannot out-scale the lead. */
+@media (min-width: 901px) {
+  .grid > li:nth-child(3n + 1):nth-last-child(2),
+  .grid > li:nth-child(3n + 1):nth-last-child(2) ~ li { grid-column: span 3; }
+  .grid > li:nth-child(3n + 1):nth-last-child(2) .frame,
+  .grid > li:nth-child(3n + 1):nth-last-child(2) ~ li .frame { aspect-ratio: 16 / 9; }
+  /* The plate widens; the reading measure stays where the 3-up set it. */
+  .grid > li:nth-child(3n + 1):nth-last-child(2) .excerpt,
+  .grid > li:nth-child(3n + 1):nth-last-child(2) ~ li .excerpt { max-width: 26rem; }
+}
+
 @media (max-width: 900px) {
   .lead { grid-template-columns: 1fr; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* one track each again, now that the row is only two wide */
+  .grid > li { grid-column: auto; }
 }
 @media (max-width: 600px) {
   .grid { grid-template-columns: 1fr; }
+  /* Stacked, the 24px row gap was barely 1.5x the largest space inside a card,
+     so the five posts read as one continuous ribbon of picture-then-text. The
+     house hairline makes each one a discrete unit. */
+  .grid > li + li {
+    padding-top: clamp(1.75rem, 6vw, 2.25rem);
+    border-top: 1px solid var(--grey-line);
+  }
+  /* Titles wrap on their own down here, so a reserved second line would only
+     open a gap under the short ones. */
+  .cardTitle { min-height: 0; }
+  /* 16/11 against the cards' 4/3 was too small a difference to mark the lead
+     out once everything is stacked in one column. The wider crop does the rest
+     of what the title floor started. */
+  .leadFrame { aspect-ratio: 3 / 2; }
 }
 
 @media (max-width: 480px) {

@@ -43,7 +43,7 @@ export default function Bathware() {
 
         <div className={s.showcase}>
           <div className={s.hero} data-reveal="right">
-            <div className="zoomFrame">
+            <div className={s.heroFrame}>
               <img src="/img/about/why-choose.jpg" alt="Living room floor and feature wall tiled by the Capital Tiles installation team" loading="lazy" />
             </div>
             <span className={s.heroTag}>Supply &amp; install · Canberra</span>
@@ -53,7 +53,7 @@ export default function Bathware() {
             {PRODUCTS.map((p, i) => (
               <li key={p.label} data-reveal style={{ '--reveal-delay': 120 + i * 90 + 'ms' }}>
                 <Link href={p.href}>
-                  <span className={'zoomFrame ' + s.tileFrame}>
+                  <span className={s.tileFrame}>
                     <img src={p.img} alt={p.label} loading="lazy" />
                   </span>
                   <span className={s.tileLabel}>{p.label}</span>

@@ -1,9 +1,14 @@
 import Link from 'next/link'
+import EnquireLink from '@/components/EnquireLink'
 import s from './AboutBand.module.css'
 
 /* Wide claim band: a fixed (parallax) plate under a heavy wash, an oversized
-   headline with its call to action, and a ticked list on the right with one
-   row picked out on a translucent bar. */
+   headline with the page's two asks, and a ticked list on the right with one
+   row picked out by a gold rule.
+
+   The button used to read "Know More" and point at /about — the page it sits
+   on. It carries the actual commercial goals now: the free measure and quote,
+   and the showroom. */
 
 const POINTS = [
   'Free measure & quote across Canberra',
@@ -12,7 +17,7 @@ const POINTS = [
   'Local knowledge of Canberra’s climate',
 ]
 
-/* the row the reference highlights */
+/* the row the reference picks out */
 const HIGHLIGHT = 1
 
 export default function AboutBand() {
@@ -28,9 +33,14 @@ export default function AboutBand() {
             <span>Tiles &amp; Flooring Market</span>
           </h2>
 
-          <Link href="/about" className={'cta ctaLight ' + s.btn}>
-            <span>Know More</span>
-          </Link>
+          <div className={s.actions}>
+            <EnquireLink subject="Free measure & quote" className="cta ctaLight">
+              <span>Book a free measure &amp; quote</span>
+            </EnquireLink>
+            <Link href="/contact-us" className="cta ctaGhost">
+              <span>Visit the showroom</span>
+            </Link>
+          </div>
         </div>
 
         <ul className={s.points}>

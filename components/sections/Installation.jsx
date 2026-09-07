@@ -1,4 +1,9 @@
+'use client'
+
 import Link from 'next/link'
+import EnquireLink from '../EnquireLink'
+import { useOverflow } from '../useOverflow'
+import { SHOWROOM } from '../siteData'
 import InstallWhy from './InstallWhy'
 import s from './Installation.module.css'
 
@@ -6,24 +11,32 @@ import s from './Installation.module.css'
    service areas, and a closing measure-and-quote band. Content rewritten from
    the live capitaltiles.com.au installation-service page. */
 
+/* Every ask on this page books the same thing, so they all carry one subject. */
+const ASK = 'Free measure & quote — installation page'
+
 const WORK = [
   {
     title: 'Hybrid & Timber Flooring',
     copy: 'Rigid-core hybrid, laminate, engineered timber and vinyl planks, laid over a subfloor we have levelled and checked for moisture first. Click systems float over a sound existing floor; glue-down goes straight to the slab.',
     img: '/img/installation/hybrid-timber.jpg',
     href: '/flooring/hybrid-flooring',
+    cue: 'See hybrid & timber',
   },
   {
     title: 'Porcelain & Feature Tiles',
     copy: 'Floors, walls, splashbacks, showers and outdoor paving. We handle the setting out so cuts land where you will not notice them, then grout, seal and finish the edges properly.',
     img: '/img/installation/porcelain-tiles.jpg',
     href: '/tiles/wall',
+    cue: 'See wall tiles',
   },
   {
     title: 'Measure, Supply & Install',
     copy: 'One team from the first site visit to the final clean-up. You get one quote covering product, preparation, labour and rubbish removal, so nothing appears on the invoice that was not on the quote.',
     img: '/img/installation/measure-supply-install.jpg',
-    href: '/contact-us/enquiry',
+    /* This card IS an enquiry CTA, so it carries the same context the buttons
+       do rather than dropping the visitor on an empty form. */
+    href: '/contact-us/enquiry?subject=' + encodeURIComponent(ASK),
+    cue: 'Book a free measure',
   },
 ]
 
@@ -63,6 +76,14 @@ const AREAS = [
 ]
 
 export default function Installation() {
+  /* Below 700px the four marks become a scroll-snap rail, and with the
+     scrollbars gone it reads as clipped rather than scrollable. The rail is the
+     <ul> InstallWhy renders and its ref is already spoken for by that
+     component's autoplay timer, so the fade takes hold of the wrapper's only
+     child instead of threading a second ref down through it. */
+  const { ref: rail, fade } = useOverflow()
+  const holdRail = (node) => { rail.current = node ? node.firstElementChild : null }
+
   return (
     <>
       {/* ---------- banner ---------- */}
@@ -93,6 +114,11 @@ export default function Installation() {
               <li>Free measure and quote, on site</li>
               <li>One quoted price, start to finish</li>
             </ul>
+            <div className={s.introCta}>
+              <EnquireLink subject={ASK} className="cta">
+                <span>Book a Free Measure</span>
+              </EnquireLink>
+            </div>
           </div>
           <div className={s.introCopy} data-reveal style={{ '--reveal-delay': '120ms' }}>
             <p>
@@ -130,6 +156,7 @@ export default function Installation() {
                   <span className={s.workBody}>
                     <span className={s.workTitle}>{w.title}</span>
                     <span className={s.workCopy}>{w.copy}</span>
+                    <span className={'linkUnder ' + s.workLink}>{w.cue}</span>
                   </span>
                 </Link>
               </li>
@@ -148,7 +175,9 @@ export default function Installation() {
             </h2>
           </header>
 
-          <InstallWhy reasons={REASONS} />
+          <div className={'overflowFade ' + s.whyWrap} data-fade={fade} ref={holdRail}>
+            <InstallWhy reasons={REASONS} />
+          </div>
         </div>
       </section>
 
@@ -168,12 +197,15 @@ export default function Installation() {
             </ul>
             <p className={s.areasLabel}>We install across</p>
             <p className={s.areas}>{AREAS.join(' · ')}</p>
+            <EnquireLink subject={ASK} className={'cta ' + s.bandCta}>
+              <span>Book a Free Measure</span>
+            </EnquireLink>
           </div>
         </div>
       </section>
 
       {/* ---------- closing cta ---------- */}
-      <section className={'sectionPad ' + s.cta}>
+      <section className="sectionPad bandDark">
         <div className={'container ' + s.ctaInner}>
           <h2 className={'title ' + s.ctaTitle} data-reveal>
             Ready to get a real price on it?
@@ -183,13 +215,14 @@ export default function Installation() {
             products and give you a written price with no obligation.
           </p>
           <div className={s.ctaRow} data-reveal style={{ '--reveal-delay': '160ms' }}>
-            <Link href="/contact-us/enquiry" className="cta">
+            <EnquireLink subject={ASK} className="cta">
               <span>Book a Free Measure &amp; Quote</span>
-            </Link>
-            <a href="tel:0262538158" className={s.phone}>02 6253 8158</a>
+            </EnquireLink>
+            <a href={SHOWROOM.phoneHref} className={s.phone}>{SHOWROOM.phone}</a>
           </div>
         </div>
       </section>
+
     </>
   )
 }

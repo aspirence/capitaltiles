@@ -6,7 +6,7 @@ export const TILES = [
   {
     name: "Calacatta",
     handle: "calacatta-1",
-    blurb: "Thickness: 9.0mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles 360 View",
+    blurb: "Available in 2 colours and 2 finishes, in 300x600 to 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["White", "Gold"],
     finishes: ["Soft Matt", "Polish"],
@@ -15,7 +15,7 @@ export const TILES = [
   {
     name: "Carrara Mosaic",
     handle: "carrara-mosaic",
-    blurb: "Thickness: 10mm Edge: Rectified Slip Rating: None ETA: - Specification: 0.9702 sqm/Box, 54 Box/ Pallet, 11 PC/ Box Areas: Mosaic",
+    blurb: "Available in 4 colours and 1 finish. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Herringbone", "kitKat", "Convex", "Concave"],
     finishes: ["Soft Matt"],
@@ -24,7 +24,7 @@ export const TILES = [
   {
     name: "Carrara",
     handle: "carrara",
-    blurb: "Thickness: 9 mm Edge: Rectified Slip Rating: None ETA: - Specification: Same design as Snowwhite, for polish, please choose Snowwhite Areas: Floor Til",
+    blurb: "Available in 1 colour and 1 finish, in 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["White"],
     finishes: ["Matt"],
@@ -33,7 +33,7 @@ export const TILES = [
   {
     name: "Nova Grey 200x1200",
     handle: "nova-grey-200x1200",
-    blurb: "Thickness: 10 mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles, Timber Look Tiles",
+    blurb: "Available in 1 colour and 1 finish, in 200x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Grey"],
     finishes: ["External"],
@@ -42,7 +42,7 @@ export const TILES = [
   {
     name: "21206 Off White",
     handle: "21206-off-white",
-    blurb: "Thickness: 10 mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles, Timber Look Tiles 360 View",
+    blurb: "Available in 1 colour and 1 finish, in 200x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Off White"],
     finishes: ["Matt"],
@@ -51,7 +51,7 @@ export const TILES = [
   {
     name: "21205 200x1200 Matt",
     handle: "21205-200x1200-matt",
-    blurb: "Thickness: 10 mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles, Timber Look Tiles 360 View",
+    blurb: "Available in 1 finish, in 200x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: [],
     finishes: ["Matt"],
@@ -60,7 +60,7 @@ export const TILES = [
   {
     name: "21203 Natural",
     handle: "21203-natural",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles, Timber Look Tiles 360 View",
+    blurb: "Available in 1 colour and 1 finish, in 200x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Natural"],
     finishes: ["Matt"],
@@ -69,7 +69,7 @@ export const TILES = [
   {
     name: "Matera",
     handle: "matera",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles",
+    blurb: "Available in 4 colours and 1 finish, in 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Natural", "Grey", "White", "Beige"],
     finishes: ["StoneTouch Tec"],
@@ -78,7 +78,7 @@ export const TILES = [
   {
     name: "Iceland",
     handle: "iceland",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: P5 ETA: - Specification: Areas: Floor Tiles, Wall Tiles, Bathroom Floor 360 View",
+    blurb: "Available in 1 colour and 1 finish, in 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Gold"],
     finishes: ["Matt"],
@@ -87,7 +87,7 @@ export const TILES = [
   {
     name: "Tundra",
     handle: "tundra",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: P5 ETA: - Specification: Areas: Floor Tiles, Wall Tiles, Bathroom Floor 360 View",
+    blurb: "Available in 1 colour and 1 finish, in 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["White"],
     finishes: ["Matt"],
@@ -96,7 +96,7 @@ export const TILES = [
   {
     name: "Taj Mahal",
     handle: "taj-mahal",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: ETA: - Specification: Areas: Floor Tiles, Wall tiles, Outdoor Tiles, Bathroom Floor 360 View",
+    blurb: "Available in 3 colours and 4 finishes, in 600x600 to 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Natural", "Ivory", "Silver"],
     finishes: ["Matt", "StoneTouch Tec", "Soft Matt", "Flute"],
@@ -105,7 +105,7 @@ export const TILES = [
   {
     name: "Flat-Alps",
     handle: "flat-alps",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: ETA: - Specification: Areas: Floor Tiles, Wall tiles, Outdoor Tiles, Bathroom Floor 360 View",
+    blurb: "Available in 4 colours and 4 finishes, in 300x600 to 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Silver", "Grey", "White", "Beige"],
     finishes: ["In&Out Solution", "StoneTouch Tec", "Paver", "Flute"],
@@ -114,7 +114,7 @@ export const TILES = [
   {
     name: "Gelato",
     handle: "gelato",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: ETA: - Specification: Areas: Floor Tiles, Wall tiles, Outdoor Tiles, Bathroom Floor",
+    blurb: "Available in 3 colours and 1 finish, in 300x600 to 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Light", "Medium", "Dark"],
     finishes: ["In&Out Solution"],
@@ -123,7 +123,7 @@ export const TILES = [
   {
     name: "Riverstone",
     handle: "riverstone",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: P5 ETA: - Specification: Areas: Floor Tiles, Outdoor Tiles 360 View",
+    blurb: "Available in 1 colour and 1 finish, in 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Silver"],
     finishes: ["External"],
@@ -132,7 +132,7 @@ export const TILES = [
   {
     name: "Boutique",
     handle: "boutique",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles 360 View",
+    blurb: "Available in 1 finish, in 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: [],
     finishes: ["Matt"],
@@ -141,7 +141,7 @@ export const TILES = [
   {
     name: "Fg Grey",
     handle: "fg-grey",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles, Bathroom Floor 360 View",
+    blurb: "Available in 2 finishes, in 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: [],
     finishes: ["Matt", "Polish"],
@@ -150,7 +150,7 @@ export const TILES = [
   {
     name: "Vista",
     handle: "vista",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: ETA: - Specification: Areas: Floor Tiles, Wall tiles, Bathroom Tiles",
+    blurb: "Available in 2 colours and 1 finish, in 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Ivory", "Silver"],
     finishes: ["Matt"],
@@ -159,7 +159,7 @@ export const TILES = [
   {
     name: "Terrazzo Grey",
     handle: "terrazzo-grey",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: ETA: - Specification: Areas: Floor Tiles, Wall tiles, Bathroom Tiles",
+    blurb: "Available in 1 finish, in 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: [],
     finishes: ["Matt"],
@@ -168,7 +168,7 @@ export const TILES = [
   {
     name: "Loft Dark",
     handle: "loft-dark",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: ETA: - Specification: Areas: Floor Tiles, Wall tiles, Bathroom Tiles 360 View",
+    blurb: "Available in 2 finishes, in 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: [],
     finishes: ["Matt", "External"],
@@ -177,7 +177,7 @@ export const TILES = [
   {
     name: "Limestone Dark",
     handle: "limestone-dark",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: P3 ETA: - Specification: Areas: Floor Tiles, Wall tiles, Bathroom Tiles 360 View",
+    blurb: "Available in 1 finish, in 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: [],
     finishes: ["Matt"],
@@ -186,7 +186,7 @@ export const TILES = [
   {
     name: "Statuario",
     handle: "statuario",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles 360 View",
+    blurb: "Available in 1 colour and 2 finishes, in 600x600 to 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Gold"],
     finishes: ["Polish", "Soft Matt"],
@@ -195,7 +195,7 @@ export const TILES = [
   {
     name: "Flurries",
     handle: "flurries",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles 360 View",
+    blurb: "Available in 1 colour and 3 finishes, in 300x600 to 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["White"],
     finishes: ["Matt", "Polish", "Soft Matt"],
@@ -204,7 +204,7 @@ export const TILES = [
   {
     name: "SnowWhite",
     handle: "snowwhite",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles 360 View",
+    blurb: "Available in 1 colour and 2 finishes, in 300x600 to 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Grey"],
     finishes: ["Soft Matt", "Polish"],
@@ -213,7 +213,7 @@ export const TILES = [
   {
     name: "Vienna",
     handle: "vienna-1",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles, Bathroom Floor 360 View",
+    blurb: "Available in 2 colours and 3 finishes, in 300x600 to 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Grey", "Ivory"],
     finishes: ["Matt", "Polish", "Soft Matt"],
@@ -222,7 +222,7 @@ export const TILES = [
   {
     name: "Pandora",
     handle: "pandora-1",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles",
+    blurb: "Available in 1 finish, in 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: [],
     finishes: ["Soft Matt"],
@@ -231,7 +231,7 @@ export const TILES = [
   {
     name: "Apex",
     handle: "apex",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles, Bathroom Floor 360 View",
+    blurb: "Available in 1 colour and 2 finishes, in 300x600 to 600x600. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Silver"],
     finishes: ["Matt", "Polish"],
@@ -240,7 +240,7 @@ export const TILES = [
   {
     name: "Diamond",
     handle: "diamond",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles, Bathroom Floor 360 View",
+    blurb: "Available in 1 colour and 1 finish, in 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Silver"],
     finishes: ["Lappato"],
@@ -249,7 +249,7 @@ export const TILES = [
   {
     name: "Monash",
     handle: "monash",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles, Bathroom Floor",
+    blurb: "Available in 1 colour and 1 finish, in 600x600 to 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Black"],
     finishes: ["Matt"],
@@ -258,7 +258,7 @@ export const TILES = [
   {
     name: "Ionic",
     handle: "origin-copy",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles 360 View",
+    blurb: "Available in 2 colours and 3 finishes, in 300x600 to 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Grey", "Silver"],
     finishes: ["Matt", "Polish", "Soft Matt"],
@@ -267,7 +267,7 @@ export const TILES = [
   {
     name: "Elegance",
     handle: "elegance",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: None ETA: - Specification: Areas: Floor Tiles, Wall tiles 360 View",
+    blurb: "Available in 2 colours and 2 finishes, in 300x600 to 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Grey", "Silver"],
     finishes: ["In&Out Solution", "StoneTouch Tec"],
@@ -276,7 +276,7 @@ export const TILES = [
   {
     name: "Tasmania",
     handle: "tasmania",
-    blurb: "Thickness: 9mm Edge: Rectified Slip Rating: P3 ETA: - Specification: Areas: Floor Tiles, Wall tiles",
+    blurb: "Available in 2 colours and 2 finishes, in 600x600 to 600x1200. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Grey", "Ivory"],
     finishes: ["Matt", "StoneTouch Tec"],

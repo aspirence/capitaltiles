@@ -11,7 +11,16 @@ import s from './Hero.module.css'
    and a progress bar that tracks the autoplay timer.
    ------------------------------------------------------------------------- */
 
+/* The free measure leads. On a 6,500ms timer it used to be the fifth slide —
+   the page's primary goal arriving 26 seconds in, behind a restaurant render. */
 const SLIDES = [
+  {
+    title: 'Free Measure & Quote',
+    subtitle: 'Indoors or out, anywhere in Canberra and Queanbeyan',
+    href: '/contact-us/enquiry',
+    img: '/img/hero/hero-4.jpg',
+    mob: '/img/hero/hero-m-4.jpg',
+  },
   {
     title: 'Tiles For Every Room',
     subtitle: 'Floor, wall and outdoor ranges, on display in Mitchell',
@@ -39,13 +48,6 @@ const SLIDES = [
     href: '/tiles/triexta',
     img: '/img/hero/hero-3.jpg',
     mob: '/img/hero/hero-m-3.jpg',
-  },
-  {
-    title: 'Free Measure & Quote',
-    subtitle: 'Indoors or out, anywhere in Canberra and Queanbeyan',
-    href: '/contact-us/enquiry',
-    img: '/img/hero/hero-4.jpg',
-    mob: '/img/hero/hero-m-4.jpg',
   },
 ]
 
@@ -173,6 +175,24 @@ export default function Hero() {
       <div className={s.controls}>
         <div className="container">
           <div className={s.controlsInner}>
+            {/* Ticks, mobile only. Below 900px the arrows and the cue are both
+                hidden, which left five silently self-replacing pictures with
+                nothing to say how many there are or how to reach one — the
+                overflow rule the rest of the site follows. Desktop keeps the
+                arrows and, as asked, no indicator. */}
+            <div className={s.ticks}>
+              {SLIDES.map((slide, i) => (
+                <button
+                  key={slide.title}
+                  type="button"
+                  className={i === index ? s.tick + ' ' + s.tickOn : s.tick}
+                  aria-label={`Slide ${i + 1} of ${SLIDES.length}: ${slide.title}`}
+                  aria-current={i === index ? 'true' : undefined}
+                  onClick={() => setIndex(i)}
+                />
+              ))}
+            </div>
+
             <a className={s.scrollCue} href="#about">
               Scroll
               <span aria-hidden="true" />

@@ -64,6 +64,18 @@
 
 /* ---- shared ------------------------------------------------------------- */
 .h2 { color: var(--ink); }
+/* The short rule under a heading, as on the collection band and the product
+   page's range band. --accent, not --gold: every band carrying an .h2 on this
+   page is light, and the closing band re-points --accent for itself. */
+.h2::after,
+.ctaTitle::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-top: clamp(0.7rem, 1.1vw, 0.9rem);
+  background: var(--accent);
+}
 .head { margin-bottom: clamp(2rem, 3.5vw, 3.25rem); }
 
 /* ---- intro -------------------------------------------------------------- */
@@ -113,6 +125,11 @@
   transform: rotate(45deg);
 }
 
+/* The page's first ask, at the foot of the heading column rather than 2,900px
+   down. It is also what the floating bar watches: the bar rides in once this
+   has left the top of the screen, so the two are never up at once. */
+.introCta { margin-top: clamp(1.5rem, 2.4vw, 2rem); }
+
 /* 62ch keeps the measure in the comfortable reading band — it was running to
    ~99 characters a line, which is what made this read as a wall of text. */
 .introCopy {
@@ -149,15 +166,36 @@
   transition: color 0.35s var(--ease);
 }
 .workCard:hover .workTitle { color: var(--accent); }
+/* --f-body, not --f-copy-sm: this is the paragraph a reader actually reads to
+   decide whether we lay their floor, not a caption under a picture, and the
+   card column at 1440 is 400px wide — wide enough to carry body size. 1.7 goes
+   with it, since the looser 1.8 was carrying the smaller type. Same three
+   values on .whyCopy and .points below, which are the same kind of copy. */
 .workCopy {
   display: block;
-  font-size: var(--f-small);
-  line-height: 1.9;
+  font-size: var(--f-body);
+  line-height: 1.7;
   color: var(--grey-text);
 }
 
+/* Each card is a link and nothing said so: photo, title, paragraph, no arrow
+   and no rule. On a phone there is no hover to fall back on either, so all
+   three read as inert — including the one that goes to the booking form. The
+   underline grows on the CARD's hover, not the line's, because the cursor is
+   usually on the picture when the card lights up. */
+.workLink {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--accent);
+}
+.workCard:hover .workLink::after { transform: scaleX(1); transform-origin: left; }
+
 /* ---- why choose us ------------------------------------------------------ */
-.why { background: var(--grey-bg); }
+.why {
+  /* The rail below 700px has to fade into this ground, not the page default. */
+  --fade-ground: var(--grey-bg);
+  background: var(--grey-bg);
+}
 .whyGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -183,7 +221,7 @@
   font-weight: 400;
   color: var(--ink);
 }
-.whyCopy { font-size: var(--f-small); line-height: 1.9; color: var(--grey-text); }
+.whyCopy { font-size: var(--f-body); line-height: 1.7; color: var(--grey-text); }
 
 /* ---- feature band ------------------------------------------------------- */
 .band { background: var(--white); }
@@ -203,8 +241,8 @@
 .points li {
   position: relative;
   padding-left: 1.6rem;
-  font-size: var(--f-small);
-  line-height: 1.85;
+  font-size: var(--f-body);
+  line-height: 1.7;
   color: var(--grey-text);
 }
 .points li::before {
@@ -226,16 +264,22 @@
   margin-bottom: 0.5rem;
 }
 .areas { font-size: var(--f-small); line-height: 1.9; color: var(--grey-text); }
+/* The copy column ran ~85px shorter than the plate beside it and ended on a
+   list of place names. The ask fills the column and gives the middle of the
+   page something to click. */
+.bandCta { margin-top: clamp(1.5rem, 2.4vw, 2rem); }
 
 /* ---- closing cta -------------------------------------------------------- */
-.cta { background: var(--grey-bg); }
+/* Ground, heading and button come from .bandDark. What is left here is the copy
+   and the phone, which were written for the grey band this used to sit on. */
 .ctaInner { text-align: center; }
 .ctaTitle { max-width: 22ch; margin-inline: auto; }
+.ctaTitle::after { margin-inline: auto; }
 .ctaLede {
   max-width: 60ch;
   margin: 1.1rem auto 0;
   line-height: 1.9;
-  color: var(--grey-text);
+  color: var(--white-70);
 }
 .ctaRow {
   display: flex;
@@ -248,7 +292,7 @@
 .phone {
   font-family: var(--font-display);
   font-size: var(--f-sub);
-  color: var(--ink);
+  color: var(--white);
   border-bottom: 1px solid var(--accent);
   transition: color 0.3s var(--ease);
 }
@@ -291,6 +335,10 @@
     white-space: nowrap;
   }
 
+  /* The bleed lives on the fade wrapper rather than on the track, so the edge
+     the fade paints on is the edge the track is actually clipped at. */
+  .whyWrap { margin-inline: calc(clamp(1rem, 4vw, 4rem) * -1); }
+
   /* The four marks become a one-at-a-time slider. Grid columns are dropped in
      favour of a flex track so each card can take the full width. */
   .whyGrid {
@@ -302,7 +350,6 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
     /* let the cards run to the container edge rather than sitting in a box */
-    margin-inline: calc(clamp(1rem, 4vw, 4rem) * -1);
     padding-inline: clamp(1rem, 4vw, 4rem);
   }
   .whyGrid::-webkit-scrollbar { display: none; }
@@ -318,4 +365,38 @@
   .whyIcon { margin-inline: auto; }
 
   .whyCopy { max-width: 34ch; margin-inline: auto; }
+
+  /* The fade says there is more to the right; it cannot say three more, or
+     which one you are on. These do both, and being the manual control is what
+     lets the timer stand down the moment a reader takes over. Diamonds, the
+     same mark as .introMarks and .points, rather than a row of circles. */
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.1rem;
+    margin-top: 1.5rem;
+  }
+  .dot {
+    display: grid;
+    place-items: center;
+    /* 36 x 28 hit area around a 7px mark. */
+    width: 2.25rem;
+    height: 1.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  /* --grey-text, not --grey-line: the unfilled marks are the half of this row
+     that says how many cards there are, and --grey-line on --grey-bg is 1.21:1
+     — the three you are not on simply were not there. --grey-text reads at
+     4.8:1, and the fill still carries which one is current. */
+  .dot i {
+    width: 0.42rem;
+    height: 0.42rem;
+    border: 1px solid var(--grey-text);
+    transform: rotate(45deg);
+    transition: background 0.35s var(--ease), border-color 0.35s var(--ease);
+  }
+  .dotOn i { border-color: var(--accent); background: var(--accent); }
 }

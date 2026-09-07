@@ -72,12 +72,10 @@
 
 /* ---- body --------------------------------------------------------------- */
 .body { background: var(--white); }
-/* Copy hard against the left of the container, the other posts against the
-   right. The prose keeps its own max-width so the measure stays readable —
-   the column is far wider than any line of text should be. */
 /* Same construction as the policy page, same fix: a 1fr column with a 78ch cap
-   on the prose inside it gave 97-character lines beside a dead channel. The
-   reading column is capped here and the pair is centred. */
+   on the prose inside it gave 97-character lines beside a 295px dead channel,
+   because the cap sat inside the track rather than being the track. The
+   reading column is the real width here and the pair is centred. */
 .bodyInner {
   display: grid;
   grid-template-columns: minmax(0, 34rem) minmax(0, 24rem);
@@ -86,11 +84,30 @@
   gap: clamp(2rem, 3.5vw, 3.5rem);
 }
 
-.prose { width: 100%; }
+/* The one long-form template on the site, so it names its own reading size
+   instead of inheriting --f-body. 14.7px is the size the rest of the site uses
+   for specs and captions; over 2,400px of continuous prose it reads as fine
+   print.
+
+   The floor is a full 1rem. It was 0.95rem to keep the body under --f-sub on a
+   phone, which nothing needed: --f-sub floors at 1.05rem / 16.8px, so the lede
+   still outranks a 16px body by 5% at every width the two are set at, and by
+   more above 1244px where --f-sub starts climbing on 1.35vw against this
+   column's 1.15vw. 15.2px of continuous prose bought that separation twice and
+   charged a phone reader for it. --grey-text on white measures 5.35:1, so the
+   larger size clears AA on its own terms rather than on the large-text 3:1
+   rung. */
+.prose {
+  width: 100%;
+  font-size: clamp(1rem, 1.15vw, 1.1rem);
+}
 
 .prose p {
-  margin-bottom: 1.15rem;
-  line-height: 1.95;
+  /* The break between paragraphs has to beat the space inside one. At
+     1.95/1.15rem the ratio was 1.48 and the column read as one grey field of
+     stripes rather than as blocks. */
+  margin-bottom: 1.4rem;
+  line-height: 1.7;
   color: var(--grey-text);
 }
 .lede {
@@ -106,7 +123,18 @@
   font-size: clamp(1.2rem, 1.9vw, 1.6rem);
   font-weight: 400;
   line-height: 1.25;
+  text-wrap: balance;
   color: var(--ink);
+}
+/* Marks where each section starts down a very long white column, and puts the
+   house accent back on a page whose only gold was three bullet diamonds. */
+.block h2::before {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-bottom: 1rem;
+  background: var(--accent);
 }
 
 .points {
@@ -117,9 +145,11 @@
 .points li {
   position: relative;
   padding-left: 1.5rem;
-  font-size: var(--f-small);
-  line-height: 1.85;
-  color: var(--grey-text);
+  /* The room-by-room mapping is the most actionable thing in the piece and it
+     was set below body size in grey, which ranked it under the prose it is
+     meant to summarise. It inherits the reading size now. */
+  line-height: 1.6;
+  color: var(--ink);
 }
 .points li::before {
   content: '';
@@ -141,23 +171,40 @@
   color: var(--ink) !important;
 }
 
-.cta {
-  margin-top: clamp(2rem, 3.4vw, 2.75rem);
-  padding: clamp(1.4rem, 2.6vw, 2.25rem);
-  background: var(--grey-bg);
+/* ---- closing cta -------------------------------------------------------- */
+/* Ground, heading and button come from .bandDark. */
+.ctaInner { text-align: center; }
+.ctaTitle { max-width: 24ch; margin-inline: auto; }
+.ctaLede {
+  max-width: 60ch;
+  margin: 1.1rem auto 0;
+  line-height: 1.9;
+  color: var(--white-70);
 }
-.cta p { margin-bottom: 1.2rem; font-size: var(--f-small); }
 .ctaRow {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: clamp(1rem, 2vw, 1.75rem);
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-top: clamp(1.6rem, 2.8vw, 2.25rem);
 }
+/* The only tel: link in the article, and it was an inline 28px line box. The
+   hairline moves onto the text rather than the box, so the target can grow to
+   44px without the underline drifting away from the number. */
 .phone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding-inline: 0.2rem;
   font-family: var(--font-display);
   font-size: var(--f-sub);
-  color: var(--ink);
-  border-bottom: 1px solid var(--accent);
+  color: var(--white);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.35em;
   transition: color 0.3s var(--ease);
 }
 .phone:hover { color: var(--accent); }
@@ -178,6 +225,31 @@
   background: var(--grey-bg);
 }
 
+/* ---- the ask, at the head of the rail ----
+   Everything else in this panel points away from the article -- three other
+   posts and the index -- while the only ask on the page waits at the bottom.
+   This puts one at the top of the rail, so a reader convinced at the halfway
+   mark has something to click that is not an exit.
+
+   It is the head of the panel, not a bordered box inside it. As its own box it
+   ran 155px at 1440 -- eyebrow, two lines of copy, a 45px button, then a rule
+   with 22px of padding above it and 22px of margin below, 40px from the rule
+   the list already drew -- and took .asideInner to 767px. Pinned at
+   --header-real + 1.5rem = 152px, its foot landed at 919px against a 780px
+   viewport: 139px of rail, the index link included, parked where no scrolling
+   reaches it. One rule now, on .asideTitle, dividing the ask from the list, so
+   the ask costs its own three lines and nothing else. */
+.askCopy {
+  /* --f-copy-sm, not --f-small: this is a sentence, not a label. One line at
+     every width the rail is sticky at -- the two-line version it replaces ended
+     on "before you order", which the button under it says again. */
+  margin: 0.45rem 0 0.85rem;
+  font-size: var(--f-copy-sm);
+  line-height: 1.6;
+  color: var(--grey-text);
+}
+.askCta { display: flex; width: 100%; padding-inline: 1rem; }
+
 .asideEyebrow {
   font-size: var(--f-small);
   font-weight: 500;
@@ -185,8 +257,12 @@
   text-transform: uppercase;
   color: var(--accent);
 }
+/* Carries the hairline that used to sit under the ask and again on the list:
+   one rule between the ask and the reading list, not two 40px apart. */
 .asideTitle {
-  margin-top: 0.5rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--grey-line);
   font-family: var(--font-display);
   font-size: calc(var(--f-sub) * 1.1);
   font-weight: 400;
@@ -196,18 +272,21 @@
 
 .asideList {
   display: grid;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--grey-line);
+  gap: 1.25rem;
+  margin-top: 1.1rem;
 }
 
 .asideCard { display: flex; gap: 1rem; align-items: flex-start; }
 
+/* 5.5rem, not 8rem. In a 384px rail the wider frame left the title 177px to
+   wrap in, so a 57-character headline used all three clamped lines; at 88px it
+   gets 217px and the same headline lands in two. The thumbnail is still the
+   thing that sells the click -- it just stops being the reason the card is
+   three lines tall. */
 .asideFrame {
   flex: none;
   display: block;
-  width: 8rem;
+  width: 5.5rem;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--grey-line);
@@ -240,17 +319,21 @@
   transition: color 0.35s var(--ease);
 }
 .asideCard:hover .asideName { color: var(--accent); }
-.asideDate {
-  display: block;
-  margin-top: 0.4rem;
-  font-size: 0.75rem;
-  color: var(--grey-text);
+
+.asideAll { display: inline-block; margin-top: 1.25rem; font-size: var(--f-small); }
+
+/* Stacks early: at 1000px the fixed aside still took 43% of the width of the
+   reading column, which is far too much page for three other articles. The
+   single track keeps the 34rem cap -- a full-width tablet line would run past
+   120 characters. */
+@media (max-width: 1100px) {
+  /* One column: the copy first, the other posts under it. */
+  .bodyInner { grid-template-columns: minmax(0, 34rem); }
+  .aside { position: static; }
 }
 
-.asideAll { display: inline-block; margin-top: 1.6rem; font-size: var(--f-small); }
-
-@media (max-width: 900px) {
-  /* One column: the copy first, the other posts under it. */
-  .bodyInner { grid-template-columns: 1fr; }
-  .aside { position: static; }
+@media (max-width: 560px) {
+  /* The number is the second ask, not an afterthought beside the slab. */
+  .ctaRow { flex-direction: column; align-items: stretch; }
+  .ctaBtn { width: 100%; }
 }

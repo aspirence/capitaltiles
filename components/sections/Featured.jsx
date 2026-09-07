@@ -1,106 +1,108 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
+import { SHOWROOM, SERVICE_AREA } from '@/components/siteData'
 import s from './Featured.module.css'
 
-/* Built to the supplied reference: one full-bleed plate behind four equal
-   columns. Hovering a column swaps the plate to that column's image and
-   expands it from a compact label into a dark detail card. */
+/* ---------------------------------------------------------------------------
+   The showroom band — the About page's proof block.
 
-const ITEMS = [
+   The file is still called Featured because /about is its only consumer and
+   renaming it mid-flight would break nothing but would collide with work in
+   other templates; the section it renders is no longer a "Featured In" strip.
+   What stood here was four tile categories under one shared photo — the same
+   range index Explore already runs on the homepage, and nothing about the
+   business. This carries what an About page owes a visitor instead: where the
+   showroom is, when it is open, and what the company actually does.
+
+   Shape borrowed from the ProductDetail range band: copy one side, a plate
+   bleeding off the other, then a proof strip along the foot.
+   ------------------------------------------------------------------------- */
+
+const DIRECTIONS = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SHOWROOM.address)}`
+
+const PROOF = [
   {
-    sub: 'Indoor Tiles',
-    title: 'Living & Dining',
-    copy: 'Large-format porcelain and stone-look floors that run wall to wall with minimal grout lines.',
-    href: '/tiles/living-room',
-    img: '/img/featured/feat-1.jpg',
+    k: 'Since 1977',
+    v: 'Nearly fifty years supplying and laying floors for Canberra homes, builders and fitouts.',
   },
   {
-    sub: 'Bathroom Tiles',
-    title: 'Bathrooms & Ensuites',
-    copy: 'Wall and floor tiles rated for wet areas, matched with basins, mixers and slip-safe finishes.',
-    href: '/tiles/bathroom',
-    img: '/img/featured/feat-2.jpg',
+    k: 'Our own installers',
+    v: 'Old floor lifted, subfloor prepared, laid, grouted and sealed by the team that quoted it.',
   },
   {
-    sub: 'Outdoor & Pool',
-    title: 'Alfresco & Pools',
-    copy: 'R11 grip, frost resistance and 20mm pavers built for Canberra decks, drives and poolsides.',
-    href: '/tiles/outdoor',
-    img: '/img/featured/feat-3.jpg',
+    k: 'Free measure & quote',
+    v: SERVICE_AREA,
   },
   {
-    sub: 'Commercial',
-    title: 'Retail & Fitout',
-    copy: 'Hard-wearing specification for shops, offices and hospitality, supplied and installed to program.',
-    href: '/professional/institutional',
-    img: '/img/featured/feat-4.jpg',
+    k: 'Every surface',
+    v: 'Porcelain and ceramic tiles, hybrid, laminate, engineered and natural timber, vinyl and carpet.',
   },
 ]
 
-export default function Featured() {
-  const [active, setActive] = useState(0)
-
+export default function AboutShowroom() {
   return (
-    <section className={s.section} aria-label="Featured ranges">
-      {/* stacked plates — only the active one is opaque */}
-      {ITEMS.map((item, i) => (
-        <div
-          key={item.img}
-          className={i === active ? s.plate + ' ' + s.plateOn : s.plate}
-          style={{ backgroundImage: `url(${item.img})` }}
-          aria-hidden="true"
-        />
-      ))}
-      <span className={s.wash} aria-hidden="true" />
+    <section className={s.section} aria-label="The Mitchell showroom">
+      <div className={s.grid}>
+        <div className={s.copy}>
+          <p className={s.eyebrow} data-reveal>The Mitchell showroom</p>
 
-      {/* column dividers */}
-      {[1, 2, 3].map((n) => (
-        <span key={n} className={s.divider} style={{ left: n * 25 + '%' }} aria-hidden="true" />
-      ))}
+          <h2 className={s.title} data-reveal style={{ '--reveal-delay': '80ms' }}>
+            Tiles, flooring and carpet in the one room
+          </h2>
 
-      {/* white notch tab */}
-      <div className={s.tab}>
-        <h2>Featured In</h2>
+          <p className={s.lead} data-reveal style={{ '--reveal-delay': '150ms' }}>
+            Everything we supply is out on the floor at Pelle Street: tiles at full sheet size,
+            hybrid and timber laid down to walk on, and carpet set out by fibre. Hold a wall tile
+            against a floorboard against a carpet without driving anywhere else, then take the
+            shortlist home and look at it in your own light.
+          </p>
+
+          <dl className={s.facts} data-reveal style={{ '--reveal-delay': '220ms' }}>
+            <div>
+              <dt>Showroom</dt>
+              <dd>{SHOWROOM.street}, {SHOWROOM.suburb}</dd>
+            </div>
+            <div>
+              <dt>Open</dt>
+              <dd>{SHOWROOM.hours}</dd>
+            </div>
+            <div>
+              <dt>Phone</dt>
+              <dd><a href={SHOWROOM.phoneHref}>{SHOWROOM.phone}</a></dd>
+            </div>
+          </dl>
+
+          <div className={s.actions} data-reveal style={{ '--reveal-delay': '300ms' }}>
+            <a
+              className="cta ctaLight"
+              href={DIRECTIONS}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>Get directions</span>
+            </a>
+            <Link href="/contact-us" className="cta ctaGhost">
+              <span>Contact the showroom</span>
+            </Link>
+          </div>
+        </div>
+
+        <div className={s.plate} data-reveal="scale">
+          <img
+            src="/img/about/why-choose.jpg"
+            alt="Large-format stone-look porcelain on the wall and floor of a living room"
+            loading="lazy"
+          />
+        </div>
       </div>
 
-      <div className={s.cols}>
-        {ITEMS.map((item, i) => {
-          const on = i === active
-          return (
-            <div
-              key={item.title}
-              className={on ? s.col + ' ' + s.colOn : s.col}
-              /* Below 640px every card is open, so each column paints its own
-                 image instead of sharing the single hover-swapped plate. */
-              style={{ '--img': `url(${item.img})` }}
-              onMouseEnter={() => setActive(i)}
-              onFocus={() => setActive(i)}
-            >
-              {/* compact state */}
-              <div className={s.compact}>
-                <p className={s.sub}>{item.sub}</p>
-                <h3 className={s.title}>
-                  <Link href={item.href}>{item.title}</Link>
-                </h3>
-              </div>
-
-              {/* expanded card */}
-              <div className={s.card}>
-                <span className={s.dot} aria-hidden="true" />
-                <p className={s.sub}>{item.sub}</p>
-                <h3 className={s.cardTitle}>
-                  <Link href={item.href}>{item.title}</Link>
-                </h3>
-                <p className={s.copy}>{item.copy}</p>
-                <Link href={item.href} className={s.btn} tabIndex={on ? 0 : -1}>
-                  View More
-                </Link>
-              </div>
-            </div>
-          )
-        })}
+      {/* proof strip — the years, the team and the service, stated once */}
+      <div className={s.proof}>
+        {PROOF.map((item, i) => (
+          <div key={item.k} className={s.fact} data-reveal style={{ '--reveal-delay': i * 80 + 'ms' }}>
+            <p className={s.factKey}>{item.k}</p>
+            <p className={s.factVal}>{item.v}</p>
+          </div>
+        ))}
       </div>
     </section>
   )

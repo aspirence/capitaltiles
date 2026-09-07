@@ -1,12 +1,70 @@
+/* The band was 100svh of grey with about 270px of text adrift in the middle of
+   it — 252px empty above the crumb and 256px below the button on a 1440 frame,
+   near enough two thirds of the section on both breakpoints — and the top
+   padding was fighting the vertical centring rather than helping it. It now
+   clears the header the way every other opening section does and lets the
+   picture set the height. */
 .wrap {
   display: grid;
-  align-items: center;
-  min-height: 100svh;
-  padding-block: clamp(9rem, 16vw, 14rem) clamp(4rem, 8vw, 7rem);
+  align-content: center;
+  min-height: 60svh;
+  padding-block: calc(var(--header-h) + clamp(3rem, 5vw, 5rem)) clamp(3rem, 5.5vw, 6.5rem);
   background: var(--grey-bg);
+  overflow: hidden;
 }
 
-.inner { max-width: 46rem; }
+/* No .container on this grid. The copy used to sit in one, and .container's
+   margin-inline:auto centred the whole block at x=408 while the header nav
+   started at 58px and the footer columns directly beneath it at 61px — text
+   left-aligned inside a centred box lines up with neither edge. The copy pane
+   carries the gutter itself now, which frees the right column to meet the
+   window the way the product page's editorial band does. */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  align-items: stretch;
+  gap: 0;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-inline: clamp(1rem, 4vw, 4rem);
+  padding-block: clamp(1rem, 2.5vw, 2.5rem);
+  /* The band is full-bleed, so the copy has to find the page's left rule for
+     itself — the reason the product page's editorial band carries the same
+     calc. Past 1600px the header and footer stop widening and start taking the
+     margin .container gives them as it centres; a bare clamp does not, so the
+     crumb sat on 64px while the footer columns beneath it sat on 224px. */
+  padding-left: calc(max(0px, (100vw - 1600px) / 2) + clamp(1rem, 4vw, 4rem));
+}
+/* The measure, held off the column so a wide screen widens the gutter between
+   copy and plate instead of the line length. */
+.copy > * { max-width: 34rem; }
+/* The cap above is a reading measure for prose. The button row is not prose:
+   at 1440 the two slabs already measure ~512px against a 544px cap, so any
+   wider font metric or a longer label tipped the second button onto its own
+   row — which is the one thing a two-CTA layout exists to avoid. */
+.copy > .actions { max-width: none; }
+
+/* Absolutely placed rather than height:100%, for the reason the product band
+   documents: the plate only sets a minimum, so a percentage height resolves
+   against auto and the photograph ends up sizing the section. */
+.plate {
+  position: relative;
+  min-height: clamp(16rem, 26vw, 22rem);
+  overflow: hidden;
+  background: var(--grey-line);
+}
+.plate img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 .crumbs {
   display: flex;
@@ -18,8 +76,45 @@
   color: var(--grey-text);
 }
 .crumbs i { font-style: normal; opacity: 0.5; margin-left: 0.5rem; }
-.crumbs a { transition: color 0.3s var(--ease); }
-.crumbs a:hover { color: var(--ink); }
+/* Ink at rest, not grey. Hover colour was the only signal these carried, so a
+   live crumb and the dead current-page one resolved to the same #6f6a65 — and
+   a phone has no hover at all, on the page whose primary escape route this is. */
+.crumbs a { color: var(--ink); transition: color 0.3s var(--ease); }
+.crumbs a:hover { color: var(--accent); }
 
 .title { margin: 0.75rem 0 1.1rem; }
-.lede { margin-bottom: 2.25rem; }
+.lede { margin-bottom: 2rem; }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+/* The quieter of the two slabs. globals' .ctaGhost is a dark-scope treatment —
+   white rule, white label — and this band is grey, so the same gesture is
+   restated for a light ground: outline at rest, wiping to an ink slab. The
+   base .cta sets its border in shorthand off --cta-bg, hence :global(.cta) in
+   the selector rather than trusting source order to settle it. */
+:global(.cta).ctaOutline {
+  --cta-bg: transparent;
+  --cta-fg: var(--ink);
+  border-color: var(--ink);
+  color: var(--ink);
+}
+:global(.cta).ctaOutline:hover { color: var(--grey-bg); }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  /* The plate takes the foot of the band rather than the head. This page opens
+     with the address the visitor asked for and the one line explaining what
+     happened to it; a picture above that buries both. */
+  .plate { min-height: clamp(11rem, 42vw, 17rem); }
+  .copy { padding-block: 0 clamp(2rem, 6vw, 2.75rem); }
+}
+
+@media (max-width: 480px) {
+  .actions { gap: 0.75rem; }
+  .actions :global(.cta) { width: 100%; }
+}

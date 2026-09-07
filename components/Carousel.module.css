@@ -9,6 +9,8 @@
 }
 .headSlot { flex: 1; min-width: 0; }
 
+/* Also the .overflowFade box. The ground it fades toward is the section's, so a
+   consumer on anything but white sets --fade-ground on its own section. */
 .viewport { position: relative; }
 
 .track {
@@ -52,10 +54,13 @@
 }
 .btns button:disabled { opacity: 0.32; cursor: default; }
 
-/* Arrows floating over the left/right edges of the track. */
+/* Arrows floating over the left/right edges of the track. They sit on the exact
+   strip the overflow fade paints, whose pseudo-elements are z-index 2 — without
+   a rung above that the buttons would be shaded by it. */
 .edgeBtns {
   position: absolute;
   inset: 0;
+  z-index: 3;
   pointer-events: none;
 }
 .edgeBtns .btns {
@@ -85,4 +90,9 @@
     flex-basis: calc((100% - (var(--cols-mobile) - 1) * var(--gap, 1.5rem)) / var(--cols-mobile));
   }
   .head { flex-direction: column; align-items: flex-start; }
+
+  /* Stacked, the head arrows drop onto a row of their own between the lede and
+     the rail — a third of a screen of chrome before the first card, for a job
+     the peeking next card and native scroll-snap already do on touch. */
+  .btns { display: none; }
 }

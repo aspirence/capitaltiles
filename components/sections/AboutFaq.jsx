@@ -2,45 +2,20 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { FAQ_GROUPS } from '@/components/faqData'
 import s from './AboutFaq.module.css'
 
-/* Questions lifted from the existing capitaltiles.com.au FAQ page, so the
-   answers match what the business already publishes. */
+/* One source of answers. This block used to inline its own eight questions,
+   written in a thinner voice than the 35 on /faqs and free to drift away from
+   them. It slices the two groups an About page actually owes a visitor — the
+   showroom visit, and the free measure and quote — straight out of faqData. */
 
-const FAQS = [
-  {
-    q: 'What areas do you service?',
-    a: 'We proudly service Canberra, Queanbeyan, Yass, Bungendore, Murrumbateman, Gungahlin, Belconnen, Tuggeranong, Woden and surrounds. If you are just outside these areas, contact us — we can often accommodate special requests.',
-  },
-  {
-    q: 'Do you offer free measure & quotes?',
-    a: 'Yes — we provide obligation-free site visits across the Canberra region. We measure accurately, recommend the best products for your space and budget, and provide a clear quote with no hidden costs.',
-  },
-  {
-    q: 'Can I visit your showroom?',
-    a: 'Yes. Our Mitchell showroom features a wide selection of hybrid flooring, vinyl planks, laminate, timber, porcelain and ceramic tiles, and feature mosaics. Our team will help you compare options, check samples and find the right solution.',
-  },
-  {
-    q: 'What’s the difference between hybrid, vinyl and laminate flooring?',
-    a: 'Hybrid flooring is 100% waterproof and ideal for open-plan areas and kitchens. Vinyl planks are softer underfoot, quiet and budget-friendly. Laminate is durable and gives you the look of timber at a lower price point.',
-  },
-  {
-    q: 'Do you remove old flooring or tiles?',
-    a: 'Yes — our team can remove old flooring or tiles and prepare the subfloor before installation, so your new products look and perform their best.',
-  },
-  {
-    q: 'How long does installation take?',
-    a: 'Most projects are completed in a few days. Larger builds or specialty patterns such as herringbone may take longer, but we provide a clear timeline during quoting.',
-  },
-  {
-    q: 'How do I look after my new flooring or tiles?',
-    a: 'We provide care instructions tailored to your product. Hybrid and vinyl floors are easy to maintain with regular sweeping and damp mopping, while tiles benefit from pH-neutral cleaners. We can also seal grout and recommend aftercare products.',
-  },
-  {
-    q: 'Do you work with builders, architects or designers?',
-    a: 'Yes — we partner with builders, architects, interior designers and developers to supply and install products for residential and commercial projects of all sizes.',
-  },
-]
+const group = (name) => (FAQ_GROUPS.find((g) => g.category === name)?.faqs ?? []).slice(0, 4)
+
+/* One <ul> per column, not one grid across both: with a shared grid, opening a
+   card stretched its row and left a hole under its neighbour. */
+const COLUMNS = [group('Visiting & getting started'), group('Measure, quote & pricing')]
+
 
 function Chevron() {
   return (
@@ -52,7 +27,7 @@ function Chevron() {
 }
 
 export default function AboutFaq() {
-  const [open, setOpen] = useState(0)
+  const [open, setOpen] = useState('0-0')
 
   return (
     <section className={'sectionPad ' + s.section}>
@@ -63,31 +38,36 @@ export default function AboutFaq() {
             Frequently Asked Questions
           </h2>
           <p className={s.lede} data-reveal style={{ '--reveal-delay': '150ms' }}>
-            We&rsquo;ve gathered the most common questions from Canberra homeowners, renovators and
-            builders so you can plan your project with confidence.
+            Visiting the Mitchell showroom, and what a free measure and quote actually covers —
+            the two things people ask us about before anything else.
           </p>
         </header>
 
-        <ul className={s.list}>
-          {FAQS.map((item, i) => {
-            const on = open === i
-            return (
-              <li key={item.q} className={on ? s.item + ' ' + s.itemOn : s.item}
-                data-reveal style={{ '--reveal-delay': Math.min(i, 5) * 60 + 'ms' }}>
-                <h3>
-                  <button type="button" aria-expanded={on} onClick={() => setOpen(on ? -1 : i)}>
-                    <span>{item.q}</span>
-                    <span className={s.chev}><Chevron /></span>
-                  </button>
-                </h3>
-                {/* single-child grid: 0fr→1fr only sizes the first row */}
-                <div className={s.panel}>
-                  <p>{item.a}</p>
-                </div>
-              </li>
-            )
-          })}
-        </ul>
+        <div className={s.cols}>
+          {COLUMNS.map((items, col) => (
+            <ul key={col} className={s.list}>
+              {items.map((item, i) => {
+                const id = col + '-' + i
+                const on = open === id
+                return (
+                  <li key={item.q} className={on ? s.item + ' ' + s.itemOn : s.item}
+                    data-reveal style={{ '--reveal-delay': Math.min(i, 5) * 60 + 'ms' }}>
+                    <h3>
+                      <button type="button" aria-expanded={on} onClick={() => setOpen(on ? '' : id)}>
+                        <span>{item.q}</span>
+                        <span className={s.chev}><Chevron /></span>
+                      </button>
+                    </h3>
+                    {/* single-child grid: 0fr→1fr only sizes the first row */}
+                    <div className={s.panel}>
+                      <p>{item.a}</p>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          ))}
+        </div>
 
         <p className={s.more} data-reveal>
           Still have a question?{' '}

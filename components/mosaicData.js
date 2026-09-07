@@ -6,7 +6,7 @@ export const MOSAIC = [
   {
     name: "Carrara Mosaic",
     handle: "carrara-mosaic",
-    blurb: "Thickness: 10mm Edge: Rectified Slip Rating: None ETA: - Specification: 0.9702 sqm/Box, 54 Box/ Pallet, 11 PC/ Box Areas: Mosaic",
+    blurb: "Available in 4 colours and 1 finish. Floor and wall rated, supplied and installed across Canberra.",
     brand: "HF Tiles",
     colours: ["Herringbone", "kitKat", "Convex", "Concave"],
     finishes: ["Soft Matt"],

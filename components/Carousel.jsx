@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useOverflow } from './useOverflow'
 import s from './Carousel.module.css'
 
 /* ---------------------------------------------------------------------------
@@ -20,7 +21,11 @@ export default function Carousel({
   arrows = 'edge', // 'edge' | 'head' | 'none'
   headSlot = null,
 }) {
-  const track = useRef(null)
+  /* Both readers share the one track ref. The fade has to start at 'none' so
+     the server and first client render agree; the arrows keep their own
+     optimistic pair, or the static render would paint a dead Next button on a
+     rail that plainly scrolls until hydration catches up. */
+  const { ref: track, fade } = useOverflow()
   const [atStart, setAtStart] = useState(true)
   const [atEnd, setAtEnd] = useState(false)
 
@@ -30,7 +35,7 @@ export default function Carousel({
     const max = el.scrollWidth - el.clientWidth
     setAtStart(el.scrollLeft <= 2)
     setAtEnd(el.scrollLeft >= max - 2)
-  }, [])
+  }, [track])
 
   useEffect(() => {
     const el = track.current
@@ -86,8 +91,10 @@ export default function Carousel({
       )}
 
       {/* data-reveal-scope: cards parked outside the track are clipped by it and
-          would never intersect the viewport on their own. */}
-      <div className={s.viewport} data-reveal-scope>
+          would never intersect the viewport on their own. The fade rides on the
+          viewport instead of a wrapper of its own: .overflowFade only asks for a
+          positioned box around the scroller, and this is already one. */}
+      <div className={'overflowFade ' + s.viewport} data-fade={fade} data-reveal-scope>
         <ul className={s.track} ref={track} role="list" aria-label={label} tabIndex={0}>
           {children}
         </ul>

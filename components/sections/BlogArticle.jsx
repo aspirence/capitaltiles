@@ -1,11 +1,19 @@
 import Link from 'next/link'
+import EnquireLink from '../EnquireLink'
+import { SHOWROOM } from '../siteData'
 import s from './BlogArticle.module.css'
 
 /* Article page for one journal post: banner, meta strip, then the copy on the
    left with the other posts in a column beside it, so the next read stays in
    view the whole way down rather than waiting at the bottom of the page.
    Content comes from components/blogData.js so the homepage carousel and these
-   pages can never drift apart. */
+   pages can never drift apart.
+
+   The ask used to sit in a grey box inside the reading column, which put it
+   halfway up a desktop page and left the article to end on nothing. It closes
+   the page now instead, in the band every other template ends on, with a
+   compact second one at the top of the sticky rail — the rail rides the whole
+   article, and every other thing in it points away from the piece. */
 
 export default function BlogArticle({ post, more }) {
   return (
@@ -51,24 +59,28 @@ export default function BlogArticle({ post, more }) {
             ))}
 
             <p className={s.takeaway} data-reveal>{post.takeaway}</p>
-
-            <div className={s.cta} data-reveal>
-              <p>
-                Planning something like this? Book a free measure and quote, or drop into the
-                Mitchell showroom and we will talk it through.
-              </p>
-              <div className={s.ctaRow}>
-                <Link href="/contact-us/enquiry" className="cta"><span>Free Measure &amp; Quote</span></Link>
-                <a href="tel:0262538158" className={s.phone}>02 6253 8158</a>
-              </div>
-            </div>
           </div>
 
           {/* ---------- other posts, beside the copy ---------- */}
           {more.length > 0 && (
             <aside className={s.aside} aria-label="More from the journal">
               <div className={s.asideInner}>
-                <p className={s.asideEyebrow}>Keep reading</p>
+                {/* The ask is the head of the panel now, not a bordered box
+                    inside it -- see the CSS for the 139px of rail that was
+                    hanging below a laptop viewport. Generic on purpose: this
+                    rail runs on every post, so the ask cannot lean on the
+                    subject of any one of them. */}
+                <p className={s.asideEyebrow}>Ask the showroom</p>
+                <p className={s.askCopy}>Tell us the room, we will check the finish.</p>
+                <EnquireLink
+                  subject={`Question — "${post.title}"`}
+                  className={'cta ' + s.askCta}
+                >
+                  <span>Ask about your room</span>
+                </EnquireLink>
+
+                {/* One eyebrow in the rail, not two: "Keep reading" said what the
+                    heading under it already said, for 29px. */}
                 <h2 className={s.asideTitle}>More from the journal</h2>
 
                 <ul className={s.asideList}>
@@ -78,10 +90,13 @@ export default function BlogArticle({ post, more }) {
                         <span className={s.asideFrame}>
                           <img src={m.img} alt="" loading="lazy" />
                         </span>
+                        {/* No date. Of the four fields it is the one that never
+                            earns the click, and three of them cost 79px this rail
+                            has to spend on staying inside the viewport. The date
+                            is on the page the card opens. */}
                         <span className={s.asideText}>
                           <span className={s.asideCat}>{m.cat}</span>
                           <span className={s.asideName}>{m.title}</span>
-                          <span className={s.asideDate}>{m.date}</span>
                         </span>
                       </Link>
                     </li>
@@ -94,6 +109,28 @@ export default function BlogArticle({ post, more }) {
           )}
         </div>
       </article>
+
+      {/* ---------- closing cta ---------- */}
+      <section className="sectionPad bandDark">
+        <div className={'container ' + s.ctaInner}>
+          <h2 className={'title ' + s.ctaTitle} data-reveal>
+            Want this checked on your own floor?
+          </h2>
+          <p className={s.ctaLede} data-reveal style={{ '--reveal-delay': '90ms' }}>
+            A free measure takes about half an hour. We come to you, measure the rooms, check what
+            is under the existing floor, and put a price in writing before anything is ordered.
+          </p>
+          <div className={s.ctaRow} data-reveal style={{ '--reveal-delay': '160ms' }}>
+            <EnquireLink
+              subject={`Free measure & quote — after "${post.title}"`}
+              className={'cta ' + s.ctaBtn}
+            >
+              <span>Book a Free Measure</span>
+            </EnquireLink>
+            <a href={SHOWROOM.phoneHref} className={s.phone}>{SHOWROOM.phone}</a>
+          </div>
+        </div>
+      </section>
     </>
   )
 }

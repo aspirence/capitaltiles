@@ -50,6 +50,14 @@
   color: var(--ink);
   cursor: pointer;
 }
+/* Label and its option count, kept together so the chevron stays hard right. */
+.groupLabel { display: flex; align-items: baseline; gap: 0.5rem; min-width: 0; }
+.groupLabel em {
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: var(--f-small);
+  color: var(--grey-text);
+}
 .chev { flex: none; transition: transform 0.35s var(--ease); }
 .groupOn .chev { transform: rotate(180deg); }
 
@@ -60,16 +68,44 @@
   transition: grid-template-rows 0.4s var(--ease);
 }
 .groupOn .groupPanel { grid-template-rows: 1fr; }
+/* The single grid child. The search field has to sit outside the scroller —
+   inside it, it would scroll away from the list it filters — so the panel's
+   two parts are wrapped, and this is what the 0fr row collapses. */
+.panelInner { min-height: 0; overflow: hidden; }
 /* The cap belongs here, NOT on .groupOn. Hung off the open class it vanished
    the moment the class was removed, so a long list sprang from 272px to its
    full height in one frame and the collapse then animated down from there —
    that was the jump on closing. Kept constant, closing is a clean 272px→0. */
-.groupPanel > ul {
-  min-height: 0;
+.groupPanel ul {
   max-height: 17rem;
   overflow-x: hidden;
   overflow-y: auto;
 }
+/* 17rem is eight rows, and with the scrollbar hidden site-wide a ninth row is
+   simply invisible — /tiles/floor-tiles was hiding 40 of its 48 colours behind
+   a panel that looked finished. This is the fade globals.css asks for in the
+   scrollbar's place: the last row is cut through rather than ending clean, so
+   the list reads as continuing. Applied only while there is something under it. */
+.listCapped {
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 2.25rem), transparent);
+  mask-image: linear-gradient(#000 calc(100% - 2.25rem), transparent);
+}
+
+/* Past a dozen values, scrolling blind is not the answer — typing is. */
+.find {
+  display: block;
+  width: calc(100% - 2.2rem);
+  margin: 0.65rem 1.1rem 0.25rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--grey-line);
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--white);
+  font: inherit;
+  font-size: var(--f-small);
+  color: var(--ink);
+}
+.find::placeholder { color: var(--grey-text); }
 
 .groupPanel label {
   display: flex;
@@ -84,7 +120,15 @@
 .groupPanel label:hover { background: var(--grey-bg); color: var(--ink); }
 .groupPanel input { accent-color: var(--black); flex: none; }
 .groupPanel label span { flex: 1; }
-.groupPanel label em { font-style: normal; opacity: 0.55; font-size: 0.72rem; }
+/* These counts are the rail's whole point — they are what says White covers
+   three ranges and Turquoise one. At 0.55 opacity they measured 2.4:1 on white
+   and read as throwaway, so they sit at full --grey-text and at the label's own
+   size, lined up on tabular figures rather than faded down. */
+.groupPanel label em {
+  font-style: normal;
+  font-size: var(--f-small);
+  font-variant-numeric: tabular-nums;
+}
 .optOn { color: var(--ink); font-weight: 500; }
 
 /* ---- results header ----------------------------------------------------- */
@@ -106,7 +150,21 @@
   color: var(--ink);
 }
 
-.meta { display: flex; align-items: center; gap: 1.25rem; font-size: var(--f-small); }
+/* min-width so the row can shrink inside .head rather than forcing it wide;
+   max-width so that once .head stacks at 560 the rail measures itself against
+   the container instead of its own content. */
+.metaFade { min-width: 0; max-width: 100%; }
+/* The three controls need about 340px, which a small phone does not have. They
+   scroll rather than squash — a squashed "Order by" select is unusable, and
+   overflowing pushed the whole page sideways. */
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  overflow-x: auto;
+  font-size: var(--f-small);
+}
+.meta > * { flex: none; }
 .count { color: var(--grey-text); }
 .count strong { color: var(--ink); }
 
@@ -181,8 +239,12 @@
   font-size: 0.78rem;
   color: var(--grey-text);
 }
+/* 1 1 0, not a fixed third: Altto publishes colours but no finishes or sizes,
+   and a single stat pinned to the left third left 250px of empty ruled band
+   beside it, which read as a rendering fault rather than an absence. One stat
+   now centres, two halve the band, three sit exactly where they always did. */
 .stats > span {
-  flex: 0 0 33.333%;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -292,8 +354,8 @@
   .head { flex-direction: column; align-items: flex-start; }
 }
 
-/* Shown when a range publishes no values for a facet, so the panel visibly
-   opens instead of appearing stuck. */
+/* Shown when a search narrows the list to nothing, so the panel says so
+   instead of appearing stuck. */
 .optNone {
   padding: 0.55rem 0.75rem;
   font-size: var(--f-small);

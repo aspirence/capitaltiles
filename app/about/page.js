@@ -1,6 +1,8 @@
 import AboutBanner from '@/components/sections/AboutBanner'
 import AboutIntro from '@/components/sections/AboutIntro'
-import Featured from '@/components/sections/Featured'
+/* The showroom band still lives in sections/Featured.jsx — the file kept its
+   name when its contents were replaced. */
+import AboutShowroom from '@/components/sections/Featured'
 import AboutBand from '@/components/sections/AboutBand'
 import AboutFaq from '@/components/sections/AboutFaq'
 
@@ -15,7 +17,7 @@ export default function AboutPage() {
     <>
       <AboutBanner />
       <AboutIntro />
-      <Featured />
+      <AboutShowroom />
       <AboutFaq />
       <AboutBand />
     </>

@@ -5,6 +5,8 @@
 .section {
   /* dark ground: the accent goes back to the brighter gold here */
   --accent: var(--gold);
+  /* and the tab rail's fade has to run out into that ground, not the page's */
+  --fade-ground: var(--black-deep);
   background: var(--black-deep);
   color: var(--white);
   overflow: hidden;
@@ -34,6 +36,10 @@
 /* ---- tab rail ----------------------------------------------------------- */
 /* Same rail as before, re-tuned for the dark ground: the underline is gold
    rather than black, and the resting state is a dimmed white. */
+/* The .overflowFade box now stands between .headRight and the rail, so it is
+   the flex item. Kept a flex container itself so it hands .headRight the same
+   first-button baseline the rail did, and View all stays on that line. */
+.tabsWrap { display: flex; }
 .tabs { display: flex; gap: clamp(1rem, 2.2vw, 2.5rem); }
 .tabs button {
   position: relative;
@@ -271,7 +277,19 @@
   }
 }
 
+/* The plate only ever changes on hover or focus, and a tap on a row navigates
+   rather than dwelling on it, so on a touch device it is a still of item 01
+   under a counter that reads 01 / 06 for good — a pager that cannot page. The
+   rows carry their own swatches, so dropping it costs the category nothing. */
+@media (hover: none) {
+  .plates { display: none; }
+  .body { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 640px) {
+  /* The full-width row belongs to the wrapper, since that is the flex item;
+     the rail then fills it and scrolls inside it, and View all drops below. */
+  .tabsWrap { width: 100%; }
   .tabs { width: 100%; overflow-x: auto; scrollbar-width: none; }
   .tabs::-webkit-scrollbar { display: none; }
   .tabs button { white-space: nowrap; }

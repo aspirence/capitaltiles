@@ -67,7 +67,7 @@ const COLUMNS = [
       title: 'Customer Support',
       links: [
         { label: 'Contact Us', href: '/contact-us' },
-        { label: 'FAQ’s', href: '/faqs' },
+        { label: 'FAQs', href: '/faqs' },
         { label: 'Free Measure & Quote', href: '/contact-us/enquiry' },
         { label: 'Care & Aftercare', href: '/faqs' },
       ],

@@ -25,7 +25,13 @@
 .crumbs span { color: var(--ink); }
 
 /* The header keeps the body's frame, so the page holds one left edge from the
-   breadcrumb to the last paragraph. */
+   breadcrumb to the last paragraph.
+
+   The head runs the frame's full width rather than being pushed across the
+   empty rail column. Indenting it did put the h1 on the prose spine, but it
+   left a third of the title band blank on a wide screen and the band stopped
+   reading as full-width. The page still holds one left edge — the frame's —
+   shared by the crumb, the title, the lede and the rail beneath them. */
 .headInner {
   max-width: 1440px;
   margin-inline: auto;
@@ -41,7 +47,6 @@
 }
 
 .lede {
-  max-width: 68ch;
   margin-top: clamp(1rem, 1.8vw, 1.5rem);
   font-size: var(--f-sub);
   line-height: 1.8;
@@ -89,23 +94,58 @@
   color: var(--ink);
 }
 .rail ul { display: grid; gap: 0.55rem; }
+/* The tick is a fixed-height ::before rather than the item's own border-left.
+   Bound to the item, a two-line entry got a double-height tick and the rail's
+   left edge read as a ragged picket fence instead of a line. */
 .rail a {
+  position: relative;
   display: block;
   padding-left: 0.9rem;
-  border-left: 2px solid var(--grey-line);
   font-size: var(--f-small);
   line-height: 1.5;
   color: var(--grey-text);
-  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+  transition: color 0.3s var(--ease);
 }
-.rail a:hover { color: var(--ink); border-color: var(--accent); }
+.rail a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  width: 2px;
+  height: 1.4em;
+  background: var(--grey-line);
+  transition: background 0.3s var(--ease);
+}
+.rail a:hover { color: var(--ink); }
+.rail a:hover::before { background: var(--accent); }
+
+/* The rail stays on screen for the whole document, so without a current-section
+   state a reader faces eleven identical grey links for 4,881px of scroll. */
+.railOn { color: var(--ink); }
+.railOn::before { background: var(--accent); }
 
 /* ---- prose --------------------------------------------------------------- */
 .prose { min-width: 0; }
 
 /* clears the fixed header when a jump link lands here */
 .block { scroll-margin-top: calc(var(--header-real) + 1.5rem); }
-.block + .block { margin-top: clamp(2rem, 3.4vw, 3rem); }
+/* A new section used to break only 1.47x harder than a new paragraph (66px
+   against 45px), across eleven headings in a single policy. */
+.block + .block { margin-top: clamp(2.5rem, 4.5vw, 4.5rem); }
+
+/* The house accent: a 3rem hairline under the heading, as on the product
+   page's range band and the tab rails. Without it eleven h2s ran down the page
+   with no mark on them and the whole document read as one grey ribbon.
+   --gold-deep is the light-ground tone, which is what var(--accent) resolves
+   to here. */
+.h2::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-top: 0.8rem;
+  background: var(--accent);
+}
 
 .h2 {
   margin-bottom: 0.9rem;
@@ -124,19 +164,25 @@
   hyphens: auto;
   -webkit-hyphens: auto;
 }
-.prose p + p { margin-top: 1rem; }
+/* 1rem was 16px against a 29px line advance, so the break between two
+   paragraphs was smaller than the space inside one and they read as a block. */
+.prose p + p { margin-top: 1.6rem; }
 
+/* No measure cap: the paragraphs above and below fill the frame, so a 74ch
+   list left the right edge of the page stepping in and out down the policy. */
 .bullets {
   display: grid;
   gap: 0.6rem;
-  max-width: 74ch;
   margin-top: 1.1rem;
 }
 .bullets li {
   position: relative;
   padding-left: 1.5rem;
-  font-size: var(--f-small);
-  line-height: 1.85;
+  /* These bullets carry the actual conditions of getting money back. On
+     --f-small they rendered at a flat 12.48px until a 1451px viewport — smaller
+     than the paragraph above them and the same size as an eyebrow. */
+  font-size: var(--f-body);
+  line-height: 1.7;
   color: var(--grey-text);
 }
 .bullets li::before {
@@ -151,19 +197,25 @@
 }
 
 /* ---- contact block ------------------------------------------------------- */
+/* Copy left, the ask right. Nobody reads a policy idly — they are about to
+   order or they already have a problem — and the page used to close that
+   thought with a 12.5px underlined "CONTACT US" in the corner of a box that
+   was a third empty. */
 .contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 3rem);
   margin-top: clamp(2.5rem, 4vw, 3.5rem);
   padding: clamp(1.5rem, 2.6vw, 2.25rem);
   background: var(--grey-bg);
   border: 1px solid var(--grey-line);
 }
+.contactCopy { min-width: 0; }
+.contactCopy p { text-align: left; }
 .contact a { color: var(--ink); border-bottom: 1px solid var(--accent); }
-.contactLink {
-  display: inline-block;
-  margin-top: 1.1rem;
-  color: var(--ink);
-  border-bottom: 0;
-}
+/* The slab is a link, not prose — it must not pick up the anchor rule above. */
+.contact .contactCta { border-bottom: 0; color: var(--white); }
 
 /* ---- other policies ------------------------------------------------------ */
 .more { background: var(--grey-bg); }
@@ -174,8 +226,14 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(1rem, 2vw, 1.75rem);
 }
+/* The card was sized by the grid rather than by its content: 422px wide and
+   roughly a quarter full, with the text huddled in the left corner. Pushing a
+   chevron to the far edge gives the width something to do. */
 .moreCard {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   height: 100%;
   padding: clamp(1.25rem, 2.2vw, 1.75rem);
   background: var(--white);
@@ -192,6 +250,15 @@
   font-size: var(--f-sub);
   color: var(--ink);
 }
+.moreText { min-width: 0; }
+
+.moreChevron {
+  flex: none;
+  color: var(--accent);
+  transition: transform 0.4s var(--ease);
+}
+.moreCard:hover .moreChevron { transform: translateX(0.3rem); }
+
 .moreCopy {
   display: block;
   margin-top: 0.4rem;
@@ -200,12 +267,41 @@
   color: var(--grey-text);
 }
 
+/* ---- closing cta --------------------------------------------------------- */
+/* Ground, heading and button come from .bandDark. */
+.ctaInner { text-align: center; }
+.ctaTitle { max-width: 22ch; margin-inline: auto; }
+.ctaLede {
+  max-width: 60ch;
+  margin: 1.1rem auto 0;
+  line-height: 1.9;
+  color: var(--white-70);
+}
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-top: clamp(1.6rem, 2.8vw, 2.25rem);
+}
+.phone {
+  font-family: var(--font-display);
+  font-size: var(--f-sub);
+  color: var(--white);
+  border-bottom: 1px solid var(--accent);
+  transition: color 0.3s var(--ease);
+}
+.phone:hover { color: var(--accent); }
+
 /* ---- responsive ---------------------------------------------------------- */
 @media (max-width: 900px) {
   .layout { grid-template-columns: minmax(0, 1fr); }
   /* The rail is only useful while it can sit beside the copy. */
   .railWrap { display: none; }
   .moreGrid { grid-template-columns: minmax(0, 1fr); }
+  /* The ask goes under the copy rather than beside it. */
+  .contact { grid-template-columns: minmax(0, 1fr); align-items: start; }
 }
 
 @media (max-width: 700px) {

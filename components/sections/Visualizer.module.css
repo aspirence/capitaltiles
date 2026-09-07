@@ -46,18 +46,12 @@
   height: 100%;
   object-fit: cover;
   transform: scale(1.04);
-  transition: transform 1.2s var(--ease);
 }
-.door:hover img { transform: scale(1.11); }
 
 .doorShade {
   position: absolute;
   inset: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.15) 60%);
-  transition: background 0.6s var(--ease);
-}
-.door:hover .doorShade {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.86) 0%, rgba(0, 0, 0, 0.28) 65%);
 }
 
 .doorBody {
@@ -66,10 +60,7 @@
   display: flex;
   flex-direction: column;
   padding: clamp(1.25rem, 2.4vw, 2.4rem);
-  transform: translateY(0);
-  transition: transform 0.6s var(--ease);
 }
-.door:hover .doorBody { transform: translateY(-6px); }
 
 .doorKicker {
   font-size: var(--f-small);
@@ -89,12 +80,14 @@
   margin-top: 0.7rem;
   font-size: var(--f-small);
   color: rgba(255, 255, 255, 0.9);
+  /* Hidden on a wide screen, as it was. It used to be a hover reveal; with the
+     hover gone the resting state is what the card is, and the resting state is
+     the kicker, the title and the action — the photograph carries the rest.
+     Below 900px it is shown, where there is no hover to have revealed it. */
   opacity: 0;
   max-height: 0;
   overflow: hidden;
-  transition: opacity 0.5s var(--ease), max-height 0.55s var(--ease);
 }
-.door:hover .doorCopy { opacity: 1; max-height: 6rem; }
 
 .doorCta {
   display: inline-flex;
@@ -105,8 +98,7 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
-.doorCta svg { transition: transform 0.4s var(--ease); }
-.door:hover .doorCta svg { transform: translateX(5px); }
+
 
 /* ---- closing strip ------------------------------------------------------ */
 .strip {
@@ -130,15 +122,18 @@
   .headRow { grid-template-columns: 1fr; }
   .doors { grid-template-columns: 1fr; }
   .doorCopy { opacity: 1; max-height: 6rem; }
-  /* The copy is unhidden here, which pushes the whole body up to around a
-     third of the door's height — where the desktop ramp is still near its
-     lightest at 0.15. On the brighter of the two plates the kicker measured
-     3.9:1 against the wall behind it. Give the ramp a floor so the body sits
-     in the dark end of it wherever it lands. */
+  /* The copy is shown here, which pushes the whole body up to around a third of
+     the door's height — where the ramp above is still near its lightest at
+     0.15. On the brighter of the two plates the kicker measured 3.9:1 against
+     the wall behind it. Give the ramp a floor so the body sits in the dark end
+     of it wherever it lands. */
   .doorShade {
     background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.45) 70%);
   }
-  .door:hover .doorShade {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.52) 70%);
-  }
 }
+
+/* Dark section: the global .eyebrow default is tuned for light surfaces. It was
+   missed when this band went dark, so "Two ways to start" was still painting
+   --gold-deep on --black-deep — the 3.5:1 globals.css names as the reason the
+   two golds exist. --accent is --gold inside this scope, which measures 6:1. */
+.section :global(.eyebrow) { color: var(--accent); }

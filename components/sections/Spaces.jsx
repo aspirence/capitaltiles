@@ -34,7 +34,10 @@ const SPACES = [
     img: '/img/spaces/outdoor.jpg',
   },
   {
-    label: 'Hallway & Entry',
+    /* One word. A collapsed panel is about 175px wide and the label is nowrap
+       inside an overflow-hidden box, so "Hallway & Entry" lost its last two
+       letters to the panel edge and read as a broken card. */
+    label: 'Hallway',
     copy: 'Hard-wearing wall and floor tiles where the traffic lands, or laminate and vinyl that takes wet boots in its stride.',
     href: '/tiles/wall',
     img: '/img/spaces/elevation.jpg',

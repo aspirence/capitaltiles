@@ -12,6 +12,7 @@ export const FAQ_GROUPS = [
       {
         q: "Can I just turn up, or should I book a time?",
         a: "Walk in whenever it suits. We're open Monday to Friday 9am to 5pm and Saturday 10am to 3pm, and closed Sunday. If you're working through a whole house, or you'd rather have someone with you for the whole visit than between other customers, ring 02 6253 8158 and we'll set a time aside — Saturday hours are shorter, so a weekday suits a longer session better.",
+        link: { label: 'Hours and directions', href: '/contact-us' },
       },
       {
         q: "What will I actually see in the showroom?",
@@ -42,6 +43,7 @@ export const FAQ_GROUPS = [
       {
         q: "What actually happens when I book a free measure and quote?",
         a: "You pick a time that suits you, we come to the house or site and measure each room properly, then talk through what you have in mind. We check the existing floor, the subfloor and the doorways, because those things change the job as much as the product does. You're not asked to decide anything on the day, and there's no charge for the visit.",
+        link: { label: 'Book a free measure and quote', href: '/contact-us/enquiry' },
       },
       {
         q: "What is included in the price you quote me?",
@@ -144,6 +146,7 @@ export const FAQ_GROUPS = [
       {
         q: "How should I clean the new floor day to day?",
         a: "Gentle and regular beats harsh and occasional, whatever you've had laid. Sweep or vacuum first so grit isn't ground underfoot, then damp mop hard floors with a well wrung mop and a pH-neutral cleaner, and vacuum carpet properly rather than quickly. Keep bleach, ammonia, steam mops and abrasive pads away from all of it, since they dull tile glaze, strip timber finishes and shorten the life of the floor. The range you've chosen has its own instructions and we go through them with you at handover.",
+        link: { label: 'Talk to us about aftercare', href: '/contact-us/enquiry' },
       },
       {
         q: "Will it need re-sealing or re-coating later on?",

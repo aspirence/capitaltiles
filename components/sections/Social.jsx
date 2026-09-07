@@ -9,8 +9,12 @@ const FEED = [1, 2, 3, 4, 5, 6, 7, 8].map((n) => ({
   href: 'https://www.instagram.com/capitaltilesandflooring/',
 }))
 
-const ROW_A = FEED.slice(0, 4)
-const ROW_B = FEED.slice(4)
+/* Both rails run all eight. Four apiece put the loop seam and the repeat inside
+   the same 1440 frame — a feed that visibly ran out after four pictures — so
+   the second rail is the same set started halfway, which keeps the two rows
+   from ever showing the same tile side by side. */
+const ROW_A = FEED
+const ROW_B = [...FEED.slice(4), ...FEED.slice(0, 4)]
 
 function Rail({ items, reverse }) {
   return (

@@ -161,6 +161,32 @@
   min-height: 2.6rem;
 }
 
+/* Slide ticks. Painted on phones only — see the note in Hero.jsx. */
+.ticks { display: none; }
+
+.tick {
+  position: relative;
+  width: 2.2rem;
+  height: 2.6rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+/* The tick is a hairline; the button around it is the tap target. */
+.tick::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.42);
+  transition: background 0.45s var(--ease);
+}
+.tickOn::before { background: var(--white); }
+
 .scrollCue {
   position: absolute;
   right: 0;
@@ -191,6 +217,8 @@
 
 @media (max-width: 900px) {
   .scrollCue { display: none; }
+  /* The controls row already reserves this height for the cue. */
+  .ticks { display: flex; gap: 0.5rem; }
 
   /* Swipe drives the carousel here: the arrows would either sit on the
      headline or collide with the floating action rail. */

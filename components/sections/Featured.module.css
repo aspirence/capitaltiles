@@ -1,186 +1,171 @@
 .section {
   /* dark ground: the accent goes back to the brighter gold here */
   --accent: var(--gold);
-  position: relative;
-  min-height: clamp(34rem, 62vw, 56rem);
   background: var(--black-deep);
-  overflow: hidden;
-  isolation: isolate;
-}
-
-/* ---- stacked plates ----------------------------------------------------- */
-.plate {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transform: scale(1.04);
-  transition: opacity 0.8s var(--ease), transform 1.4s var(--ease);
-}
-.plateOn { opacity: 1; transform: none; }
-
-.wash {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0.1) 45%, rgba(0, 0, 0, 0.5) 100%);
-}
-
-.divider {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.28);
-}
-
-/* ---- title notch -------------------------------------------------------- */
-.tab {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  z-index: 3;
-  transform: translateX(-50%);
-  min-width: clamp(13rem, 24vw, 22rem);
-  padding: 1rem 2.5rem 1.9rem;
-  background: var(--white);
-  text-align: center;
-  /* angled shoulders, as on the reference plate */
-  clip-path: polygon(0 0, 100% 0, 88% 100%, 12% 100%);
-}
-.tab h2 {
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
-  color: var(--ink);
-}
-
-/* ---- columns ------------------------------------------------------------ */
-.cols {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  min-height: inherit;
-  height: clamp(34rem, 62vw, 56rem);
-}
-
-.col { position: relative; }
-
-/* compact label pinned to the foot of the column */
-.compact {
-  position: absolute;
-  inset: auto 0 0 0;
-  padding: clamp(1.25rem, 2.2vw, 2.25rem);
   color: var(--white);
-  transition: opacity 0.45s var(--ease), transform 0.5s var(--ease);
+  overflow: hidden;
 }
-.colOn .compact { opacity: 0; transform: translateY(10px); pointer-events: none; }
 
-.sub {
+/* Copy left, plate bleeding off the right edge — the ProductDetail range band
+   read, so this lands on-brand without inventing a second composition. The
+   columns lean towards the picture because the copy column carries the
+   address block and two buttons, which set their own comfortable measure. */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  align-items: stretch;
+  gap: 0;
+}
+
+/* The band is full-bleed, so the copy has to find the page's left rule for
+   itself: .container's own gutter, plus the margin the container starts taking
+   as it centres past 1600px. Its own clamp hung this column 6px inside the
+   sections above and below it at 1440, and 160px at 1920. */
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(2.5rem, 4vw, 4.5rem) clamp(1.25rem, 3.6vw, 4rem);
+  padding-left: calc(max(0px, (100vw - 1600px) / 2) + clamp(1rem, 4vw, 4rem));
+}
+
+.eyebrow {
   font-size: var(--f-small);
   font-weight: 500;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.72);
-  margin-bottom: 0.3rem;
-}
-
-.title {
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: clamp(1.05rem, 1.6vw, 1.6rem);
-  line-height: 1.15;
-}
-
-/* expanded dark card */
-.card {
-  position: absolute;
-  inset: auto 0 0 0;
-  z-index: 2;
-  padding: clamp(1.5rem, 2.4vw, 2.5rem);
-  background: #3b3330;
-  color: var(--white);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(14px);
-  transition: opacity 0.5s var(--ease), transform 0.55s var(--ease), visibility 0.5s;
-}
-.colOn .card { opacity: 1; visibility: visible; transform: none; }
-
-.cardTitle {
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: clamp(1.15rem, 1.75vw, 1.7rem);
-  line-height: 1.15;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
   margin-bottom: 0.9rem;
 }
 
-.copy {
+.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.7rem, 2.9vw, 2.75rem);
+  line-height: 1.14;
+  max-width: 18ch;
+  color: var(--white);
+}
+/* The house rule under a heading. */
+.title::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-top: clamp(0.9rem, 1.5vw, 1.2rem);
+  background: var(--accent);
+}
+
+.lead {
+  margin-top: clamp(1rem, 1.7vw, 1.4rem);
+  max-width: 48ch;
+  line-height: 1.85;
+  color: var(--white-70);
+}
+
+/* ---- address / hours / phone -------------------------------------------- */
+/* Facts come from siteData so the hours cannot drift from the footer's. */
+.facts {
+  display: grid;
+  gap: 0.7rem;
+  margin: clamp(1.5rem, 2.4vw, 2.25rem) 0 0;
+  padding-top: clamp(1.25rem, 2vw, 1.75rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+.facts > div {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 0.5rem 1rem;
+}
+.facts dt {
   font-size: var(--f-small);
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.78);
-  margin-bottom: clamp(1.1rem, 1.8vw, 1.6rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.facts dd {
+  margin: 0;
+  font-size: var(--f-copy-sm);
+  color: var(--white);
+}
+.facts a { border-bottom: 1px solid rgba(255, 255, 255, 0.35); }
+.facts a:hover { border-bottom-color: var(--accent); }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: clamp(1.5rem, 2.4vw, 2.25rem);
 }
 
-/* small ring marker that straddles the card's top edge */
-.dot {
+/* ---- plate --------------------------------------------------------------- */
+/* Absolutely placed inside its own box: the column only sets a min-height, so
+   a percentage height on the image would resolve against auto and let the
+   photo's aspect ratio size the whole band. */
+.plate {
+  position: relative;
+  min-height: clamp(18rem, 30vw, 30rem);
+  overflow: hidden;
+  background: #1c1b1b;
+}
+.plate img {
   position: absolute;
-  top: -0.7rem;
-  left: clamp(1.5rem, 2.4vw, 2.5rem);
-  width: 1.4rem;
-  height: 1.4rem;
-  border: 2px solid rgba(255, 255, 255, 0.55);
-  border-radius: 50%;
-  background: #3b3330;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+  transition: transform 1.6s var(--ease);
 }
+.section:hover .plate img { transform: none; }
 
-.btn {
-  display: inline-block;
-  padding: 0.85rem 1.9rem;
-  background: var(--white);
-  color: var(--ink);
+/* ---- proof strip --------------------------------------------------------- */
+.proof {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.fact {
+  padding: clamp(1.75rem, 2.6vw, 2.5rem) clamp(1.25rem, 2.2vw, 2.25rem);
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+/* The outer edges of the strip meet the window, so only the inner rules show. */
+.fact:first-child { border-left: 0; }
+
+.factKey {
+  margin-bottom: 0.6rem;
   font-size: var(--f-small);
   font-weight: 500;
-  letter-spacing: 0.06em;
-  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
-.btn:hover { background: var(--accent); color: var(--white); }
-
-/* ---- breakpoints -------------------------------------------------------- */
-/* The section paints one shared photo behind all four columns and swaps it on
-   hover. Folded into two the photo no longer lines up with the cards sitting on
-   it, which is what looked broken at 1024 and again at 768. Four columns still
-   fit at 768 — about 192px each, enough for the card and its button — so the
-   fold is held back to genuinely narrow screens. */
-@media (max-width: 767px) {
-  .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); height: auto; }
-  .col { min-height: clamp(23rem, 52vw, 30rem); }
-  .divider:nth-of-type(1), .divider:nth-of-type(3) { display: none; }
+.factVal {
+  font-size: var(--f-copy-sm);
+  line-height: 1.8;
+  color: var(--white-70);
 }
 
-@media (max-width: 640px) {
-  .section { min-height: 0; }
-  .cols { grid-template-columns: 1fr; }
-  .col { min-height: 24rem; }
-  .divider { display: none; }
+/* ---- breakpoints --------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .proof { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fact:nth-child(odd) { border-left: 0; }
+  .fact:nth-child(n + 3) { border-top: 1px solid rgba(255, 255, 255, 0.14); }
+}
 
-  /* On touch there is no hover, so every card reads open — which means the
-     shared plate can no longer represent all four. Each column paints its
-     own image instead. */
-  .plate, .wash { display: none; }
-  .col {
-    background-image: var(--img);
-    background-size: cover;
-    background-position: center;
-  }
-  .col::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.22);
-  }
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  /* The picture still leads on a phone, though the copy comes first in the
+     markup so the desktop reading order needs no override. */
+  .plate { order: -1; min-height: clamp(13rem, 46vw, 19rem); }
+  .facts > div { grid-template-columns: 1fr; gap: 0.15rem; }
+}
 
-  .compact { opacity: 0; pointer-events: none; }
-  .card { opacity: 1; visibility: visible; transform: none; }
-  .tab { padding-bottom: 1.5rem; }
+@media (max-width: 560px) {
+  .proof { grid-template-columns: 1fr; }
+  .fact { border-left: 0; }
+  .fact + .fact { border-top: 1px solid rgba(255, 255, 255, 0.14); }
+  .actions :global(.cta) { width: 100%; }
 }

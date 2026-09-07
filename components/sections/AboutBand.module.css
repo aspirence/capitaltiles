@@ -1,4 +1,6 @@
 .band {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   position: relative;
   display: grid;
   align-items: center;
@@ -43,14 +45,14 @@
 .title {
   display: grid;
   gap: 0.1em;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: clamp(1.8rem, 3.6vw, 3.4rem);
-  line-height: 1.1;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+  line-height: 1.12;
   color: var(--white);
 }
 
-.btn { align-self: start; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.85rem; }
 
 /* ---- right: ticked list -------------------------------------------------- */
 .points { display: grid; gap: 0.35rem; }
@@ -64,16 +66,36 @@
   font-size: var(--f-body);
   color: var(--white);
   background: transparent;
+  border-left: 2px solid transparent;
   transition: background 0.4s var(--ease);
 }
 .points li svg { flex: none; color: var(--white); opacity: 0.85; }
 
-/* the picked-out row */
-.points .on { background: rgba(255, 255, 255, 0.12); }
+/* The picked-out row reads as a gold margin rule. It used to carry the same
+   translucent fill as :hover, which made it look like a stuck pointer rather
+   than emphasis — the fill stays reserved for hover. */
+.points .on { border-left-color: var(--accent); }
 .points li:hover { background: rgba(255, 255, 255, 0.12); }
 
 @media (max-width: 900px) {
-  .inner { grid-template-columns: 1fr; }
+  .inner { grid-template-columns: 1fr; gap: clamp(1.75rem, 5vw, 2.5rem); }
+  /* Stacked, the proof belongs between the claim and the ask rather than
+     after the buttons, so .left is dissolved and its two halves sit either
+     side of the list. */
+  .left { display: contents; }
+  .title { order: 1; }
+  .points { order: 2; }
+  .actions { order: 3; }
+  /* The rows keep their inset so the hover bar and the gold rule still bleed
+     past the text, but the text lines up with the headline and the buttons
+     instead of standing 1.1rem in from them. */
+  .points li { margin-inline: -0.75rem; padding-inline: 0.75rem; }
+}
+
+@media (max-width: 400px) {
+  /* "Book a free measure & quote" is 27 characters; at the default tracking
+     and padding it runs past a 360px screen. */
+  .actions :global(.cta) { width: 100%; padding-inline: 1.1rem; }
 }
 
 /* iOS ignores fixed attachment and renders it badly, so touch falls back to

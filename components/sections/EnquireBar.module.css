@@ -1,0 +1,117 @@
+/* =========================================================================
+   The floating enquire bar. Replaces the closing CTA section that used to sit
+   at the foot of a product page — that block only reached a reader who got to
+   the bottom; this rides in as soon as the page's own ask leaves the screen,
+   so it is always one click away without being shown twice at once.
+
+   Square, like everything else on the site — the reference this was modelled
+   on is a rounded e-commerce add-to-cart bar, but nothing here is rounded.
+   ========================================================================= */
+
+/* A centred card rather than a full-bleed strip: at 1440 a bar across the whole
+   window is a bigger object than the ask deserves, and it also put itself under
+   the floating rail. */
+.bar {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(0.9rem, 1.8vw, 1.6rem);
+  z-index: 85; /* over the page, under the mobile drawer and the film lightbox */
+  width: min(34rem, calc(100% - 1.5rem));
+  background: var(--white);
+  border: 1px solid var(--grey-line);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.16);
+  /* Both transforms live on one property, so the slide-in cannot fight the
+     centring the way separate rules would. */
+  transform: translateX(-50%) translateY(calc(100% + 2rem));
+  visibility: hidden;
+  transition: transform 0.45s var(--ease), visibility 0.45s;
+}
+.barOn {
+  transform: translateX(-50%) translateY(0);
+  visibility: visible;
+}
+
+/* The card sets its own gutter — the global .container padding would waste half
+   of a 34rem card on white space. */
+.barInner {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.7rem, 1.4vw, 1rem);
+  width: 100%;
+  max-width: none;
+  padding: 0.6rem 0.7rem;
+}
+
+.barThumb {
+  flex: none;
+  display: block;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  background: var(--grey-bg);
+}
+.barThumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.barText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  /* Takes the slack so the button stays hard right. */
+  margin-right: auto;
+}
+.barName {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  line-height: 1.25;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.barMeta {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The button is the global .cta — the same black slab, with the same wipe, as
+   the Enquire button in the hero this bar stands in for. It used to be a filled
+   gold-deep panel, and it was the only large gold-filled surface on the site:
+   every other gold is a 1–2px rule. All that is left here is fitting it to the
+   card, which is shorter and tighter than a section CTA. The descendant
+   selector is deliberate — it has to outrank .cta whichever order the two
+   stylesheets land in. */
+.barInner .barCta {
+  flex: none;
+  padding: 0.8rem 1.5rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+}
+
+/* The rail's first button goes to the same /contact-us/enquiry as this one, and
+   the lift above deliberately stacks them — a black speech bubble sitting
+   directly on top of a slab making the identical ask. While the bar is up, the
+   rail's copy stands down.
+   Hung off :has(.barOn) rather than the body[data-enquire-bar] the JS sets: the
+   rail is a sibling of the whole app, not of this card, so a module rule can
+   only reach it through a selector that still carries a local class. */
+body:has(.barOn) [data-floating-rail] > a:first-child {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .barThumb { width: 40px; height: 40px; }
+  .barMeta { display: none; }
+  .barInner .barCta { padding: 0.75rem 1rem; letter-spacing: 0.1em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar { transition: visibility 0.45s; transform: translateX(-50%) translateY(0); }
+  .bar:not(.barOn) { visibility: hidden; }
+}

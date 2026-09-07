@@ -14,8 +14,16 @@ export async function generateMetadata({ params }) {
   const { handle } = await params
   const entry = byHandle(handle)
   /* Not a product: this route sits in front of the catch-all, so it has to
-     answer for every /tiles/<something> address the site links to. */
-  if (!entry) return { title: titleFromSlug([handle]) + ' — Capital Tiles' }
+     answer for every /tiles/<something> address the site links to. It answers
+     with ComingSoon behind a 200, so without the noindex every unknown handle
+     anyone ever links to becomes an indexable thin page. Links out of it are
+     still worth following. */
+  if (!entry) {
+    return {
+      title: titleFromSlug([handle]) + ' | Capital Tiles',
+      robots: { index: false, follow: true },
+    }
+  }
   return {
     title: entry.product.seoTitle,
     description: entry.product.seoDesc,

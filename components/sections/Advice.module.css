@@ -41,6 +41,9 @@
   position: relative;
   display: block;
   aspect-ratio: 4 / 3;
+  /* Was the global .zoomFrame, which also scaled the image on hover. The clip
+     is the half worth keeping. */
+  overflow: hidden;
   background: var(--grey-bg);
 }
 
@@ -50,9 +53,7 @@
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.18);
-  transition: background 0.5s var(--ease);
 }
-.card:hover .frameFilm::after { background: rgba(0, 0, 0, 0.34); }
 
 .cat {
   position: absolute;

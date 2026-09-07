@@ -235,7 +235,7 @@ export default function Header() {
                 /* Plain link menus drop a compact panel under their own item;
                    the card menus stay full-bleed across the bar. */
                 const compact = item.type === 'list'
-                /* Installation and FAQ's have no submenu — they must not open
+                /* Installation and FAQs have no submenu — they must not open
                    an empty panel, and hovering them closes whatever is open. */
                 const hasPanel = !!item.type
                 const cls = [s.navItem, compact ? s.navItemCompact : '', active ? s.navItemOpen : '']

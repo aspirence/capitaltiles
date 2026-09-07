@@ -58,7 +58,10 @@
 .panelIndex {
   font-size: 0.7rem;
   letter-spacing: 0.24em;
-  color: rgba(255, 255, 255, 0.6);
+  /* The top line of the body, so it lands on the thinnest part of the scrim.
+     0.6 could not hold a bright plate there; 0.8 is still clearly softer than
+     the label under it. */
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 0.55rem;
 }
 
@@ -74,7 +77,7 @@
   max-width: 34ch;
   margin-top: 0.6rem;
   font-size: var(--f-small);
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.9);
   opacity: 0;
   max-height: 0;
   overflow: hidden;
@@ -102,9 +105,24 @@
   .head { grid-template-columns: 1fr; }
 
   .rack { flex-direction: column; height: auto; gap: 0.75rem; }
-  .panel { flex: none; height: 14rem; }
+  /* Index, label, three or four lines of copy and the CTA measure close to 200px.
+     At 14rem that left about 30px of photograph clear above them, so every panel
+     read as a caption box with a picture behind it rather than a picture. 17rem
+     hands the plate its top third back. */
+  .panel { flex: none; height: 17rem; }
   .panelOn { flex-grow: 0; }
   .panel img { filter: none; transform: none; }
   .panelCopy { opacity: 1; max-height: none; }
   .panelCta { opacity: 1; transform: none; }
+
+  /* Copy, CTA and all: the body now fills roughly the top two thirds of the
+     panel, so its first lines sit where the desktop ramp is thinnest — 0.18 at
+     55%. Give the ramp a floor so the whole body lands in the dark end of it,
+     rather than dropping a flat wash over the photograph, which is the point of
+     the section. Nothing is being revealed here either, so the active panel
+     drops the lift that used to mark it out. */
+  .shade {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.45) 70%);
+  }
+  .panelOn .shade { opacity: 1; }
 }

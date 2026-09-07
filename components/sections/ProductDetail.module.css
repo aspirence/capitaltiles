@@ -31,26 +31,32 @@
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: clamp(1.75rem, 4vw, 4.5rem);
-  /* stretch, not start: the gallery takes the full row height so the two
-     columns finish level instead of leaving a void under the thumbnails. */
   align-items: stretch;
 }
 
 /* ---- gallery ------------------------------------------------------------- */
-/* Column, so the stage can absorb whatever height the facts column sets. */
+/* The gallery stands at its own height and then rides with the reader.
+   Stretching it to match the facts column blew the 4:3 stage out to 837px on a
+   677px frame while the picture inside stayed 440px — 47% of the first thing a
+   customer looks at was blank white, above the fold. Sticky answers what the
+   stretch was really for: rather than filling the spare height with nothing,
+   the frame travels down beside the long option list. */
 .gallery {
   display: flex;
   flex-direction: column;
   min-width: 0;
   margin-top: 0.5rem;
+  align-self: start;
+  position: sticky;
+  top: calc(var(--header-real) + 1rem);
 }
 
 .stage {
   display: grid;
   place-items: center;
-  /* 1 0 auto: grow into the spare row height, never shrink below the 4:3 the
-     aspect-ratio sets, so a short facts column still gets a proper image. */
-  flex: 1 0 auto;
+  /* The aspect-ratio is the frame's whole size policy; flex-grow used to
+     override it with whatever height the row happened to be. */
+  flex: 0 0 auto;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--white);
@@ -70,13 +76,19 @@
   color: var(--grey-text);
 }
 
+/* The fade wrapper is the flex item now, so the sizing that kept the strip from
+   being squeezed by the stage lives out here. The strip sits on the hero's
+   grey, which is what its mask has to fade into — the default is page white. */
+.thumbFade {
+  flex: 0 0 auto;
+  margin-top: 0.7rem;
+  --fade-ground: var(--grey-bg);
+}
 /* Horizontal rail rather than a wrapping grid: some ranges ship 30 shots and a
    grid would push the whole right-hand column down the page. */
 .thumbs {
   display: flex;
-  flex: 0 0 auto;
   gap: 0.6rem;
-  margin-top: 0.7rem;
   overflow-x: auto;
   padding-bottom: 0.35rem;
 }
@@ -96,7 +108,25 @@
 .thumb img { width: 100%; height: 100%; object-fit: cover; }
 .thumb img.flooringThumb { object-fit: contain; }
 .thumb:hover { opacity: 1; }
-.thumbOn { opacity: 1; border-color: var(--black); }
+/* A hairline swapped from grey to black at 0.62-vs-1 opacity was not enough to
+   pick the live frame out of a rail of seventeen; the 2px rule under it is.
+   Border-box everywhere, so the extra pixel costs image, not layout. */
+.thumbOn {
+  opacity: 1;
+  border-color: var(--black);
+  border-bottom-width: 2px;
+}
+
+/* Set in the meta voice the fact list uses: the strip gives no other sign of
+   how many frames a range publishes once the scrollbar is gone. */
+.thumbCount {
+  flex: 0 0 auto;
+  margin-top: 0.55rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.14em;
+  color: var(--grey-text);
+}
+.thumbCount strong { font-weight: 500; color: var(--ink); }
 
 /* ---- intro column -------------------------------------------------------- */
 .intro { min-width: 0; }
@@ -168,15 +198,29 @@
 }
 .option:hover { border-color: var(--accent); }
 .optionOn { border-color: var(--black); background: var(--black); color: var(--white); }
+/* --dot comes from the swatch map in ProductDetail.jsx, and the chip renders no
+   dot at all when that map does not know the colour — so there is deliberately
+   no fallback tone here. A grey standing in for "we don't know" was the whole
+   bug: it read as the colour rather than as the absence of one.
+
+   The ring composites over the dot's own background, not the chip's, so its
+   only job is giving a near-white swatch an edge. At the 0.28 it carried the
+   ring over #f6f4f1 landed on #bbb9b7 — 2.0:1 on the white chip, no visible
+   edge. At 0.46 it lands on #959291, 3.1:1, which clears the 3:1 WCAG asks of
+   a control's own boundary. */
 .colourDot {
   width: 0.8rem;
   height: 0.8rem;
   flex: none;
   border-radius: 50%;
-  border: 1px solid currentColor;
-  background: currentColor;
-  opacity: 0.35;
+  border: 1px solid rgba(35, 31, 32, 0.46);
+  background: var(--dot);
 }
+/* The selected chip's ground is --black #212121, where an ink ring and a dark
+   swatch both disappear into it: #232323 on #212121 is 1.02:1, so Black, Nero
+   and Ebony had no dot at all once you picked them. The same ring in white over
+   that dot reads #868686 — 4.4:1 on the chip. */
+.optionOn .colourDot { border-color: rgba(255, 255, 255, 0.45); }
 .optionNote {
   padding: 0.8rem 0;
   border-bottom: 1px solid var(--grey-line);
@@ -280,13 +324,51 @@
   color: var(--grey-text);
 }
 
+/* Picking a size chip quietly rewrites the table to the rows that match it,
+   under a heading that still says "how the range is supplied" — so the table
+   has to say what it is showing, and offer the way back. */
+.specScope {
+  margin-top: 0.8rem;
+  font-size: var(--f-small);
+  line-height: 1.9;
+  color: var(--ink);
+}
+.specAll {
+  margin-left: 0.6rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+/* The fade says there is more to the right; on a phone, where six of the eight
+   columns are off-screen, it does not say what. */
+.specSwipe {
+  display: none;
+  margin-top: 0.8rem;
+  font-size: var(--f-small);
+  line-height: 1.7;
+  color: var(--grey-text);
+}
+@media (max-width: 760px) {
+  .specSwipe { display: block; }
+}
+
 /* The table is the one block that legitimately runs wide, so it scrolls inside
    its own box instead of pushing the page sideways. */
-.tableWrap {
-  overflow-x: auto;
+/* The white ground and the hairline box belong to the fade wrapper, not the
+   scroller: the mask is placed against the wrapper's padding box, so with the
+   border out here it fades over the table rather than over the border, which it
+   would otherwise rub out at both ends of the box. It fades to that white — the
+   colour actually behind the rows — not to the grey the section sits on. */
+.tableFade {
   background: var(--white);
   border: 1px solid var(--grey-line);
+  --fade-ground: var(--white);
 }
+.tableWrap { overflow-x: auto; }
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -313,6 +395,10 @@
 .table td:first-child { color: var(--ink); font-weight: 500; }
 .table tbody tr:last-child td { border-bottom: 0; }
 .table tbody tr:nth-child(even) { background: var(--grey-bg); }
+/* Some formats are quoted by the piece rather than boxed, and the feed writes
+   that as em-dashes in all six quantity columns. Six dashes in a row read as
+   missing data — and on Bari they are the note the table ends on. */
+.onRequest { font-style: italic; }
 
 /* ---- closing cta --------------------------------------------------------- */
 .cta { background: var(--white); }
@@ -388,11 +474,35 @@
      to shrink below its content's min-content width, so a long variant chip row
      pushed this column — and the whole page — past the viewport on a phone. */
   .heroGrid { grid-template-columns: minmax(0, 1fr); }
-  /* Stacked, there is no second column to match, so the gallery goes back to
-     its natural height. */
-  .gallery { display: block; margin-top: 0; }
+  /* Stacked, the gallery has nothing to ride alongside — sticky here would
+     pin the picture over the facts the reader scrolled down to. */
+  .gallery { display: block; position: static; margin-top: 0; }
   .aboutGrid { grid-template-columns: minmax(0, 1fr); }
   .relatedGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* The rail shows whatever the collection has left over — four ranges from a big
+   one, exactly one from Pavers. A single card in a four-wide track left three
+   quarters of the band empty grey, and this is the page's closing impression,
+   so the grid takes the number of cards it was actually given. */
+@media (min-width: 761px) {
+  .relatedGrid[data-count='3'] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .relatedGrid[data-count='2'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 60rem;
+  }
+  /* One card lies on its side instead of standing in a quarter of a row. */
+  .relatedGrid[data-count='1'] {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 46rem;
+  }
+  .relatedGrid[data-count='1'] .relCard {
+    display: grid;
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(1.25rem, 2.6vw, 2.25rem);
+  }
+  .relatedGrid[data-count='1'] .relBody { padding-top: 0; }
 }
 
 /* Three across but four ranges in the rail, so the fourth drops to a row of
@@ -419,7 +529,9 @@
 }
 
 @media (max-width: 560px) {
-  .stage { aspect-ratio: 1; }
+  /* No square override here: a 1:1 stage held the same 1.54:1 photo with 60px
+     of white above and below it. 4:3 is the closest frame the gallery has to
+     what it is actually asked to hold. */
   .fact { grid-template-columns: 1fr; gap: 0.2rem; }
   .relatedGrid { grid-template-columns: 1fr; }
   .actions { gap: 1rem; }
@@ -437,119 +549,9 @@
   }
 }
 
-/* ---- floating enquire bar ----------------------------------------------- */
-/* Replaces the closing CTA section that sat under the spec table. That block
-   only reached a reader who got to the bottom of the page; this rides in as
-   soon as the hero's own Enquire button leaves the screen, so the ask is
-   always one click away without being shown twice at once.
-
-   Square, like everything else on the site — the reference this was modelled
-   on is a rounded e-commerce add-to-cart bar, but nothing here is rounded. */
-/* A centred card rather than a full-bleed strip: at 1440 a bar across the whole
-   window is a bigger object than the ask deserves, and it also put itself under
-   the floating rail. */
-.bar {
-  position: fixed;
-  left: 50%;
-  bottom: clamp(0.9rem, 1.8vw, 1.6rem);
-  z-index: 85; /* over the page, under the mobile drawer and the film lightbox */
-  width: min(34rem, calc(100% - 1.5rem));
-  background: var(--white);
-  border: 1px solid var(--grey-line);
-  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.16);
-  /* Both transforms live on one property, so the slide-in cannot fight the
-     centring the way separate rules would. */
-  transform: translateX(-50%) translateY(calc(100% + 2rem));
-  visibility: hidden;
-  transition: transform 0.45s var(--ease), visibility 0.45s;
-}
-.barOn {
-  transform: translateX(-50%) translateY(0);
-  visibility: visible;
-}
-
-/* The card sets its own gutter — the global .container padding would waste half
-   of a 34rem card on white space. */
-.barInner {
-  display: flex;
-  align-items: center;
-  gap: clamp(0.7rem, 1.4vw, 1rem);
-  width: 100%;
-  max-width: none;
-  padding: 0.6rem 0.7rem;
-}
-
-.barThumb {
-  flex: none;
-  display: block;
-  width: 46px;
-  height: 46px;
-  overflow: hidden;
-  background: var(--grey-bg);
-}
-.barThumb img { width: 100%; height: 100%; object-fit: cover; }
-
-.barText {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  min-width: 0;
-  /* Takes the slack so the button stays hard right. */
-  margin-right: auto;
-}
-.barName {
-  font-family: var(--font-display);
-  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
-  line-height: 1.25;
-  color: var(--ink);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.barMeta {
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--grey-text);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* --gold-deep rather than --gold: this is a solid fill carrying white text on
-   a white bar, and only the deep tone clears WCAG AA against white. */
-.barCta {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.8rem 1.5rem;
-  border: 1px solid var(--accent);
-  background: var(--accent);
-  color: var(--white);
-  font-size: var(--f-small);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  line-height: 1;
-  white-space: nowrap;
-  transition: background 0.35s var(--ease), color 0.35s var(--ease);
-}
-.barCta:hover {
-  background: var(--black);
-  border-color: var(--black);
-  color: var(--white);
-}
-
-@media (max-width: 640px) {
-  .barThumb { width: 40px; height: 40px; }
-  .barMeta { display: none; }
-  .barCta { padding: 0.75rem 1rem; letter-spacing: 0.1em; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bar { transition: visibility 0.45s; transform: translateX(-50%) translateY(0); }
-  .bar:not(.barOn) { visibility: hidden; }
-}
+/* The floating enquire bar lives in EnquireBar.module.css — the collection
+   template carries the same bar, and one copy of it cannot drift from the
+   other. */
 
 /* ---- the range, as an editorial band ------------------------------------ */
 /* The one dark break on an otherwise white product page, and the only block
@@ -611,12 +613,18 @@
   color: var(--white-45);
 }
 
+/* The band is full-bleed, so its copy has to find the page's left rule for
+   itself. The right side keeps bleeding into the plate, but the left inset is
+   .container's own — the gutter plus, past 1600px, the margin the container
+   starts taking as it centres. Its own clamp hung the heading 6px left of the
+   eyebrow below it at 1440, and 160px left of it at 1920. */
 .aboutCopy {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   padding: clamp(2rem, 3.4vw, 3.5rem) clamp(1.25rem, 3.6vw, 4rem);
+  padding-left: calc(max(0px, (100vw - 1600px) / 2) + clamp(1rem, 4vw, 4rem));
 }
 
 .aboutName {

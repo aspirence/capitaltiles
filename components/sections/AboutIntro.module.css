@@ -1,6 +1,6 @@
-/* Matched to the supplied artwork's own ground (#fbfbfb). On pure white the
-   image's near-white background showed as a faint grey rectangle. */
-.section { background: #fbfbfb; overflow-x: clip; }
+/* The off-token #fbfbfb ground existed only to match the supplied PNG's own
+   background. The collage is drawn now, so the section sits on white. */
+.section { background: var(--white); overflow-x: clip; }
 
 .grid {
   display: grid;
@@ -10,14 +10,62 @@
 }
 
 /* ---- collage ------------------------------------------------------------
-   Supplied as a single composed artwork (shots, dotted field, frame accent
-   and tagline card are all baked in), so nothing is assembled in CSS.
+   Two square-cropped shots on a dropped diagonal, a dotted field bleeding out
+   of the top corner, and the tagline set as real type on a white plate. Every
+   part of this was previously baked into /our.png.
    -------------------------------------------------------------------------- */
-.media { width: 100%; }
-.media img {
-  display: block;
-  width: 100%;
-  height: auto;
+.media {
+  position: relative;
+  /* The dotted field sits at z-index -1 so the shots cover it; without a
+     stacking context of its own it would drop behind the section ground. */
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  column-gap: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+.dots {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: clamp(-2.5rem, -3vw, -1rem);
+  width: 46%;
+  height: clamp(5rem, 12vw, 9rem);
+  background-image: radial-gradient(var(--grey-line) 1.4px, transparent 1.5px);
+  background-size: 13px 13px;
+}
+
+.shotA { aspect-ratio: 4 / 5; }
+/* Dropped clear of its neighbour so the pair reads as a composition rather
+   than as two panels of a strip. */
+.shotB {
+  aspect-ratio: 3 / 4;
+  align-self: start;
+  margin-top: clamp(2.5rem, 7vw, 5rem);
+}
+
+.tagline {
+  position: absolute;
+  left: 16%;
+  right: 4%;
+  bottom: 5%;
+  display: grid;
+  gap: 0.45rem;
+  padding: clamp(1rem, 1.8vw, 1.5rem) clamp(1.1rem, 2vw, 1.75rem);
+  background: var(--white);
+  border: 1px solid var(--grey-line);
+  border-top: 3px solid var(--accent);
+}
+.taglineHead {
+  font-family: var(--font-display);
+  font-size: var(--f-sub);
+  line-height: 1.25;
+  color: var(--accent);
+}
+.taglineSub {
+  font-size: var(--f-small);
+  line-height: 1.6;
+  color: var(--grey-text);
 }
 
 /* ---- copy --------------------------------------------------------------- */
@@ -31,16 +79,16 @@
 }
 
 .title {
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: clamp(1.7rem, 3.1vw, 2.9rem);
-  line-height: 1.18;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 2.9vw, 2.75rem);
+  line-height: 1.16;
   color: var(--ink);
 }
 
 .rule {
   display: block;
-  width: 3.5rem;
+  width: 3rem;
   height: 2px;
   margin: 1rem 0 1.5rem;
   background: var(--accent);
@@ -67,35 +115,29 @@
 }
 .tick { display: grid; place-items: center; flex: none; color: var(--accent); }
 
-/* ---- signature strip ---------------------------------------------------- */
-.sign {
+/* ---- the ask ------------------------------------------------------------ */
+.actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
-  padding-top: clamp(1rem, 2vw, 1.5rem);
+  gap: 0.9rem 1.5rem;
+  padding-top: clamp(0.5rem, 1.4vw, 1rem);
 }
-.signMark {
-  display: grid;
-  place-items: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  flex: none;
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  padding: 0.55rem;
-}
-.signMark img { width: 100%; height: 100%; object-fit: contain; }
-
-.signText { display: grid; gap: 0.15rem; }
-.signText em {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(1.05rem, 1.5vw, 1.4rem);
-  color: var(--ink);
-}
-.signText small { font-size: var(--f-small); color: var(--grey-text); }
+.signLine { font-size: var(--f-small); color: var(--grey-text); }
 
 @media (max-width: 900px) {
   .grid { grid-template-columns: 1fr; }
   .media { order: -1; }
+}
+
+@media (max-width: 560px) {
+  /* The plate would otherwise cover most of both shots at this width. */
+  .tagline { position: static; margin-top: 1rem; grid-column: 1 / -1; }
+  .shotB { margin-top: clamp(1.5rem, 9vw, 3rem); }
+}
+
+@media (max-width: 400px) {
+  /* "Book a free measure & quote" is 27 characters; at the default tracking
+     and padding it runs past a 360px screen. */
+  .actions :global(.cta) { width: 100%; padding-inline: 1.1rem; }
 }

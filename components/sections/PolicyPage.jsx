@@ -1,9 +1,15 @@
 import Link from 'next/link'
+import EnquireLink from '../EnquireLink'
+import PolicyRail from './PolicyRail'
 import s from './PolicyPage.module.css'
 import { BUSINESS, POLICIES } from '../policyData'
+import { SHOWROOM } from '../siteData'
 
 /* Long-form legal copy: a heading band, a jump rail so the longer policies are
-   navigable, the sections themselves, and the other policies at the foot. */
+   navigable, the sections themselves, the other policies at the foot, and a
+   closing band. Nobody reads a policy idly — they are either about to order or
+   already have a problem — so the page ends on the two things that actually
+   move either of those along: the showroom number and a measure booking. */
 
 export default function PolicyPage({ policy }) {
   const { slug, title, eyebrow, lede, sections } = policy
@@ -38,16 +44,7 @@ export default function PolicyPage({ policy }) {
           <div className={s.layout}>
             {/* jump rail */}
             <aside className={s.railWrap}>
-              <nav className={s.rail} aria-label="On this page">
-                <p className={s.railHead}>On this page</p>
-                <ul>
-                  {sections.map((sec, i) => (
-                    <li key={i}>
-                      <a href={`#s${i}`}>{sec.heading}</a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+              <PolicyRail sections={sections} />
             </aside>
 
             {/* the policy itself */}
@@ -69,16 +66,21 @@ export default function PolicyPage({ policy }) {
               ))}
 
               <div className={s.contact}>
-                <h2 className={s.h2}>Still need a hand?</h2>
-                <p>
-                  If anything here is unclear, ask us rather than guessing. Call{' '}
-                  <a href={BUSINESS.phoneHref}>{BUSINESS.phone}</a>, email{' '}
-                  <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>, or call into the
-                  showroom at {BUSINESS.address}.
-                </p>
-                <Link href="/contact-us" className={'linkUnder ' + s.contactLink}>
-                  Contact us
-                </Link>
+                <div className={s.contactCopy}>
+                  <h2 className={s.h2}>Still need a hand?</h2>
+                  <p>
+                    If anything here is unclear, ask us rather than guessing. Call{' '}
+                    <a href={BUSINESS.phoneHref}>{BUSINESS.phone}</a>, email{' '}
+                    <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>, or call into the
+                    showroom at {BUSINESS.address}.
+                  </p>
+                </div>
+                <EnquireLink
+                  subject={`Question about the ${title}`}
+                  className={'cta ' + s.contactCta}
+                >
+                  <span>Book a Free Measure</span>
+                </EnquireLink>
               </div>
             </div>
           </div>
@@ -93,12 +95,43 @@ export default function PolicyPage({ policy }) {
             {others.map((p) => (
               <li key={p.slug}>
                 <Link href={`/policies/${p.slug}`} className={s.moreCard}>
-                  <span className={s.moreName}>{p.title}</span>
-                  <span className={s.moreCopy}>{p.eyebrow}</span>
+                  <span className={s.moreText}>
+                    <span className={s.moreName}>{p.title}</span>
+                    <span className={s.moreCopy}>{p.eyebrow}</span>
+                  </span>
+                  <svg
+                    className={s.moreChevron}
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 3.5 11.5 9 6 14.5" strokeLinecap="square" />
+                  </svg>
                 </Link>
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      <section className="sectionPad bandDark">
+        <div className={'container ' + s.ctaInner}>
+          <h2 className={'title ' + s.ctaTitle} data-reveal>Rather just ask someone?</h2>
+          <p className={s.ctaLede} data-reveal style={{ '--reveal-delay': '90ms' }}>
+            This page covers the general case. If yours is the exception — a delivery that arrived
+            short, a batch that does not match the sample, or a floor you have not ordered yet —
+            the showroom will settle it faster than the fine print will.
+          </p>
+          <div className={s.ctaRow} data-reveal style={{ '--reveal-delay': '160ms' }}>
+            <EnquireLink subject={`Free measure & quote — from the ${title} page`} className="cta">
+              <span>Book a Free Measure</span>
+            </EnquireLink>
+            <a href={SHOWROOM.phoneHref} className={s.phone}>{SHOWROOM.phone}</a>
+          </div>
         </div>
       </section>
     </>

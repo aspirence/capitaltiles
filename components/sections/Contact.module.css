@@ -22,12 +22,24 @@
 .crumbs a:hover { color: var(--ink); }
 
 .eyebrow {
-  margin-bottom: 0.7rem;
+  margin-bottom: clamp(0.9rem, 1.5vw, 1.25rem);
   font-size: var(--f-small);
   font-weight: 500;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--accent);
+}
+/* The house rule the reworked sections carry under their headings — 3rem of
+   hairline, in --accent, which is the deep tone on this cream ground. Set close
+   under the eyebrow so it belongs to it rather than floating between the two
+   lines as a divider. */
+.eyebrow::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-top: 0.55rem;
+  background: var(--accent);
 }
 
 /* Sized so "Talk to the Capital Tiles team" holds one line on desktop; the ch
@@ -74,10 +86,12 @@
 
 .formNote {
   margin-top: 0.6rem;
-  font-size: var(--f-small);
+  font-size: var(--f-copy-sm);
   line-height: 1.8;
   color: var(--grey-text);
 }
+/* The range the visitor arrived with, named back to them. */
+.rangeName { font-style: normal; color: var(--ink); }
 
 .form {
   display: grid;
@@ -117,12 +131,39 @@
 .field input::placeholder,
 .field textarea::placeholder { color: var(--grey-text); opacity: 0.75; }
 
+/* Border only. This used to add `outline: none` and a 3px wash of gold at 14%
+   alpha, which on white computes to about #fbf8f4 — it suppressed the site's
+   focus ring and put nothing visible in its place. The global :focus-visible
+   ring now comes through untouched, in --accent, which is the deep tone here. */
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  outline: none;
   border-color: var(--black);
-  box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.14);
+}
+
+/* The field the server named in its 400. The hairline stays 1px — an accent
+   edge inside it does the pointing. Excluded while focused so it cannot take
+   the focus ring's place the moment the visitor goes to fix it. */
+.field input[aria-invalid='true']:not(:focus),
+.field select[aria-invalid='true']:not(:focus),
+.field textarea[aria-invalid='true']:not(:focus) {
+  border-color: var(--ink);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+/* Present for the bots that fill in every input they find, and labelled for a
+   screen reader; off the canvas for everyone else. Not display:none, which a
+   good many bots know to skip. */
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 .actions {
@@ -131,14 +172,42 @@
   justify-items: start;
   margin-top: 0.4rem;
 }
-.actions .cta { width: auto; }
+/* :global — .cta is the shared button class, so a bare .cta here would be
+   hashed to a local name and match nothing. */
+.actions :global(.cta) { width: auto; }
 
+/* Sending: the slab holds its shape and the label goes quiet. The hover wipe
+   is switched off too, so a cursor resting on it cannot make a button that is
+   already working look ready for another press. */
+.actions :global(.cta):disabled { cursor: default; opacity: 0.55; }
+.actions :global(.cta):disabled:hover { color: var(--cta-fg); }
+.actions :global(.cta):disabled:hover::before { transform: scaleX(0); }
+
+/* Both outcomes are running copy rather than labels, so they sit on the small
+   copy rung. A hairline and a colour carry the difference between them: accent
+   for a message that got through, --ink for one that did not. A filled red
+   panel would be the loudest thing on the page and this site does not shout. */
+.sent,
+.error {
+  max-width: 58ch;
+  padding-left: clamp(0.85rem, 1.4vw, 1.1rem);
+  font-size: var(--f-copy-sm);
+  line-height: 1.85;
+}
 .sent {
-  font-size: var(--f-small);
-  line-height: 1.8;
+  border-left: 1px solid var(--accent);
   color: var(--grey-text);
 }
-.sent a { color: var(--ink); border-bottom: 1px solid var(--accent); }
+.error {
+  border-left: 1px solid var(--ink);
+  color: var(--ink);
+}
+/* The failure is the sentence above; this is the way out of it, so it drops
+   back to body weight rather than competing. */
+.errorAlt { color: var(--grey-text); }
+
+.sent a,
+.error a { color: var(--ink); border-bottom: 1px solid var(--accent); }
 
 /* ---- details rail ------------------------------------------------------- */
 .side { display: grid; gap: clamp(1.25rem, 2vw, 1.75rem); }
@@ -149,6 +218,10 @@
 }
 .side .detail:last-child { padding-bottom: 0; border-bottom: 0; }
 
+/* The label is the quiet half of the block. It used to be --ink caps over a
+   --grey-text fact, so the address and the phone number were dimmer than their
+   own captions — on the one page where the number is the point. Inverted: the
+   caption steps back to --grey-text and the fact carries the block. */
 .detail h3 {
   display: flex;
   align-items: center;
@@ -159,22 +232,34 @@
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--grey-text);
 }
 .detail h3 svg { flex: none; color: var(--accent); }
 
 .detail p {
-  color: var(--grey-text);
-  line-height: 1.85;
+  font-size: var(--f-sub);
+  line-height: 1.5;
+  color: var(--ink);
 }
-.detail p a { transition: color 0.3s var(--ease); }
-.detail p a:hover { color: var(--ink); }
+/* Drawn as links at rest, not on hover: these two are the tappable facts and a
+   phone never hovers. The hairline is the affordance; hover only recolours. */
+.detail p a {
+  border-bottom: 1px solid var(--grey-line);
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.detail p a:hover { color: var(--accent); border-color: var(--accent); }
 
 .detail > .linkUnder,
 .detail a[class~='linkUnder'] {
-  margin-top: 0.8rem;
+  margin-top: 0.9rem;
   color: var(--ink);
 }
+/* Same reasoning as the facts above: the shared .linkUnder wipes its underline
+   in on hover, which on a phone is never, so "Get directions" read as a third
+   tracked-caps heading in a stack of them. Drawn at rest here, and hover wipes
+   it out instead — the gesture reversed, not removed. */
+.detail a[class~='linkUnder']::after { transform: scaleX(1); transform-origin: left; }
+.detail a[class~='linkUnder']:hover::after { transform: scaleX(0); transform-origin: right; }
 
 .hours { display: grid; gap: 0.45rem; }
 .hours li {
@@ -204,19 +289,171 @@
   color: var(--white);
 }
 
-/* ---- map ---------------------------------------------------------------- */
-.mapSection { background: var(--grey-bg); }
-.map {
-  display: block;
-  width: 100%;
-  height: clamp(18rem, 34vw, 30rem);
-  border: 0;
-  /* the embed renders its own light UI; keep it flush with the band */
-  filter: grayscale(0.25);
+/* ---- visit the showroom -------------------------------------------------- */
+/* The closing band, replacing the empty map. .bandDark carries the ground and
+   the accent swap; everything here is layout — copy against a plate that bleeds
+   off the right edge, the same editorial gesture the product page's range band
+   uses. No container: the picture is meant to meet the window. */
+.visit { overflow: hidden; }
+
+.visitGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  align-items: stretch;
+  gap: 0;
 }
+
+.visitCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(2.5rem, 4vw, 4rem) clamp(1.25rem, 3.6vw, 4rem);
+}
+
+.visitEyebrow {
+  font-size: var(--f-small);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.visitTitle {
+  margin-top: 0.9rem;
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.8vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--white);
+}
+.visitTitle::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-top: clamp(0.9rem, 1.5vw, 1.2rem);
+  background: var(--accent);
+}
+
+/* The address is the reason the band exists, so it is set on the sub rung and
+   in full white; the hours go under it at label size. */
+.visitAddress {
+  display: grid;
+  gap: 0.1rem;
+  margin-top: clamp(1.1rem, 1.8vw, 1.5rem);
+  font-style: normal;
+  font-size: var(--f-sub);
+  line-height: 1.5;
+  color: var(--white);
+}
+.visitHours {
+  margin-top: 0.7rem;
+  font-size: var(--f-small);
+  color: var(--white-70);
+}
+
+.visitActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  margin-top: clamp(1.5rem, 2.4vw, 2rem);
+}
+.visitPhone {
+  font-size: var(--f-sub);
+  color: var(--white);
+  border-bottom: 1px solid var(--accent);
+  transition: color 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.visitPhone:hover { color: var(--accent); }
+
+/* Absolutely placed rather than height:100% — the plate only sets a min-height,
+   so a percentage height would resolve against auto and let the photograph's
+   own aspect ratio decide how tall the band is. */
+.visitPlate {
+  position: relative;
+  min-height: clamp(17rem, 27vw, 24rem);
+  overflow: hidden;
+  background: #1c1b1b;
+}
+.visitPlate img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+  transition: transform 1.6s var(--ease);
+}
+.visit:hover .visitPlate img { transform: none; }
 
 @media (max-width: 980px) {
   .grid { grid-template-columns: 1fr; }
+  /* The showroom rail was landing ~1400px down, behind a nine-field form, on
+     the page whose second job is walk-ins. It leads on a phone instead. */
+  .side { order: 1; }
+  .formCard { order: 2; }
+  /* Except on /contact-us/enquiry, where the visitor pressed a button to reach
+     the form and should not have to scroll past the address to find it. */
+  .grid[data-variant='enquiry'] .formCard { order: 1; }
+  .grid[data-variant='enquiry'] .side { order: 2; }
+}
+
+/* Both columns start on the same grid line, but only the form card has padding,
+   so the rail's first label sat ~60px above the form's title and the column
+   read as floating rather than sitting beside it. */
+@media (min-width: 981px) {
+  .side { padding-top: clamp(1.5rem, 3vw, 2.75rem); }
+}
+
+@media (max-width: 900px) {
+  .visitGrid { grid-template-columns: 1fr; }
+  /* The picture leads here, even though the copy comes first in the markup so
+     the desktop reading order needs no override. */
+  .visitPlate { order: -1; min-height: clamp(12rem, 44vw, 18rem); }
+}
+
+/* Between the phone override below and the desktop ramp, the body has already
+   dropped to one column but the wash has not moved, so the lede — capped at
+   78ch, which is most of an 800px container — was running its last third out
+   past the 0.82 stop and finishing on about a third of a wash. The direction
+   stays horizontal, since the picture still reads to the right at these widths;
+   only the ramp is pushed out, so it holds near-opaque across the copy and
+   clears in the stretch beyond it. */
+@media (min-width: 701px) and (max-width: 980px) {
+  .head {
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(247, 245, 242, 0.97) 0%,
+        rgba(247, 245, 242, 0.92) 70%,
+        rgba(247, 245, 242, 0.62) 100%
+      ),
+      url('/img/contact/contact-title-bg.jpg');
+  }
+}
+
+/* The head band's wash turns through 90 degrees here, the same way every other
+   photo band on the site does below 700px. The desktop ramp runs left to right
+   and clears to 0.18 at the far edge, which is fine while the copy stops around
+   halfway across; on a phone the lede runs the full width, so the end of every
+   line was landing on the clear end of the ramp and sitting straight on the
+   photograph. Top to bottom instead, opaque where the type is, with a floor
+   under it so the picture still reads as a band beneath the copy. */
+@media (max-width: 700px) {
+  .head {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(247, 245, 242, 0.97) 0%,
+        rgba(247, 245, 242, 0.94) 58%,
+        rgba(247, 245, 242, 0.55) 100%
+      ),
+      url('/img/contact/contact-title-bg.jpg') center bottom / cover no-repeat,
+      var(--grey-bg);
+  }
 }
 
 @media (max-width: 560px) {

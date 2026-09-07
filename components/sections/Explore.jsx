@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useOverflow } from '../useOverflow'
 import s from './Explore.module.css'
 
 /* The one product index on the homepage: a tab rail over an editorial list,
@@ -12,7 +13,9 @@ import s from './Explore.module.css'
 
    The rows never change size on hover: each range's blurb lives in the plate
    caption rather than unfolding under its name, so nothing shifts beneath the
-   pointer. Touch users get the same result on tap-through.
+   pointer. There is no tap-through equivalent — a tap on a row navigates — so
+   the plate and its counter are hidden on touch and the index carries the
+   section there on its own swatches.
 
    Labels and hrefs mirror components/navData.js. When a range moves, change it
    in both — the old hand-typed copy of this list had drifted to two routes the
@@ -176,6 +179,9 @@ const TABS = [
 export default function Explore() {
   const [tab, setTab] = useState(0)
   const [active, setActive] = useState(0)
+  /* The rail only overflows on a phone; above that useOverflow reports 'none'
+     and the fade never paints. */
+  const { ref: tabRail, fade } = useOverflow()
 
   const items = TABS[tab].items
 
@@ -196,19 +202,23 @@ export default function Explore() {
           </div>
 
           <div className={s.headRight}>
-            <div className={s.tabs} role="tablist" aria-label="Browse by category">
-              {TABS.map((t, i) => (
-                <button
-                  key={t.label}
-                  type="button"
-                  role="tab"
-                  aria-selected={i === tab}
-                  className={i === tab ? s.tabOn : undefined}
-                  onClick={() => pickTab(i)}
-                >
-                  {t.label}
-                </button>
-              ))}
+            {/* This rail is the way into the catalogue, and on a phone Carpet
+                sits off the right edge with no scrollbar to say so. */}
+            <div className={'overflowFade ' + s.tabsWrap} data-fade={fade}>
+              <div className={s.tabs} ref={tabRail} role="tablist" aria-label="Browse by category">
+                {TABS.map((t, i) => (
+                  <button
+                    key={t.label}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === tab}
+                    className={i === tab ? s.tabOn : undefined}
+                    onClick={() => pickTab(i)}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
             </div>
             <Link href={TABS[tab].all} className={'linkUnder ' + s.viewAll} data-reveal>
               View all

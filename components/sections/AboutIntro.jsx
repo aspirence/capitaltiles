@@ -1,8 +1,13 @@
+import EnquireLink from '@/components/EnquireLink'
 import s from './AboutIntro.module.css'
 
-/* "Our Introduction": the collage on the left is supplied as one composed
-   artwork; the right column carries the eyebrow, headline, copy, ticked list
-   and signature strip. */
+/* "Our Introduction": a two-shot collage on the left, and on the right the
+   eyebrow, headline, copy, ticked list and the page's first ask.
+
+   The collage used to be one supplied PNG — rounded corners, an off-palette
+   red and the tagline baked into the raster, which on a phone rendered the
+   card's headline at about 6px. It is assembled here instead, so the type is
+   type and the corners are square. */
 
 const POINTS = [
   'Supply and installation under one roof.',
@@ -25,19 +30,40 @@ export default function AboutIntro() {
   return (
     <section className={'sectionPad ' + s.section}>
       <div className={'container ' + s.grid}>
-        {/* ---------- collage (supplied as one composed artwork) ---------- */}
+        {/* ---------- collage ---------- */}
         <div className={s.media} data-reveal="left">
-          <img
-            src="/our.png"
-            alt="Capital Tiles interiors — crafting spaces, creating trust"
-            width="1341"
-            height="1173"
-            loading="lazy"
-          />
+          <span className={s.dots} aria-hidden="true" />
+
+          <div className={'zoomFrame ' + s.shotA}>
+            <img
+              src="/img/about/showroom.jpg"
+              alt="Patterned porcelain floor running through an open living room"
+              width="1000"
+              height="1000"
+              loading="lazy"
+            />
+          </div>
+
+          <div className={'zoomFrame ' + s.shotB}>
+            <img
+              src="/img/about/craft.jpg"
+              alt="Timber-look plank tiles laid close up"
+              width="1200"
+              height="1200"
+              loading="lazy"
+            />
+          </div>
+
+          <p className={s.tagline}>
+            <span className={s.taglineHead}>Quality flooring.<br />Expertly installed.</span>
+            <span className={s.taglineSub}>
+              Premium tiles and flooring, from selection to installation.
+            </span>
+          </p>
         </div>
 
         {/* ---------- copy ---------- */}
-        <div className={s.copy}>
+        <div>
           <p className={s.eyebrow} data-reveal>Our Introduction</p>
 
           <h2 className={s.title} data-reveal style={{ '--reveal-delay': '80ms' }}>
@@ -46,10 +72,10 @@ export default function AboutIntro() {
           <span className={s.rule} aria-hidden="true" />
 
           <p className={s.lede} data-reveal style={{ '--reveal-delay': '160ms' }}>
-            We specialise in high-quality tile and flooring solutions with expert advice,
-            personalised service and end-to-end project support. Proudly based in Canberra, we
-            supply and professionally install premium surfaces — making your renovation or build
-            seamless from start to finish.
+            We have supplied and laid Canberra floors since 1977 — tiles, timber, hybrid, vinyl
+            and carpet, chosen in our Mitchell showroom and installed by our own team. Expert
+            advice, personalised service and end-to-end project support keep a renovation or a
+            new build moving from the first sample to the last sealed edge.
           </p>
 
           <ul className={s.points}>
@@ -61,14 +87,13 @@ export default function AboutIntro() {
             ))}
           </ul>
 
-          <div className={s.sign} data-reveal style={{ '--reveal-delay': '560ms' }}>
-            <span className={s.signMark}>
-              <img src="/icon.png" alt="" width="512" height="512" loading="lazy" />
-            </span>
-            <span className={s.signText}>
-              <em>Capital Tiles &amp; Flooring</em>
-              <small>Supply &amp; Installation · Mitchell, ACT</small>
-            </span>
+          {/* The section that states what the business does now hands off to
+              the ask, rather than to a decorative signature. */}
+          <div className={s.actions} data-reveal style={{ '--reveal-delay': '560ms' }}>
+            <EnquireLink subject="Free measure & quote" className="cta">
+              <span>Book a free measure &amp; quote</span>
+            </EnquireLink>
+            <span className={s.signLine}>Supply &amp; Installation · Mitchell, ACT</span>
           </div>
         </div>
       </div>

@@ -34,13 +34,21 @@
 }
 
 /* ---- accordion ---------------------------------------------------------- */
-/* Two columns on wide screens so the 1440px frame does not leave a long,
-   thin ribbon of questions down the middle. */
-.list {
+/* Two columns on wide screens so the 1440px frame does not leave a long, thin
+   ribbon of questions down the middle. Each column is its own list, so an open
+   card lengthens only its own column: on one shared grid, opening the first
+   card stretched the row and left about 117px of bare ground under its
+   row-mate. */
+.cols {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(0.75rem, 1.4vw, 1.25rem) clamp(1.5rem, 3vw, 3rem);
   align-items: start;
+}
+.list {
+  display: grid;
+  align-content: start;
+  gap: clamp(0.75rem, 1.4vw, 1.25rem);
 }
 
 .item {
@@ -106,9 +114,22 @@
   margin-top: clamp(2rem, 3.2vw, 3rem);
   text-align: center;
   color: var(--grey-text);
-  font-size: var(--f-small);
+  font-size: var(--f-copy-sm);
 }
 
+/* The links used to inherit --grey-text and carry an underline that only grew
+   on hover, so the one enquiry route on the page read as part of the sentence
+   around it. Coloured, and underlined at rest — the sweep runs the other way
+   on hover. */
+.more :global(.linkUnder) { color: var(--accent); }
+.more :global(.linkUnder)::after { transform: scaleX(1); transform-origin: left; }
+.more :global(.linkUnder):hover::after { transform: scaleX(0); transform-origin: right; }
+
 @media (max-width: 860px) {
-  .list { grid-template-columns: 1fr; }
+  .cols { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  /* Two links plus a separator will not sit on one line here. */
+  .sep { display: block; height: 0; margin: 0.5rem 0 0; overflow: hidden; }
 }

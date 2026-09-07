@@ -106,7 +106,7 @@ export default function Advice() {
             <li key={item.key} data-reveal style={{ '--reveal-delay': i * 60 + 'ms' }}>
               {item.kind === 'film' ? (
                 <button type="button" className={s.card} onClick={() => setOpen(item.filmIndex)}>
-                  <span className={'zoomFrame ' + s.frame + ' ' + s.frameFilm}>
+                  <span className={s.frame + ' ' + s.frameFilm}>
                     <img src={item.img} alt="" loading="lazy" />
                     <span className={s.play} aria-hidden="true">
                       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
@@ -124,7 +124,7 @@ export default function Advice() {
                 </button>
               ) : (
                 <Link href={`/blogs/${item.slug}`} className={s.card}>
-                  <span className={'zoomFrame ' + s.frame}>
+                  <span className={s.frame}>
                     <img src={item.img} alt="" loading="lazy" />
                     <span className={s.cat}>{item.cat}</span>
                   </span>

@@ -73,6 +73,13 @@
   --f-title: clamp(1.5rem, 2.5vw, 2.6rem);
   --f-sub: clamp(1.05rem, 1.35vw, 1.4rem);
   --f-body: clamp(0.9rem, 1.02vw, 1.02rem);
+  /* A rung between body and small. --f-small is a LABEL size — eyebrows, meta,
+     captions, button text — and several templates set running sentence copy on
+     it, where a paragraph reads as fine print rather than as something anyone
+     is meant to sit and read. Prose that genuinely cannot carry full --f-body
+     (a card blurb, a sidebar note, a spec footnote) comes here instead. Labels
+     stay on --f-small; only re-point prose. */
+  --f-copy-sm: clamp(0.84rem, 0.94vw, 0.94rem);
   --f-small: clamp(0.78rem, 0.86vw, 0.875rem);
 
   /* Change the typeface here and the whole site follows. */
@@ -255,6 +262,80 @@ ul { margin: 0; padding: 0; list-style: none; }
   transition: transform 0.45s var(--ease);
 }
 .linkUnder:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* ---- overflow affordance ------------------------------------------------ */
+/* The fade the scrollbar rule above asks for. With the bar gone, a rail that
+   scrolls looks exactly like a rail that has been cut off: the last card is
+   sliced down its middle and nothing says there is more behind it. Wrapping
+   the scroller in this softens whichever edge still has content beyond it, so
+   the clipping reads as depth rather than as a layout fault.
+
+   The wrapper does not scroll — the element inside it does, and useOverflow
+   drives data-fade from that element's scroll position:
+
+     <div className="overflowFade" data-fade={fade}>
+       <div ref={ref} className={s.rail}>…</div>
+     </div>
+
+   --fade-ground must name the OPAQUE colour actually behind the rail. The
+   gradient runs to transparent, so on a dark band an unset ground would fade
+   the cards out into white. */
+.overflowFade { position: relative; }
+.overflowFade::before,
+.overflowFade::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2; /* over the rail, under anything the section floats on top */
+  width: clamp(1.5rem, 4vw, 3rem);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease);
+}
+.overflowFade::before {
+  left: 0;
+  background: linear-gradient(to right, var(--fade-ground, var(--white)), transparent);
+}
+.overflowFade::after {
+  right: 0;
+  background: linear-gradient(to left, var(--fade-ground, var(--white)), transparent);
+}
+/* 'none' | 'start' | 'end' | 'both' — the edges that can still be scrolled
+   toward. The reduced-motion block below flattens the transition on every
+   pseudo-element, so there the fade simply appears. */
+.overflowFade[data-fade='start']::before,
+.overflowFade[data-fade='both']::before { opacity: 1; }
+.overflowFade[data-fade='end']::after,
+.overflowFade[data-fade='both']::after { opacity: 1; }
+
+/* ---- dark closing band -------------------------------------------------- */
+/* Six page templates finished their last section on white or cream, so a long
+   page stopped rather than closed, and the light/dark alternation that runs
+   down every other page broke in the last inch before the footer. This is that
+   closing band: `class="sectionPad bandDark"` on the section.
+
+   It carries the accent swap with the ground, so gold inside it lands on the
+   dark-surface tone without any component choosing between the two by hand. */
+.bandDark {
+  --accent: var(--gold);
+  /* A rail inside the band has to fade into the band, not into the page. */
+  --fade-ground: var(--black-deep);
+  background: var(--black-deep);
+  color: var(--white);
+}
+/* The shared utilities hard-code light-surface colours — .eyebrow is
+   --gold-deep, which measures 3.5:1 on this ground, and .lede is --grey-text
+   at 3.4:1 — so they are re-pointed rather than left to inherit. */
+.bandDark .title { color: var(--white); }
+.bandDark .eyebrow { color: var(--white-70); }
+.bandDark .lede { color: var(--white-70); }
+.bandDark .linkUnder { color: var(--white-70); }
+.bandDark .linkUnder:hover { color: var(--white); }
+/* Same inversion the dark sections spell out for themselves with .ctaLight:
+   white slab, wiping to black on hover. .ctaGhost is already a dark-ground
+   variant, so it keeps its own treatment. */
+.bandDark .cta:not(.ctaGhost) { --cta-bg: var(--white); --cta-fg: var(--black); }
 
 /* ---- reveal-on-scroll -------------------------------------------------- */
 /* Elements opt in with data-reveal; the Reveal observer flips data-shown.  */
