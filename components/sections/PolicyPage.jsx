@@ -13,6 +13,10 @@ export default function PolicyPage({ policy }) {
     <>
       <section className={s.head}>
         <div className="container">
+          {/* Same 54rem track the body's rail-and-prose pair occupies, so the
+              page keeps one left edge from the breadcrumb to the last
+              paragraph instead of a full-width header over a centred body. */}
+          <div className={s.headInner}>
           <nav className={s.crumbs} aria-label="Breadcrumb">
             <Link href="/">Home</Link>
             <i>/</i>
@@ -25,6 +29,7 @@ export default function PolicyPage({ policy }) {
           <h1 className={s.title}>{title}</h1>
           <p className={s.lede}>{lede}</p>
           <p className={s.updated}>Last reviewed {BUSINESS.updated}</p>
+          </div>
         </div>
       </section>
 

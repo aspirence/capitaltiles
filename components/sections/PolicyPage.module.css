@@ -24,6 +24,14 @@
 .crumbs a:hover { color: var(--ink); }
 .crumbs span { color: var(--ink); }
 
+/* 15rem rail + 5rem gap + 34rem prose = the 54rem the body below occupies.
+   Without this the header ran the full container while the body sat centred,
+   and the two started 230px apart on a 1440 screen. */
+.headInner {
+  max-width: 54rem;
+  margin-inline: auto;
+}
+
 .title {
   margin-top: 0.7rem;
   font-family: var(--font-display);
@@ -52,9 +60,19 @@
 /* ---- body ---------------------------------------------------------------- */
 .body { background: var(--white); }
 
+/* The measure is set by the track, not by a cap inside it.
+
+   These two were fighting: a 1fr content column ran to about 1050px at 1440
+   while `.prose p` capped the ink at 74ch (~621px), so every paragraph left
+   roughly 430px of empty page to its right for the whole length of a legal
+   document — which is why this page reads as broken on a desktop and fine on a
+   phone, where one column fills the width. Cap the column and centre the pair
+   instead: the leftover becomes margin on both sides rather than a void on
+   one. */
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 15rem) minmax(0, 34rem);
+  justify-content: center;
   gap: clamp(2rem, 5vw, 5rem);
   align-items: start;
 }
@@ -97,7 +115,6 @@
 }
 
 .prose p {
-  max-width: 74ch;
   line-height: 1.95;
   color: var(--grey-text);
 }

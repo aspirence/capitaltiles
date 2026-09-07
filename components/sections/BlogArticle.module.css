@@ -75,14 +75,18 @@
 /* Copy hard against the left of the container, the other posts against the
    right. The prose keeps its own max-width so the measure stays readable —
    the column is far wider than any line of text should be. */
+/* Same construction as the policy page, same fix: a 1fr column with a 78ch cap
+   on the prose inside it gave 97-character lines beside a dead channel. The
+   reading column is capped here and the pair is centred. */
 .bodyInner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 24rem);
+  grid-template-columns: minmax(0, 34rem) minmax(0, 24rem);
+  justify-content: center;
   align-items: start;
   gap: clamp(2rem, 3.5vw, 3.5rem);
 }
 
-.prose { width: 100%; max-width: 78ch; }
+.prose { width: 100%; }
 
 .prose p {
   margin-bottom: 1.15rem;
