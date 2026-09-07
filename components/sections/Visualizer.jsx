@@ -10,6 +10,7 @@ const DOORS = [
     title: 'Measure & Quote',
     copy: 'We come to you, measure up and check the subfloor, then put the numbers in writing.',
     href: '/contact-us/enquiry',
+    cta: 'Book a free measure',
     img: '/img/visualizer/showroom.webp',
   },
   {
@@ -17,7 +18,11 @@ const DOORS = [
     title: 'Showroom',
     copy: 'Full sheets under proper light, boards you can walk on, samples to take home.',
     href: '/contact-us',
-    img: '/img/spaces/commercial.jpg',
+    cta: 'Hours and directions',
+    /* The showroom door showed /img/spaces/commercial.jpg — a grey tiled wall
+       that is not the showroom, on the one card whose job is to make somebody
+       drive to Mitchell. */
+    img: '/img/about/showroom.jpg',
   },
 ]
 
@@ -61,7 +66,7 @@ export default function Visualizer() {
                 <span className={s.doorTitle}>{d.title}</span>
                 <span className={s.doorCopy}>{d.copy}</span>
                 <span className={s.doorCta}>
-                  Find out more
+                  {d.cta}
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
                     strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M5 12h14M13 6l6 6-6 6" />

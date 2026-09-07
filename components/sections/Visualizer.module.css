@@ -1,5 +1,11 @@
+/* The page's closing anchor. It ran on cream in the middle of the page; at the
+   end it needs the weight, and the alternation only holds to the footer if the
+   last band is dark. */
 .section {
-  background: var(--cream);
+  background: var(--black-deep);
+  color: var(--white);
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   /* The doors reveal with translateX(±48px); clipping keeps that off the
      mobile layout viewport so the fixed header and rail stay in frame. */
   overflow-x: clip;
@@ -17,8 +23,8 @@
   align-items: start;
   gap: 1.5rem clamp(2.5rem, 6vw, 6.5rem);
 }
-.title { margin-top: 0; }
-.lede { margin: 0; }
+.title { margin-top: 0; color: var(--white); }
+.lede { margin: 0; color: var(--white-70); }
 
 /* ---- doors -------------------------------------------------------------- */
 .doors {
@@ -111,8 +117,10 @@
   gap: 1rem;
   margin-top: clamp(1.5rem, 2.4vw, 2.25rem);
   padding-top: clamp(1.25rem, 2vw, 1.75rem);
-  border-top: 1px solid var(--grey-line);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
+.strip :global(.linkUnder) { color: var(--white-70); }
+.strip :global(.linkUnder):hover { color: var(--white); }
 .strip span {
   font-family: var(--font-display);
   font-size: var(--f-sub);
@@ -122,4 +130,15 @@
   .headRow { grid-template-columns: 1fr; }
   .doors { grid-template-columns: 1fr; }
   .doorCopy { opacity: 1; max-height: 6rem; }
+  /* The copy is unhidden here, which pushes the whole body up to around a
+     third of the door's height — where the desktop ramp is still near its
+     lightest at 0.15. On the brighter of the two plates the kicker measured
+     3.9:1 against the wall behind it. Give the ramp a floor so the body sits
+     in the dark end of it wherever it lands. */
+  .doorShade {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.45) 70%);
+  }
+  .door:hover .doorShade {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.52) 70%);
+  }
 }

@@ -8,7 +8,15 @@ import Advice from '@/components/sections/Advice'
 import Social from '@/components/sections/Social'
 
 /* Homepage running order. Light and dark sections alternate on purpose so the
-   page breathes between its dark anchors, Explore and Bathware.
+   page breathes between its dark anchors — Explore, Bathware and now the
+   closing Visualizer.
+
+   Visualizer moved to the end. The page used to peak at its conversion section
+   with two sections still to run, then spend about 2,500px — near three
+   screens — on cream, white and grey before signing off with an Instagram
+   marquee, 2,400px after the last mention of a free measure. Advice belongs
+   before the ask anyway: it is the still-choosing job. Now the alternation
+   holds to the footer and the last screen is the booking.
 
    This was fourteen sections. It sold the catalogue five times and the business
    once, and /flooring/hybrid-flooring was reachable from seven of them.
@@ -38,9 +46,9 @@ export default function Home() {
       <Explore />
       <Spaces />
       <Bathware />
-      <Visualizer />
       <Advice />
       <Social />
+      <Visualizer />
     </>
   )
 }
