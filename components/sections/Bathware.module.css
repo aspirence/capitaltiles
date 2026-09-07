@@ -1,4 +1,6 @@
 .section {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   background: var(--black);
   color: var(--white);
   /* The showcase reveals with translateX(48px), which would otherwise widen
@@ -52,7 +54,7 @@
   top: 1.62em;
   width: 0.85rem;
   height: 1px;
-  background: var(--gold);
+  background: var(--accent);
   transform-origin: left;
   transition: width 0.4s var(--ease);
 }
@@ -100,7 +102,7 @@
   font-size: 1.05rem;
   transition: color 0.35s var(--ease);
 }
-.tiles a:hover .tileLabel { color: var(--gold); }
+.tiles a:hover .tileLabel { color: var(--accent); }
 
 .tileSub {
   display: block;
@@ -157,4 +159,4 @@
 }
 
 /* Dark section: the global .eyebrow default is tuned for light surfaces. */
-.section :global(.eyebrow) { color: var(--gold); }
+.section :global(.eyebrow) { color: var(--accent); }

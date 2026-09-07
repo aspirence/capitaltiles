@@ -27,7 +27,7 @@
   font-weight: 500;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--gold-deep);
+  color: var(--accent);
 }
 
 /* Sized so "Talk to the Capital Tiles team" holds one line on desktop; the ch
@@ -97,7 +97,7 @@
   letter-spacing: 0.06em;
   color: var(--ink);
 }
-.field > span i { font-style: normal; color: var(--gold); }
+.field > span i { font-style: normal; color: var(--accent); }
 
 .field input,
 .field select,
@@ -138,7 +138,7 @@
   line-height: 1.8;
   color: var(--grey-text);
 }
-.sent a { color: var(--ink); border-bottom: 1px solid var(--gold); }
+.sent a { color: var(--ink); border-bottom: 1px solid var(--accent); }
 
 /* ---- details rail ------------------------------------------------------- */
 .side { display: grid; gap: clamp(1.25rem, 2vw, 1.75rem); }
@@ -161,7 +161,7 @@
   text-transform: uppercase;
   color: var(--ink);
 }
-.detail h3 svg { flex: none; color: var(--gold); }
+.detail h3 svg { flex: none; color: var(--accent); }
 
 .detail p {
   color: var(--grey-text);

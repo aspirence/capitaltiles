@@ -105,7 +105,7 @@
   font-size: var(--f-small);
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--gold-deep);
+  color: var(--accent);
 }
 
 .title {
@@ -166,7 +166,7 @@
   cursor: pointer;
   transition: border-color 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease);
 }
-.option:hover { border-color: var(--gold-deep); }
+.option:hover { border-color: var(--accent); }
 .optionOn { border-color: var(--black); background: var(--black); color: var(--white); }
 .colourDot {
   width: 0.8rem;
@@ -228,10 +228,12 @@
   line-height: 1.8;
   color: var(--grey-text);
 }
-.showroom a { color: var(--ink); border-bottom: 1px solid var(--gold-deep); }
+.showroom a { color: var(--ink); border-bottom: 1px solid var(--accent); }
 
 /* ---- spec strip ---------------------------------------------------------- */
 .strip {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   background: var(--black);
   color: var(--white);
   padding-block: clamp(1.5rem, 2.6vw, 2.5rem);
@@ -253,7 +255,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--accent);
 }
 .stripValue {
   font-family: var(--font-display);
@@ -334,10 +336,10 @@
   font-family: var(--font-display);
   font-size: var(--f-sub);
   color: var(--ink);
-  border-bottom: 1px solid var(--gold-deep);
+  border-bottom: 1px solid var(--accent);
   transition: color 0.3s var(--ease);
 }
-.phone:hover { color: var(--gold-deep); }
+.phone:hover { color: var(--accent); }
 
 /* ---- related ------------------------------------------------------------- */
 .related { background: var(--grey-bg); }
@@ -372,7 +374,7 @@
   color: var(--ink);
   transition: color 0.35s var(--ease);
 }
-.relCard:hover .relName { color: var(--gold); }
+.relCard:hover .relName { color: var(--accent); }
 .relMeta {
   display: block;
   margin-top: 0.25rem;
@@ -522,8 +524,8 @@
   align-items: center;
   justify-content: center;
   padding: 0.8rem 1.5rem;
-  border: 1px solid var(--gold-deep);
-  background: var(--gold-deep);
+  border: 1px solid var(--accent);
+  background: var(--accent);
   color: var(--white);
   font-size: var(--f-small);
   letter-spacing: 0.16em;
@@ -555,6 +557,8 @@
    replaced a two-column prose-plus-checklist that stated the same published
    fields twice over. */
 .about {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   background: var(--black-deep);
   color: var(--white);
   overflow: hidden;
@@ -631,7 +635,7 @@
   width: 3rem;
   height: 1px;
   margin-top: clamp(0.9rem, 1.5vw, 1.2rem);
-  background: var(--gold);
+  background: var(--accent);
 }
 
 /* The opening paragraph carries the section — set larger, in white, with the
@@ -667,7 +671,7 @@
   right: 0;
   bottom: 0;
   height: 1px;
-  background: var(--gold);
+  background: var(--accent);
   transform: scaleX(1);
   transform-origin: right;
   transition: transform 0.45s var(--ease);

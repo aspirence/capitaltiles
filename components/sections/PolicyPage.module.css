@@ -46,7 +46,7 @@
   font-size: var(--f-small);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--gold-deep);
+  color: var(--accent);
 }
 
 /* ---- body ---------------------------------------------------------------- */
@@ -78,7 +78,7 @@
   color: var(--grey-text);
   transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
 }
-.rail a:hover { color: var(--ink); border-color: var(--gold-deep); }
+.rail a:hover { color: var(--ink); border-color: var(--accent); }
 
 /* ---- prose --------------------------------------------------------------- */
 .prose { min-width: 0; }
@@ -123,7 +123,7 @@
   top: 0.68em;
   width: 0.42rem;
   height: 0.42rem;
-  border: 1px solid var(--gold-deep);
+  border: 1px solid var(--accent);
   transform: rotate(45deg);
 }
 
@@ -134,7 +134,7 @@
   background: var(--grey-bg);
   border: 1px solid var(--grey-line);
 }
-.contact a { color: var(--ink); border-bottom: 1px solid var(--gold-deep); }
+.contact a { color: var(--ink); border-bottom: 1px solid var(--accent); }
 .contactLink {
   display: inline-block;
   margin-top: 1.1rem;

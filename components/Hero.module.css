@@ -4,6 +4,8 @@
    ========================================================================= */
 
 .hero {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   position: relative;
   height: 100svh;
   min-height: 34rem;

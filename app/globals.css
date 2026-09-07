@@ -50,9 +50,18 @@
   --cream: #f7f3ec;
   /* --gold is the accent for DARK backgrounds. On white/cream/grey it only
      reaches 2.8:1, which is why eyebrow text read as washed out — light
-     surfaces use --gold-deep, which clears WCAG AA at 4.8:1. */
+     surfaces use --gold-deep, which clears WCAG AA at 4.8:1.
+
+     Components should not pick between them by hand. That rule was written
+     here and then broken in a dozen component files, including the focus ring
+     below, because whoever wrote a rule had to remember which ground it would
+     land on. --accent decides it instead: it holds the light-surface tone by
+     default, and every section that paints a dark ground redeclares it. A rule
+     that says var(--accent) is correct wherever it ends up, and a section
+     physically cannot get it wrong. */
   --gold: #b08d57;
   --gold-deep: #856633;
+  --accent: var(--gold-deep);
 
   --white-70: rgba(255, 255, 255, 0.7);
   --white-45: rgba(255, 255, 255, 0.45);
@@ -321,6 +330,6 @@ a:hover .zoomFrame img { transform: scale(1.07); }
 ::selection { background: var(--black); color: var(--white); }
 
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }

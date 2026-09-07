@@ -3,6 +3,8 @@
    flooring ranges a third time in the same section. */
 
 .section {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   background: var(--black-deep);
   color: var(--white);
   overflow: hidden;
@@ -53,7 +55,7 @@
   bottom: 0;
   width: 100%;
   height: 1px;
-  background: var(--gold);
+  background: var(--accent);
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.45s var(--ease);
@@ -189,7 +191,7 @@
   right: 0;
   bottom: -1px;
   height: 1px;
-  background: var(--gold);
+  background: var(--accent);
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.5s var(--ease);
@@ -211,7 +213,7 @@
   font-variant-numeric: tabular-nums;
   transition: color 0.35s var(--ease);
 }
-.rowOn .rowNum { color: var(--gold); }
+.rowOn .rowNum { color: var(--accent); }
 
 .rowMain { min-width: 0; }
 .rowName {
@@ -220,7 +222,7 @@
   font-size: clamp(1.1rem, 1.5vw, 1.45rem);
   transition: color 0.35s var(--ease), transform 0.5s var(--ease);
 }
-.rowOn .rowName { color: var(--gold); transform: translateX(0.5rem); }
+.rowOn .rowName { color: var(--accent); transform: translateX(0.5rem); }
 
 .rowSwatch {
   display: block;
@@ -276,4 +278,4 @@
 }
 
 /* Dark section: the global .eyebrow default is tuned for light surfaces. */
-.section :global(.eyebrow) { color: var(--gold); }
+.section :global(.eyebrow) { color: var(--accent); }

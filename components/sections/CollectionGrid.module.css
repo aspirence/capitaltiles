@@ -29,7 +29,7 @@
   font: inherit;
   font-family: var(--font-body);
   font-size: var(--f-small);
-  color: var(--gold);
+  color: var(--accent);
   cursor: pointer;
   text-decoration: underline;
 }
@@ -158,7 +158,7 @@
   color: var(--ink);
   transition: color 0.35s var(--ease);
 }
-.cardMain:hover .name { color: var(--gold); }
+.cardMain:hover .name { color: var(--accent); }
 
 .blurb {
   display: -webkit-box;
@@ -210,10 +210,10 @@
   transition: color 0.3s var(--ease);
 }
 .enquire { font-weight: 700; color: var(--ink); }
-.more:hover, .enquire:hover { color: var(--gold); }
+.more:hover, .enquire:hover { color: var(--accent); }
 
 .empty { max-width: 62ch; line-height: 1.9; color: var(--grey-text); }
-.empty a { color: var(--ink); border-bottom: 1px solid var(--gold); }
+.empty a { color: var(--ink); border-bottom: 1px solid var(--accent); }
 .empty button {
   border: 0;
   background: none;

@@ -46,7 +46,7 @@
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gold-deep);
+  color: var(--accent);
 }
 .groupTitle + ul + .groupTitle { border-top: 1px solid var(--grey-line); margin-top: 0.35rem; }
 

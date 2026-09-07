@@ -1,4 +1,6 @@
 .banner {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   position: relative;
   min-height: clamp(26rem, 46vw, 40rem);
   display: grid;

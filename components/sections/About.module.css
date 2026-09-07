@@ -80,7 +80,7 @@
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
-.statValue em { font-style: normal; color: var(--gold); }
+.statValue em { font-style: normal; color: var(--accent); }
 .statLabel {
   display: block;
   margin-top: 0.5rem;

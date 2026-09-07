@@ -100,6 +100,8 @@
 .corporate:hover .corporateCaret { transform: rotate(180deg); }
 
 .corporateMenu {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   position: absolute;
   top: 100%;
   left: -1rem;
@@ -316,6 +318,8 @@
 
 /* ---- mega panel --------------------------------------------------------- */
 .mega {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   /* Anchored to .nav, so left/right pin it to the viewport edges for every
      item. The old `margin-left: calc(50% - 50vw)` measured 50% of the <li>,
      which shifted each panel by a different amount and clipped its content. */
@@ -499,6 +503,8 @@
 .scrimOn { opacity: 1; visibility: visible; }
 
 .drawer {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   position: fixed;
   top: 0;
   right: 0;
@@ -580,7 +586,7 @@
   font-size: var(--f-small);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--accent);
   margin-bottom: 0.6rem;
 }
 .drawerCorporate a {

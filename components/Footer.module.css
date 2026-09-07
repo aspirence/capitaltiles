@@ -4,6 +4,8 @@
    ========================================================================= */
 
 .deck {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   background: #000;
   color: var(--white);
   padding-block: clamp(2.5rem, 4vw, 3.5rem) clamp(2rem, 3.5vw, 3rem);
@@ -63,7 +65,7 @@
   font-weight: 500;
   color: var(--white);
 }
-.groupStatic .links li a:hover { color: var(--gold); }
+.groupStatic .links li a:hover { color: var(--accent); }
 
 /* ---- address band ------------------------------------------------------- */
 .address {
@@ -113,7 +115,7 @@
   color: var(--ink);
   transition: color 0.3s var(--ease);
 }
-.office p a:hover { color: var(--gold); }
+.office p a:hover { color: var(--accent); }
 
 /* The opening hours read as one line. The column is 13rem at its narrowest,
    so the type drops a touch to leave the string room to stay on it. */

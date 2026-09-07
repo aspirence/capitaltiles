@@ -1,4 +1,6 @@
 .section {
+  /* dark ground: the accent goes back to the brighter gold here */
+  --accent: var(--gold);
   position: relative;
   min-height: clamp(34rem, 62vw, 56rem);
   background: var(--black-deep);
@@ -142,7 +144,7 @@
   letter-spacing: 0.06em;
   transition: background 0.4s var(--ease), color 0.4s var(--ease);
 }
-.btn:hover { background: var(--gold); color: var(--white); }
+.btn:hover { background: var(--accent); color: var(--white); }
 
 /* ---- breakpoints -------------------------------------------------------- */
 /* The section paints one shared photo behind all four columns and swaps it on
