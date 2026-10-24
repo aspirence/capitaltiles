@@ -142,6 +142,20 @@ export const BATHROOM_PRODUCTS = [
     thickness: [],
     slip: ["P4"],
     material: ["Glazed Porcelain"],
+    /* The panorama room under the size chips. Its four faces are the flat tile
+       shots already sitting in `images` — 12, 8, 6 and 5 — rather than new
+       artwork, because they are the manufacturer's own face photos and a room
+       that previews the tile has to preview the tile people will be sent.
+
+       `grout` is a shade off each tile instead of one site-wide grey. At room
+       scale the grid is what the eye reads first, and a pale line ruled across
+       Nero Black describes a floor nobody is going to get. */
+    panorama: {
+      "Warm Beige":   { texture: "/img/bathroom/crete-collection/12.jpg", grout: "#c3bbac" },
+      "Pearl Grey":   { texture: "/img/bathroom/crete-collection/8.jpg",  grout: "#aea9a4" },
+      "Nero Black":   { texture: "/img/bathroom/crete-collection/6.jpg",  grout: "#4a4a49" },
+      "Bianco White": { texture: "/img/bathroom/crete-collection/5.jpg",  grout: "#c6c0ba" },
+    },
     specCols: ["Size (mm)", "Slip Rating", "Finish", "Material", "Recommended Use"],
     specRows: [
       ["75 x 300", "P4", "Matt", "Glazed Porcelain", "Feature walls, vertical accents, splashbacks"],

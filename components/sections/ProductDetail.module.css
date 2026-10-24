@@ -235,6 +235,40 @@
   color: var(--ink);
 }
 
+/* The way into the panorama. It sits with the chips because it answers the
+   same question they do — what this actually looks like — but it runs the full
+   width rather than joining a row, so it reads as the end of the choosing and
+   not as a fourth thing to choose. */
+.pano {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  min-height: 3.6rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--grey-line);
+  background: var(--grey-bg);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+.pano:hover { border-color: var(--black); background: var(--white); }
+.panoIcon { display: inline-flex; flex: none; color: var(--accent); }
+/* One line. The first version explained the room underneath the name — the
+   size, the colour, that you could turn around in it — which is three facts
+   you find out by pressing it and a paragraph in the middle of a column of
+   chips until you do. */
+.panoText {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--f-small);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 /* ---- fact list ----------------------------------------------------------- */
 .facts {
   display: grid;

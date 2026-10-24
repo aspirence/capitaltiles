@@ -5,6 +5,7 @@ import Link from 'next/link'
 import EnquireLink from '@/components/EnquireLink'
 import { useOverflow } from '@/components/useOverflow'
 import EnquireBar from './EnquireBar'
+import Panorama from './Panorama'
 import s from './ProductDetail.module.css'
 
 /* Single product page: gallery + key facts, the spec strip, long-form copy,
@@ -240,7 +241,7 @@ export default function ProductDetail({ product, collection, related = [] }) {
     images = [], colours = [], sizes = [], finishes = [],
     thickness = [], slip = [], material = [],
     specCols = [], specRows = [], rooms = [],
-    liveGallery = false,
+    liveGallery = false, panorama = null,
   } = product
   const isHybrid = product.productType === 'hybrid'
   const isLaminate = product.productType === 'laminate'
@@ -264,6 +265,7 @@ export default function ProductDetail({ product, collection, related = [] }) {
      reader who asked for the whole table has not asked to stop choosing sizes. */
   const [showAllSpecs, setShowAllSpecs] = useState(false)
   const [variants, setVariants] = useState([])
+  const [panoOpen, setPanoOpen] = useState(false)
   const shot = galleryImages[active] || galleryImages[0]
   /* The editorial band wants a different frame from the one the gallery is
      currently showing; fall back to the hero shot when there is only one. */
@@ -537,6 +539,26 @@ export default function ProductDetail({ product, collection, related = [] }) {
                   </fieldset>
                 ) : <p className={s.optionNote}><span>Size</span> Ask our showroom team about available formats.</p>}
 
+                {/* Only the ranges that publish face photos carry this. A room
+                    built from a lifestyle shot would be a room built from
+                    somebody's bathroom, and the whole point of the thing is
+                    that the floor in it is the floor you would be buying. */}
+                {panorama && (
+                  <button type="button" className={s.pano} onClick={() => setPanoOpen(true)}>
+                    <span className={s.panoIcon} aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+                        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                        strokeLinejoin="round">
+                        <path d="M12 2.8 21 7.4v9.2L12 21.2 3 16.6V7.4L12 2.8Z" />
+                        <path d="M3 7.4 12 12l9-4.6" />
+                        <path d="M12 12v9.2" />
+                      </svg>
+                    </span>
+                    <span className={s.panoText}>Panorama 3D</span>
+                    <Icon d={ARROW} size={16} />
+                  </button>
+                )}
+
                 {finishes.length > 1 && (
                   <fieldset className={s.choiceGroup}>
                     <legend>Finish: <strong>{selectedFinish}</strong></legend>
@@ -771,6 +793,24 @@ export default function ProductDetail({ product, collection, related = [] }) {
             </ul>
           </div>
         </section>
+      )}
+
+      {/* Shares the page's own colour and size state, so a tile changed inside
+          the room is still changed when you close it — the room is a second
+          view of this page's decision, not a configurator standing beside it. */}
+      {panorama && (
+        <Panorama
+          open={panoOpen}
+          onClose={() => setPanoOpen(false)}
+          name={name}
+          brand={brand}
+          panorama={panorama}
+          colours={colours}
+          sizes={sizes}
+          colour={selectedColour}
+          size={selectedSize}
+          onChoose={chooseOption}
+        />
       )}
     </>
   )

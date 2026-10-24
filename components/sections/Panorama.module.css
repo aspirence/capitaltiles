@@ -1,0 +1,337 @@
+/* Full screen, edge to edge. Nothing frames the room: the controls float on
+   top of it, the way they do in the viewers this was built to match. A room
+   inside a dialog with a border is a photograph of a room. */
+.root {
+  position: fixed;
+  inset: 0;
+  /* Above the portalled listbox, which also claims 120 — a select left open
+     on the page behind would otherwise float over the room. */
+  z-index: 130;
+  background: #11100f;
+  /* dvh, not vh: on a phone the browser chrome collapses as you scroll, and a
+     vh-sized layer then stands taller than the window it is pinned to. */
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none; /* the drag is ours; the browser must not pan with it */
+  user-select: none;
+  outline: none;
+}
+.canvas:active { cursor: grabbing; }
+.canvas:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.failed {
+  position: absolute;
+  inset: auto 1rem 50% 1rem;
+  margin: 0;
+  text-align: center;
+  color: var(--white);
+  font-size: var(--f-copy-sm);
+  line-height: 1.6;
+}
+
+/* ---- floating furniture --------------------------------------------------
+   One surface treatment for everything that sits over the room: a light,
+   slightly translucent panel. It has to carry text over a floor whose tone
+   runs from Bianco White to Nero Black, so it cannot be a tint of either. */
+.back,
+.name,
+.tool,
+.chip,
+.panel,
+.hint {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  color: var(--ink);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 14px rgba(20, 20, 20, 0.18);
+}
+
+.back {
+  position: absolute;
+  top: clamp(0.75rem, 1.6vw, 1.25rem);
+  left: clamp(0.75rem, 1.6vw, 1.25rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.95rem 0.5rem 0.75rem;
+  font: inherit;
+  font-size: var(--f-small);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+.back:hover { background: var(--black); color: var(--white); }
+
+.name {
+  position: absolute;
+  top: clamp(0.75rem, 1.6vw, 1.25rem);
+  right: clamp(0.75rem, 1.6vw, 1.25rem);
+  max-width: min(46vw, 22rem);
+  margin: 0;
+  padding: 0.6rem 0.95rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tools {
+  position: absolute;
+  top: calc(clamp(0.75rem, 1.6vw, 1.25rem) + 3.4rem);
+  right: clamp(0.75rem, 1.6vw, 1.25rem);
+  display: grid;
+  gap: 0.4rem;
+}
+.brand { color: var(--grey-text); }
+.tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+.tool:hover { background: var(--black); color: var(--white); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.3rem;
+  padding: 0.45rem 0.8rem;
+  font: inherit;
+  font-size: var(--f-small);
+  line-height: 1.3;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+.chip:hover { border-color: var(--accent); }
+.chipOn {
+  background: var(--black);
+  color: var(--white);
+  border-color: var(--black);
+}
+
+/* ---- the range panel -----------------------------------------------------
+   Slides off to the right rather than unmounting, so the room keeps the whole
+   frame when it is shut and the handle stays where you left it. */
+.panel {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(100%, -50%);
+  width: min(17rem, 78vw);
+  max-height: min(78dvh, 34rem);
+  border-right: 0;
+  transition: transform 0.4s var(--ease);
+}
+.panelOpen { transform: translate(0, -50%); }
+
+.handle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-100%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 3.6rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  box-shadow: -2px 2px 14px rgba(20, 20, 20, 0.18);
+  color: var(--ink);
+  cursor: pointer;
+}
+.handle:hover { background: var(--black); color: var(--white); }
+
+.panelBody {
+  max-height: inherit;
+  padding: clamp(0.9rem, 1.6vw, 1.15rem);
+  overflow-y: auto;
+}
+
+.legend {
+  margin: 0 0 0.5rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--grey-text);
+}
+.legend:not(:first-child) { margin-top: 1.1rem; }
+
+.swatches {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.swatch {
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  padding: 0.3rem;
+  border: 1px solid var(--grey-line);
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.72rem;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease);
+}
+.swatch:hover { border-color: var(--accent); }
+.swatchOn { border-color: var(--black); box-shadow: inset 0 0 0 1px var(--black); }
+.swatchFace {
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--grey-bg);
+}
+.swatchFace img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.swatchName { padding: 0 0.15rem 0.15rem; color: var(--grey-text); }
+.swatchOn .swatchName { color: var(--ink); }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.note {
+  margin: 1.1rem 0 0;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--grey-line);
+  font-size: 0.72rem;
+  line-height: 1.6;
+  color: var(--grey-text);
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(0.75rem, 1.6vw, 1.25rem);
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0.5rem 0.95rem;
+  font-size: var(--f-small);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: rise 0.6s var(--ease) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translate(-50%, 0.5rem); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@media (max-width: 760px) {
+  /* The hint names a wheel the phone does not have. */
+  .hint { display: none; }
+  .brand { display: none; }
+
+  .back { padding: 0.5rem 0.8rem 0.5rem 0.6rem; }
+  .name { max-width: 52vw; font-size: 0.72rem; padding: 0.5rem 0.75rem; }
+  .tools { top: calc(clamp(0.75rem, 1.6vw, 1.25rem) + 3rem); }
+
+  /* A bottom sheet rather than a side panel. A 17rem panel down the side of
+     a 390px screen is half the room, and the room is the thing. Sliding it
+     up from the bottom is also where a thumb already is. */
+  .panel {
+    top: auto;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: min(62dvh, 30rem);
+    transform: translateY(100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    border-bottom: 0;
+  }
+  .panelOpen { transform: translateY(0); }
+
+  .handle {
+    top: 0;
+    left: 50%;
+    width: 4.4rem;
+    height: 1.7rem;
+    transform: translate(-50%, -100%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-bottom: 0;
+    box-shadow: 0 -2px 14px rgba(20, 20, 20, 0.18);
+  }
+  /* The chevron points the way the sheet will go, not the way it did on a
+     desktop where the panel came in from the side. Clockwise, so the open
+     sheet's arrow points down at the dismiss and the shut one points up. */
+  .handle svg { transform: rotate(90deg); }
+
+  .panelBody {
+    max-height: min(62dvh, 30rem);
+    padding: 1rem clamp(0.9rem, 4vw, 1.25rem) calc(1rem + env(safe-area-inset-bottom));
+  }
+  .swatches { grid-template-columns: repeat(4, 1fr); }
+  .swatchName { font-size: 0.68rem; }
+  /* Thumb-sized, and they stop wrapping to one chip a line. */
+  .chip { min-height: 2.6rem; padding: 0.55rem 0.85rem; }
+}
+
+/* Short and wide — a phone on its side, where a bottom sheet would cover the
+   whole room. Keep it at the side there. */
+@media (max-width: 760px) and (orientation: landscape) {
+  .panel {
+    top: 50%;
+    left: auto;
+    bottom: auto;
+    width: min(15rem, 46vw);
+    max-height: 86dvh;
+    transform: translate(100%, -50%);
+    border-right: 0;
+  }
+  .panelOpen { transform: translate(0, -50%); }
+  .handle {
+    top: 50%;
+    left: 0;
+    width: 1.7rem;
+    height: 3.2rem;
+    transform: translate(-100%, -50%);
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: -2px 2px 14px rgba(20, 20, 20, 0.18);
+  }
+  .handle svg { transform: none; }
+  .panelBody { max-height: 86dvh; padding: 0.85rem; }
+  .swatches { grid-template-columns: 1fr 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hint { animation: none; }
+  .panel { transition: none; }
+  .chip, .tool, .back, .swatch { transition: none; }
+}
